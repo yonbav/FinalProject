@@ -1,16 +1,20 @@
 /** @format */
 
-import {AppRegistry, Text,View } from 'react-native';
+import {AppRegistry, Text, View} from 'react-native';
 import React from 'react';
-import Header from './src/Components/Header/Header.js'
-import Album from './src/Components/Album/Album.js'
-
+import { Provider } from 'react-redux';
+import {createStore} from 'redux';
+import reducers from './src/reducers/reducers'
+import LoginForm from './src/Components/LoginForm'
+import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings([
+    'Remote debugger',
+])
 
 const App = () => (
-<View>
-<Header name='d'/>
-<Album/>
-</View>
+    <Provider store={createStore(reducers)}>
+        <LoginForm/>
+    </Provider>
 );
 
-AppRegistry.registerComponent('aaa', () => App);
+AppRegistry.registerComponent('FP', () => App);
