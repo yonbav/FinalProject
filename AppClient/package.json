@@ -7,12 +7,21 @@
     "test": "jest"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "expo-cli": "^2.6.1",
+    "fb-watchman": "^2.0.0",
+    "node-watchman": "^0.1.0",
     "react": "16.6.1",
+    "react-addons-pure-render-mixin": "^15.6.2",
     "react-native": "0.57.5",
-    "react-native-elements": "^0.19.1",
+    "react-native-elements": "^1.0.0-beta7",
+    "react-native-router-flux": "^3.35.0",
+    "react-native-vector-icons": "^6.1.0",
+    "react-navigation": "github:react-community/react-navigation#master",
     "react-redux": "^5.1.1",
-    "redux": "^4.0.1"
+    "react-static-container": "^1.0.2",
+    "redux": "^4.0.1",
+    "watchman": "^1.0.0"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
