@@ -9,23 +9,20 @@ import {Text,View , TouchableOpacity,Image} from 'react-native';
 
 class LoginForm extends Component{
 
-    constructor(props)
-    {
-        super(props);
-        this.state ={em:'s',pa:"s"};
-    }
-    press() {
-        console.log("pressed")
-    }
+
 
     onEmailChanged(text){
         this.props.emailChanged(text);
     }
+
     onPasswordChanged(text){
         this.props.passwordChanged(text);
     }
+
     onPressButton() {
-        fetch('http://192.168.1.23:3000/get_birthdays',{
+        console.log(this.props.email);
+
+        fetch('http://10.160.2.181:3000/get_birthdays',{
             method:'POST',
             headers:{
               'Accept': 'application/json',
@@ -33,13 +30,25 @@ class LoginForm extends Component{
 
             },
             body: JSON.stringify({
-                email: 'rr',
-                password: 'rr',
+                email: this.props.email,
+                password: this.props.password,
 
             }),
+        }).then((response)=> response.json())
+            .then((res)=> {
+            if(res.success === true)
+            {
+                console.log("aaaaaa");
+            }
+            else
+            {
+                console.log("nnnnnnn");
+
+            }
         });
         console.log("pressed");
     }
+
     render() {
         return (
             <View style={styles.BackStyle}>
@@ -67,7 +76,7 @@ class LoginForm extends Component{
                     </CardSection>
 
                     <CardSection>
-                            <TouchableOpacity style={styles.buttonStyleBack} onPress={this.onPressButton}>
+                            <TouchableOpacity style={styles.buttonStyleBack} onPress={this.onPressButton.bind(this)}>
                                 <Text style={styles.buttonStyleText}> Login </Text>
                             </TouchableOpacity>
                     </CardSection>
@@ -79,6 +88,7 @@ class LoginForm extends Component{
         );
     }
 }
+
 const mapStateToProps =  state =>{
     return {
         email: state.auth.email,

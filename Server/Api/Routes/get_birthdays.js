@@ -1,14 +1,19 @@
-const express =require('express');
-var bodyParser = require('body-parser');
-const router = express.Router();
-express.use(bodyParser.json());
 
-router.post('/',(req,res,next) => {
+var express = require('express');
+var app = express();
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+const router = express.Router();
+var jsonParser = bodyParser.json()
+
+
+
+
+router.post('/',jsonParser,(req,res,next) => {
+
     var email = req.body.email;
     var password = req.body.password;
-
     var MongoClient = require('mongodb').MongoClient;
-
     if (MongoClient != null && MongoClient != undefined) {
 // Connect to the db
         MongoClient.connect("mongodb://localhost:27017/kra", {useNewUrlParser: true}, function (err, db) {
@@ -16,14 +21,21 @@ router.post('/',(req,res,next) => {
 
             var dbo = db.db("kra");
             var myobj = {email: {email}, pass: {password}};
-            dbo.collection("users").insertOne(myobj, function (err, res) {
-                if (err) throw err;
-                console.log("1 document inserted");
-                db.close();
-            })
+            var User = dbo.collection("users").findOne(myobj);
+            if(User)
+            {
+                res.send({'success': true});
+            }
+            else
+            {
+                res.send({'success': false});
 
+            }
 
         });
+
+
+
     }
 });
 router.get('/',(req,res,next) => {
