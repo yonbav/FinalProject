@@ -17,7 +17,6 @@ router.post('/',jsonParser,(req,res,next) => {
     var MongoClient = require('mongodb').MongoClient;
     if (MongoClient != null && MongoClient != undefined) {
 // Connect to the db
-        try {
             MongoClient.connect("mongodb://localhost:27017/kra", {useNewUrlParser: true}, function (err, db) {
                 console.log("connected");
 
@@ -27,17 +26,15 @@ router.post('/',jsonParser,(req,res,next) => {
                     if (err) throw err;
                     if (result) {
                         bool = true
-                        console.log("1 document inserted");
+                        console.log("1 document exist");
                         db.close();
                     }
 
                     res.send({'success': bool});
                 });
             });
-        }
-        catch (e) {
-            var x = e;
-        }
+
+
     }
 });
 router.get('/',(req,res,next) => {

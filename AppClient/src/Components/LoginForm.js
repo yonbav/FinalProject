@@ -1,10 +1,10 @@
 import React ,{Component} from 'react';
 import {connect} from 'react-redux'
-import {emailChanged, passwordChanged} from "../actions/actions";
+import {emailChanged, passwordChanged,loginuser} from "../actions/actions";
 import Card from "./common/Card"
 import CardSection from "./common/CardSection"
 import Input from "./common/Input"
-import {Text,View , TouchableOpacity,Image} from 'react-native';
+import {Text,View , TouchableOpacity,Image,ActivityIndicator} from 'react-native';
 
 
 class LoginForm extends Component{
@@ -20,35 +20,42 @@ class LoginForm extends Component{
     }
 
     onPressButton() {
-        console.log(this.props.email);
-
-        fetch('http://10.160.2.181:3000/get_birthdays',{
-            method:'POST',
-            headers:{
-              'Accept': 'application/json',
-                'Content-Type': 'application/json',
-
-            },
-            body: JSON.stringify({
-                email: this.props.email,
-                password: this.props.password,
-
-            }),
-        }).then((response)=> response.json())
-            .then((res)=> {
-            if(res.success === true)
-            {
-                console.log("aaaaaa");
-            }
-            else
-            {
-                console.log("nnnnnnn");
-
-            }
-        });
-        console.log("pressed");
+        this.props.loginuser(this.props.email,this.props.password);
     }
+    renderButton()
+    {
+        if(this.props.loading)
+        {
+                return  <View style={styles.buttonStyleBack}>
+                    <ActivityIndicator size="large" color="#FF7802" />
+                </View>
+        }
+        else {
+            return <TouchableOpacity style={styles.buttonStyleBack} onPress={this.onPressButton.bind(this)}>
+                    <Text style={styles.buttonStyleText}> Login </Text>
+                </TouchableOpacity>
 
+        }
+    }
+    renderError(){
+        if (this.props.error)
+        {
+            return <View>
+                <Text style ={styles.ErrorStyle}>
+                    {this.props.error}
+                </Text>
+            </View>
+        }
+        if (this.props.success)
+        {
+            return <View>
+                <Text style ={styles.ErrorStyle}>
+                    {this.props.success}
+                </Text>
+            </View>
+        }
+
+    }
     render() {
         return (
             <View style={styles.BackStyle}>
@@ -74,11 +81,9 @@ class LoginForm extends Component{
                             value={this.props.password}
                         />
                     </CardSection>
-
+                    {this.renderError()}
                     <CardSection>
-                            <TouchableOpacity style={styles.buttonStyleBack} onPress={this.onPressButton.bind(this)}>
-                                <Text style={styles.buttonStyleText}> Login </Text>
-                            </TouchableOpacity>
+                    {this.renderButton()}
                     </CardSection>
 
 
@@ -92,7 +97,12 @@ class LoginForm extends Component{
 const mapStateToProps =  state =>{
     return {
         email: state.auth.email,
-        password: state.auth.password
+        password: state.auth.password,
+        error: state.auth.error,
+        success: state.auth.success,
+        loading: state.auth.loading
+
+
     };
 };
 const styles = {
@@ -125,7 +135,12 @@ const styles = {
         alignItems: 'center',
         alignSelf: 'center',
         paddingTop: 35
+    },
+    ErrorStyle:{
+        fontSize: 20,
+        alignSelf:'center',
+        color:'red'
     }
 }
 
-export default connect(mapStateToProps,{emailChanged,passwordChanged})(LoginForm);
+export default connect(mapStateToProps,{emailChanged,passwordChanged,loginuser})(LoginForm);
