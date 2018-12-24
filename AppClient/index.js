@@ -8,14 +8,18 @@ import reducers from './src/reducers/reducers'
 import {YellowBox} from 'react-native';
 import LoginForm from "./src/Components/LoginForm";
 import  ReduxThunk from 'redux-thunk';
+import RouterComp from "./src/RouterComp";
 YellowBox.ignoreWarnings([
     'Remote debugger',
+    console.disableYellowBox = true
 ])
 
 const App = () => (
     <Provider store={createStore(reducers,{},applyMiddleware(ReduxThunk))}>
-        <LoginForm />
+        <RouterComp />
     </Provider>
+
 );
 
-AppRegistry.registerComponent('FP', () => App);
+
+AppRegistry.registerComponent('AppClient', () => App);

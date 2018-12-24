@@ -21,8 +21,8 @@ router.post('/',jsonParser,(req,res,next) => {
                 console.log("connected");
 
                 var dbo = db.db("kra");
-                var myobj = {email: {email}, pass: {password}};
-                dbo.collection("users").findOne(myobj, function (err, result) {
+                var myobj = {email, password};
+                    dbo.collection("users").findOne(myobj, function (err, result) {
                     if (err) throw err;
                     if (result) {
                         bool = true

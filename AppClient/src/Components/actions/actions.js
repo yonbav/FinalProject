@@ -1,5 +1,7 @@
 import {EMAIL_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS,LOGIN_USER} from "./types";
 import  {PASSWORD_CHANGED} from "./types";
+import {Actions} from "react-native-router-flux";
+
 
 export const emailChanged = (text) =>{
   return {
@@ -17,7 +19,7 @@ export const loginuser = (email,password) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
-        fetch('http://10.160.2.181:3000/get_birthdays',{
+        fetch('http://192.168.1.27:3000/get_birthdays',{
             method:'POST',
             headers:{
                 'Accept': 'application/json',
@@ -34,11 +36,13 @@ export const loginuser = (email,password) => {
                 if(res.success === true)
                 {
                     dispatch({type:LOGIN_SUCCESS})
+                    Actions.main();
                 }
                 else
                 {
                     dispatch({type:LOGIN_FAILED})
                 }
             });
+
     };
 };
