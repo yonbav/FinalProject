@@ -19,7 +19,7 @@ const styles = {
         paddingTop: 15,
     },
     TopStyle:{
-        backgroundColor: "#FF7802"
+        backgroundColor: "#ffc68e"
     }
 };
 export default Applogo;

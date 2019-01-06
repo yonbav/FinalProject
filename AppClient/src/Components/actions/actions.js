@@ -19,7 +19,7 @@ export const loginuser = (email,password) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
-        fetch('http://192.168.1.27:3000/get_birthdays',{
+        fetch('http://192.168.1.36:3000/get_birthdays',{
             method:'POST',
             headers:{
                 'Accept': 'application/json',
@@ -35,14 +35,13 @@ export const loginuser = (email,password) => {
             .then((res)=> {
                 if(res.success === true)
                 {
-                    dispatch({type:LOGIN_SUCCESS})
-                    Actions.main();
+                    dispatch({type:LOGIN_SUCCESS,payload: res.user});
+                    Actions.main(res.user);
                 }
                 else
                 {
                     dispatch({type:LOGIN_FAILED})
                 }
-            });
-
+            })
     };
 };

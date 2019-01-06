@@ -12,10 +12,10 @@ const RouterComp =() =>{
             <Router>
                 <Scene key ="root" hideNavBar>
                     <Scene key ="auth" hideNavBar>
-                    <Scene key="login" component={LoginForm} title="LoginForm" initial/>
+                    <Scene key="Login" component={LoginForm} title="LoginForm" />
                     </Scene>
                     <Scene key ="main" >
-                    <Scene key="Home" component={HomePage} title="HomePage"  />
+                    <Scene key="Home" component={HomePage} title="HomePage"  hideNavBar />
                     </Scene>
                 </Scene>
             </Router>

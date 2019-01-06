@@ -10,7 +10,7 @@ var jsonParser = bodyParser.json()
 
 
 router.post('/',jsonParser,(req,res,next) => {
-
+    var user=null;
     var email = req.body.email;
     var password = req.body.password;
     var bool = false;
@@ -25,13 +25,15 @@ router.post('/',jsonParser,(req,res,next) => {
                     dbo.collection("users").findOne(myobj, function (err, result) {
                     if (err) throw err;
                     if (result) {
-                        bool = true
+                        bool = true;
+                        user= result;
                         console.log("1 document exist");
                         db.close();
                     }
+                    console.log(user);
+                    res.send({'success': bool,'user': user});
 
-                    res.send({'success': bool});
-                });
+                    });
             });
 
 

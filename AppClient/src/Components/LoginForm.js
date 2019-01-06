@@ -28,12 +28,12 @@ class LoginForm extends Component{
         if(this.props.loading)
         {
                 return  <View style={styles.buttonStyleBack}>
-                    <ActivityIndicator size="large" color="#FF7802" />
+                    <ActivityIndicator size="large" color="#000" />
                 </View>
         }
         else {
             return <TouchableOpacity style={styles.buttonStyleBack} onPress={this.onPressButton.bind(this)}>
-                    <Text style={styles.buttonStyleText}> Login </Text>
+                    <Text style={styles.buttonStyleText}> התחברות </Text>
                 </TouchableOpacity>
 
         }
@@ -47,26 +47,20 @@ class LoginForm extends Component{
                 </Text>
             </View>
         }
-        else
-        {
-            return <View>
-                <Text style ={styles.ErrorStyle}>
-                    {this.props.success}
-                </Text>
-            </View>
-        }
-
     }
+
+
     render() {
         return (
             <View style={styles.BackStyle}>
 <Applogo/>
-            <View style={styles.LoginStyle}>
+
+                <View style={styles.LoginStyle}>
                 <Card>
                     <CardSection>
                         <Input
-                            label="Email"
-                            placeholder="email@gmail.com"
+                            label=<Image source = {require('../Resources/user.png')}/>
+                        placeholder="ת.ז"
                             onChangeText={this.onEmailChanged.bind(this)}
                             value={this.props.email}
                         />
@@ -74,16 +68,16 @@ class LoginForm extends Component{
                     <CardSection>
                         <Input
                             secureTextEntry
-                            label="Password"
-                            placeholder="password"
+                            label=<Image source = {require('../Resources/lock.png')}/>
+                            placeholder="סיסמא"
                             onChangeText={this.onPasswordChanged.bind(this)}
                             value={this.props.password}
                         />
                     </CardSection>
                     {this.renderError()}
-                    <CardSection>
+                    <View style={styles.containerStyle}>
                     {this.renderButton()}
-                    </CardSection>
+                    </View>
 
 
                 </Card>
@@ -99,8 +93,8 @@ const mapStateToProps =  state =>{
         password: state.auth.password,
         error: state.auth.error,
         success: state.auth.success,
-        loading: state.auth.loading
-
+        loading: state.auth.loading,
+        user: state.auth.user
 
     };
 };
@@ -109,22 +103,22 @@ const styles = {
         paddingTop: 60,
     },
     BackStyle: {
-        backgroundColor: "#FF7802",
-        paddingBottom: 300
+        backgroundColor: "#ffc68e",
+        paddingBottom: 330
     },
     buttonStyleBack:{
         flex:1,
         alignSelf: 'stretch',
-        backgroundColor: '#fff',
+        backgroundColor: '#FF7802',
         borderRadius: 5,
         borderWidth: 1,
-        borderColor:'#007aff',
+        borderColor:'#000',
         marginLeft: 5,
         marginRight: 5
     },
     buttonStyleText:{
         alignSelf: 'center',
-        color:'#007aff',
+        color:'#000',
         fontSize: 16,
         fontWeight: '600',
         paddingTop: 10,
@@ -139,6 +133,16 @@ const styles = {
         fontSize: 20,
         alignSelf:'center',
         color:'red'
+    },
+    containerStyle:{
+        borderBottomWidth: 1,
+        padding: 5,
+        backgroundColor: '#ffc68e',
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        borderColor: '#ffc68e',
+        position: 'relative'
+
     }
 }
 
