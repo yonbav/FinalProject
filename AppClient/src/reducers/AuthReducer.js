@@ -1,5 +1,5 @@
-import {EMAIL_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS, LOGIN_USER} from "../Components/actions/types";
-import {PASSWORD_CHANGED} from "../Components/actions/types";
+import {EMAIL_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS, LOGIN_USER} from "../../../ClientApp/src/Components/actions/types";
+import {PASSWORD_CHANGED} from "../../../ClientApp/src/Components/actions/types";
 
 const  INITIAL_STATE={email:'',password: '',success: '',error: '',loading: false, user:null}
 

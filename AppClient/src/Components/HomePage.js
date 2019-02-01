@@ -1,28 +1,44 @@
 import React,{Component} from 'react'
-import {Text,View} from "react-native";
+import {Text,View,Image,Keyboard,BackHandler} from "react-native";
 import Applogo from "./common/Applogo";
 import Button from 'react-native-button';
 import CardSection from './common/CardSection'
 import {connect} from "react-redux";
 import {loginuser} from "./actions/actions";
+import {Actions} from "react-native-router-flux";
 
 
 class HomePage extends Component{
+
+    componentDidMount() {
+        Keyboard.dismiss()
+
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.goBack(); // works best when the goBack is async
+            return true;
+        });
+
+    }
+    goBack =() => {
+        Actions.main()
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
 render() {
     return (
           <View style={styles.BackStyle}>
-                   <Applogo/>
-              <Text style={styles.labelStyle2}>
-                    היי
+              <View style={styles.userMenu}>
+              <Image source = {require('../../../ClientApp/src/Resources/usermenu.png')}/>
+              </View>
+              <Applogo/>
 
-                  <Text style={{margin: 5}}>
-                  {this.props.user.name}
-                      <Text>
-                          ,
-                      </Text>
-                  </Text>
+              <Text style={styles.labelStyle2}>
+                   שלום {this.props.user.name},
+
 
               </Text>
+
               <View style = {styles.containerStyle}>
 
                        <Button
@@ -31,6 +47,7 @@ render() {
                            מידע חשוב
                        </Button>
                   <Button
+                      onPress={() => Actions.DailyBrif()}
                       containerStyle ={styles.buttonStyleBack2}
                       style={styles.buttonStyleText}>
                       תדריך יומי
@@ -94,11 +111,6 @@ render() {
 }
 const mapStateToProps =  state =>{
     return {
-        email: state.auth.email,
-        password: state.auth.password,
-        error: state.auth.error,
-        success: state.auth.success,
-        loading: state.auth.loading,
         user: state.auth.user
 
     };
@@ -108,12 +120,19 @@ const styles = {
         backgroundColor: "#ffc68e",
         paddingBottom: 560
     },
+    userMenu:{
+        alignItems:'flex-end',
+        alignSelf: 'flex-end',
+        marginBottom: 0,
+        paddingTop: 20
+    },
     labelStyle2: {
         fontWeight: 'bold',
-        fontSize: 15,
-        fontcolor: 'black',
+        fontSize: 20,
+        color: '#FF7802',
         textAlign: 'right',
-        margin: 5
+        marginTop: 10,
+        justifyContent: 'space-between'
     },
     buttonStyleBack:{
         flex:1,
@@ -159,7 +178,7 @@ const styles = {
         borderColor: '#ffc68e',
         position: 'relative',
         margin: 10,
-        marginTop: 20
+        marginTop: 10
 
     },
     containerStyle2:{
@@ -172,7 +191,6 @@ const styles = {
         position: 'relative',
         marginLeft: 10,
         marginRight: 10,
-        marginBottom: 10
 
     }
 }

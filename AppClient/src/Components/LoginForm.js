@@ -53,13 +53,15 @@ class LoginForm extends Component{
     render() {
         return (
             <View style={styles.BackStyle}>
-<Applogo/>
+                <View style={{paddingTop:50}}>
+                <Applogo/>
+                </View>
 
                 <View style={styles.LoginStyle}>
                 <Card>
                     <CardSection>
                         <Input
-                            label=<Image source = {require('../Resources/user.png')}/>
+                            label=<Image source = {require('../../../ClientApp/src/Resources/user.png')}/>
                         placeholder="ת.ז"
                             onChangeText={this.onEmailChanged.bind(this)}
                             value={this.props.email}
@@ -68,7 +70,7 @@ class LoginForm extends Component{
                     <CardSection>
                         <Input
                             secureTextEntry
-                            label=<Image source = {require('../Resources/lock.png')}/>
+                            label=<Image source = {require('../../../ClientApp/src/Resources/lock.png')}/>
                             placeholder="סיסמא"
                             onChangeText={this.onPasswordChanged.bind(this)}
                             value={this.props.password}
@@ -100,11 +102,11 @@ const mapStateToProps =  state =>{
 };
 const styles = {
     LoginStyle: {
-        paddingTop: 60,
+        paddingTop: 80,
     },
     BackStyle: {
         backgroundColor: "#ffc68e",
-        paddingBottom: 330
+        paddingBottom: 450
     },
     buttonStyleBack:{
         flex:1,

@@ -22,7 +22,7 @@ router.post('/',jsonParser,(req,res,next) => {
 
                 var dbo = db.db("kra");
                 var myobj = {email, password};
-                    dbo.collection("users").findOne(myobj, function (err, result) {
+                    dbo.collection("users").findOne(req.body, function (err, result) {
                     if (err) throw err;
                     if (result) {
                         bool = true;

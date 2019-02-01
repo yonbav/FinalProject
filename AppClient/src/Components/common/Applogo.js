@@ -16,7 +16,6 @@ const styles = {
     ImageStyle:{
         alignItems: 'center',
         alignSelf: 'center',
-        paddingTop: 15,
     },
     TopStyle:{
         backgroundColor: "#ffc68e"

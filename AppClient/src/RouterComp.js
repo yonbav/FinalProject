@@ -1,9 +1,10 @@
 import React from 'react'
 import {Router,Scene} from 'react-native-router-flux';
-import LoginForm from './Components/LoginForm';
-import HomePage from './Components/HomePage';
-import {Image, View} from "react-native";
-import Applogo from "./Components/common/Applogo";
+import LoginForm from '../../ClientApp/src/Components/LoginForm';
+import HomePage from '../../ClientApp/src/Components/HomePage';
+import DailyBrif from '../../ClientApp/src/Components/AppForms/DailyBrif'
+import {Actions} from "react-native-router-flux";
+
 
 const RouterComp =() =>{
 
@@ -15,8 +16,16 @@ const RouterComp =() =>{
                     <Scene key="Login" component={LoginForm} title="LoginForm" />
                     </Scene>
                     <Scene key ="main" >
-                    <Scene key="Home" component={HomePage} title="HomePage"  hideNavBar />
+                    <Scene key="Home" component={HomePage} title=""  hideNavBar={true} />
+                    <Scene key="DailyBrif"
+                           component={DailyBrif}
+
+                           title="תדריך יומי" hideNavBar={false}
+                           navigationBarStyle={{paddingTop:10}
+
+                    }/>
                     </Scene>
+
                 </Scene>
             </Router>
         );
