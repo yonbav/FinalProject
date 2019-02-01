@@ -1,9 +1,8 @@
 import React from 'react'
 import {Router,Scene} from 'react-native-router-flux';
-import LoginForm from '../../ClientApp/src/Components/LoginForm';
-import HomePage from '../../ClientApp/src/Components/HomePage';
-import DailyBrif from '../../ClientApp/src/Components/AppForms/DailyBrif'
-import {Actions} from "react-native-router-flux";
+import LoginForm from '../src/Components/LoginForm';
+import HomePage from '../src/Components/HomePage';
+import DailyBrif from '../src/Components/AppForms/DailyBrif'
 
 
 const RouterComp =() =>{

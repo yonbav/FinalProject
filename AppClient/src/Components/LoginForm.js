@@ -4,7 +4,7 @@ import {emailChanged, passwordChanged,loginuser} from "./actions/actions";
 import Card from "./common/Card"
 import CardSection from "./common/CardSection"
 import Input from "./common/Input"
-import {Text,View , TouchableOpacity,Image,ActivityIndicator} from 'react-native';
+import {Text,View , TouchableOpacity, ActivityIndicator} from 'react-native';
 import Applogo from "./common/Applogo";
 
 
@@ -61,7 +61,7 @@ class LoginForm extends Component{
                 <Card>
                     <CardSection>
                         <Input
-                            label=<Image source = {require('../../../ClientApp/src/Resources/user.png')}/>
+                            label=<Image source = {require('../../src/Resources/user.png')}/>
                         placeholder="ת.ז"
                             onChangeText={this.onEmailChanged.bind(this)}
                             value={this.props.email}
@@ -70,7 +70,7 @@ class LoginForm extends Component{
                     <CardSection>
                         <Input
                             secureTextEntry
-                            label=<Image source = {require('../../../ClientApp/src/Resources/lock.png')}/>
+                            label=<Image source = {require('../../src/Resources/lock.png')}/>
                             placeholder="סיסמא"
                             onChangeText={this.onPasswordChanged.bind(this)}
                             value={this.props.password}
@@ -146,6 +146,6 @@ const styles = {
         position: 'relative'
 
     }
-}
+};
 
 export default connect(mapStateToProps,{emailChanged,passwordChanged,loginuser})(LoginForm);
