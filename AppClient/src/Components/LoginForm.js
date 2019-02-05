@@ -4,8 +4,9 @@ import {emailChanged, passwordChanged,loginuser} from "./actions/actions";
 import Card from "./common/Card"
 import CardSection from "./common/CardSection"
 import Input from "./common/Input"
-import {Text,View , TouchableOpacity, Image, ActivityIndicator} from 'react-native';
+import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert} from 'react-native';
 import Applogo from "./common/Applogo";
+
 
 
 class LoginForm extends Component{
@@ -48,6 +49,15 @@ class LoginForm extends Component{
             </View>
         }
     }
+    renderErrorConnection(){
+        if (this.props.errorConn)
+        {
+            return Alert.alert(
+                'שגיאה',
+                this.props.errorConn
+            )
+        }
+    }
 
 
     render() {
@@ -79,6 +89,7 @@ class LoginForm extends Component{
                     {this.renderError()}
                     <View style={styles.containerStyle}>
                     {this.renderButton()}
+                        {this.renderErrorConnection()}
                     </View>
 
 
@@ -96,7 +107,8 @@ const mapStateToProps =  state =>{
         error: state.auth.error,
         success: state.auth.success,
         loading: state.auth.loading,
-        user: state.auth.user
+        user: state.auth.user,
+        errorConn: state.auth.errorConn
 
     };
 };

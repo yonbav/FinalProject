@@ -128,8 +128,8 @@ const styles = {
     labelStyle2: {
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#FF7802',
-        textAlign: 'right',
+        color: '#ff8a37',
+        textAlign: 'center',
         marginTop: 10,
         justifyContent: 'space-between'
     },

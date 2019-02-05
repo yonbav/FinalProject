@@ -1,6 +1,8 @@
 import React,{Component} from 'react'
 import {BackHandler, Keyboard, Text, View} from 'react-native';
 import {Actions} from "react-native-router-flux";
+import Button from 'react-native-button';
+import Header from "../common/Header";
 
 class DailyBrif extends Component {
 
@@ -22,14 +24,14 @@ class DailyBrif extends Component {
     render() {
         return (
             <View style={styles.BackStyle}>
-
-            <Text>idan</Text>
+                <Header name="תדריך יומי"/>
             </View>
         );
     }
 }
 const styles = {
     BackStyle: {
+        paddingTop:100,
         backgroundColor: "#ffc68e",
         paddingBottom: 800
     }
