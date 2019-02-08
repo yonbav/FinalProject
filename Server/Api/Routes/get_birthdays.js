@@ -11,7 +11,7 @@ var jsonParser = bodyParser.json()
 
 router.post('/',jsonParser,(req,res,next) => {
     var user=null;
-    var email = req.body.email;
+    var id = req.body.id;
     var password = req.body.password;
     var bool = false;
     var MongoClient = require('mongodb').MongoClient;
@@ -21,7 +21,7 @@ router.post('/',jsonParser,(req,res,next) => {
                 console.log("connected");
 
                 var dbo = db.db("kra");
-                var myobj = {email, password};
+                var myobj = {id, password};
                     dbo.collection("users").findOne(req.body, function (err, result) {
                     if (err) throw err;
                     if (result) {

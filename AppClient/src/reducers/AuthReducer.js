@@ -1,12 +1,12 @@
-import {EMAIL_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS, LOGIN_USER,CONECTTION_FAILED} from "../../src/Components/actions/types";
+import {ID_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS, LOGIN_USER,CONECTTION_FAILED} from "../../src/Components/actions/types";
 import {PASSWORD_CHANGED} from "../../src/Components/actions/types";
 
-const  INITIAL_STATE={email:'',password: '',success: '',error: '',loading: false, user:null,errorConn: ''};
+const  INITIAL_STATE={id:'',password: '',success: '',error: '',loading: false, user:null,errorConn: ''};
 
 export default (state = INITIAL_STATE,action) => {
     switch (action.type) {
-        case EMAIL_CHANGED:
-            return {...state,email:action.payload,errorConn: ''};
+        case ID_CHANGED:
+            return {...state,id:action.payload,errorConn: ''};
         case PASSWORD_CHANGED:
             return {...state,password:action.payload,errorConn: ''};
         case LOGIN_SUCCESS:
