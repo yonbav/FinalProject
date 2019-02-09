@@ -1,6 +1,6 @@
 import React ,{Component} from 'react';
 import {connect} from 'react-redux'
-import {emailChanged, passwordChanged,loginuser} from "./actions/actions";
+import {idChanged, passwordChanged,loginuser} from "./actions/actions";
 import Card from "./common/Card"
 import CardSection from "./common/CardSection"
 import Input from "./common/Input"
@@ -13,8 +13,8 @@ class LoginForm extends Component{
 
 
 
-    onEmailChanged(text){
-        this.props.emailChanged(text);
+    onIdChanged(text){
+        this.props.idChanged(text);
     }
 
     onPasswordChanged(text){
@@ -22,7 +22,7 @@ class LoginForm extends Component{
     }
 
     onPressButton() {
-        this.props.loginuser(this.props.email,this.props.password);
+        this.props.loginuser(this.props.id,this.props.password);
     }
     renderButton()
     {
@@ -73,8 +73,8 @@ class LoginForm extends Component{
                         <Input
                             label=<Image source = {require('../../src/Resources/user.png')}/>
                         placeholder="ת.ז"
-                            onChangeText={this.onEmailChanged.bind(this)}
-                            value={this.props.email}
+                            onChangeText={this.onIdChanged.bind(this)}
+                            value={this.props.id}
                         />
                     </CardSection>
                     <CardSection>
@@ -102,7 +102,7 @@ class LoginForm extends Component{
 
 const mapStateToProps =  state =>{
     return {
-        email: state.auth.email,
+        id: state.auth.id,
         password: state.auth.password,
         error: state.auth.error,
         success: state.auth.success,
@@ -160,4 +160,4 @@ const styles = {
     }
 };
 
-export default connect(mapStateToProps,{emailChanged,passwordChanged,loginuser})(LoginForm);
+export default connect(mapStateToProps,{idChanged,passwordChanged,loginuser})(LoginForm);
