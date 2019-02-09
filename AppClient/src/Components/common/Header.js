@@ -6,19 +6,12 @@ import React from 'react';
 const Header = (props) => {
     const {textStyle,viewStyle} = styles;
     return (
-        <View>
         <View style={viewStyle}>
-            <Text style = {textStyle}> {props.name}{'  '}
-                <Image style={styles.ImageStyle} source = {require('../../Resources/Logo.jpg')}/>
-            </Text>
+            <View style={styles.ImageStyle}>
+                <Image source = {require('../../Resources/Logo.jpg')}/>
+            </View>
+            <Text style = {textStyle}> {props.name}</Text>
 
-        </View>
-        <View
-              style={{
-                borderBottomColor: 'black',
-                     borderBottomWidth: 1,
-                    }}
-                />
         </View>
     );
 };
@@ -28,9 +21,8 @@ const styles = {
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         height: 10,
-        paddingTop:40,
+        paddingTop:5,
         flexDirection: 'row',
-        marginBottom: 10
 
     },
     textStyle: {
@@ -41,7 +33,7 @@ const styles = {
     ImageStyle:{
         alignItems: 'flex-start',
         alignSelf: 'flex-start',
-        paddingLeft: 15
+        flex: 3,
     }
 };
 
