@@ -1,11 +1,11 @@
-import {ID_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS,LOGIN_USER,CONECTTION_FAILED} from "./types";
+import {EMAIL_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS,LOGIN_USER,CONECTTION_FAILED} from "./types";
 import  {PASSWORD_CHANGED} from "./types";
 import {Actions} from "react-native-router-flux";
 
 
-export const idChanged = (text) =>{
+export const emailChanged = (text) =>{
   return {
-      type: ID_CHANGED,
+      type: EMAIL_CHANGED,
       payload: text
   };
 };
@@ -15,11 +15,11 @@ export const passwordChanged = (text) =>{
         payload: text
     };
 };
-export const loginuser = (id,password) => {
+export const loginuser = (email,password) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
-        fetch('http://192.168.1.27:3000/get_birthdays',{
+        fetch('http://192.168.1.28:3000/get_birthdays',{
             method:'POST',
             headers:{
                 'Accept': 'application/json',
@@ -27,7 +27,7 @@ export const loginuser = (id,password) => {
 
             },
             body: JSON.stringify({
-                id: id,
+                email: email,
                 password: password,
 
             }),

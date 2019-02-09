@@ -3,7 +3,6 @@ import {Router,Scene} from 'react-native-router-flux';
 import LoginForm from '../src/Components/LoginForm';
 import HomePage from '../src/Components/HomePage';
 import DailyBrif from '../src/Components/AppForms/DailyBrif'
-import Profile from "./Components/AppForms/Profile";
 
 
 const RouterComp =() =>{
@@ -20,13 +19,10 @@ const RouterComp =() =>{
                     <Scene key="DailyBrif"
                            component={DailyBrif}
 
-                            hideNavBar={false}
-                           navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}
-                    />
-                        <Scene key="Profile"
-                               component={Profile}
-                               hideNavBar={false}
-                               />
+                           title="תדריך יומי" hideNavBar={false}
+                           navigationBarStyle={{paddingTop:10}
+
+                    }/>
                     </Scene>
 
                 </Scene>

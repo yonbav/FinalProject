@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Text,View,Image,Keyboard,BackHandler, TouchableOpacity} from "react-native";
+import {Text,View,Image,Keyboard,BackHandler} from "react-native";
 import Applogo from "./common/Applogo";
 import Button from 'react-native-button';
 import {connect} from "react-redux";
@@ -11,19 +11,29 @@ class HomePage extends Component{
 
     componentDidMount() {
         Keyboard.dismiss();
+
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.goBack(); // works best when the goBack is async
+            return true;
+        });
+
+    }
+    goBack =() => {
+        Actions.main()
+    };
+    componentWillUnmount() {
+        this.backHandler.remove();
     }
 render() {
     return (
           <View style={styles.BackStyle}>
               <View style={styles.userMenu}>
-                  <TouchableOpacity  onPress={() => Actions.Profile()}>
-                      <Image source = {require('../../src/Resources/usermenu.png')} />
-                  </TouchableOpacity >
+              <Image source = {require('../../src/Resources/usermenu.png')}/>
               </View>
               <Applogo/>
 
               <Text style={styles.labelStyle2}>
-                   שלום {this.props.user.firstname},
+                   שלום {this.props.user.name},
 
 
               </Text>
