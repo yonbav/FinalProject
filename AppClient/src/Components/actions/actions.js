@@ -8,6 +8,7 @@ export const idChanged = (text) =>{
       type: ID_CHANGED,
       payload: text
   };
+  
 };
 export const passwordChanged = (text) =>{
     return {
