@@ -29,7 +29,7 @@ export const loginuser = (id,password) => {
             body: JSON.stringify({
                 id: id,
                 password: password,
-
+                authorization:'1'
             }),
         }).then((response)=> response.json())
             .then((res)=> {
