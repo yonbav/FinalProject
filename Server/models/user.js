@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    firstname:{type:String,required:true},
-    lastname:{type:String,required:true},
-    id:{type:String,required:true},
-    password:{type:String,required:true} ,
-    birthday:{type:String,required:true},
-    authorization:{type:String,required:true},
+    firstname:{type:String},
+    lastname:{type:String},
+    id:{type:String},
+    password:{type:String} ,
+    birthday:{type:String},
+    authorization:{type:String},
     email:{type:String},
     gender:{type:String},
-    phone_number:{type:String,required:true},
+    phone_number:{type:String},
     branch:{type:String}
 });
 

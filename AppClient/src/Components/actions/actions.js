@@ -19,7 +19,7 @@ export const loginuser = (id,password) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
-        fetch('http://192.168.1.27:3000/get_birthdays',{
+        fetch('http://192.168.1.71:3000/login',{
             method:'POST',
             headers:{
                 'Accept': 'application/json',
