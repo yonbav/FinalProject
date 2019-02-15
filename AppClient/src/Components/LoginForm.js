@@ -4,7 +4,7 @@ import {idChanged, passwordChanged,loginuser} from "./actions/actions";
 import Card from "./common/Card"
 import CardSection from "./common/CardSection"
 import Input from "./common/Input"
-import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert} from 'react-native';
+import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert,BackHandler} from 'react-native';
 import Applogo from "./common/Applogo";
 
 

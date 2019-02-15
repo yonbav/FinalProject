@@ -10,7 +10,7 @@ export default (state = INITIAL_STATE,action) => {
         case PASSWORD_CHANGED:
             return {...state,password:action.payload,errorConn: ''};
         case LOGIN_SUCCESS:
-            return {...state,success: 'Login Success',error:'',loading:false,user: action.payload,errorConn: ''};
+            return {...state,success: 'Login Success',error:'',loading:false,user: action.payload,errorConn: '',id:'',password:''};
         case LOGIN_FAILED:
             return {...state,error: "שם משתמש ו/או סיסמא שגוי/ים",success: '',loading:false,errorConn: ''};
         case LOGIN_USER:

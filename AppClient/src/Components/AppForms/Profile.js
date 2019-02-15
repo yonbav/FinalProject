@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import {connect} from "react-redux";
 import {loginuser} from "../actions/actions";
+import {Actions} from "react-native-router-flux";
+import Button from "../HomePage";
 
 class Profile extends Component {
 
@@ -34,10 +36,11 @@ class Profile extends Component {
 
                         </Text>
 
-                        <TouchableOpacity style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={() => Actions.ChangePassword()}
+                        >
                             <Text>שינוי סיסמה</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={() => Actions.auth()}>
                             <Text>התנתקות</Text>
                         </TouchableOpacity>
                     </View>

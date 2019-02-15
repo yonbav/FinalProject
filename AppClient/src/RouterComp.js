@@ -4,6 +4,7 @@ import LoginForm from '../src/Components/LoginForm';
 import HomePage from '../src/Components/HomePage';
 import DailyBrif from '../src/Components/AppForms/DailyBrif'
 import Profile from "./Components/AppForms/Profile";
+import ChangePassword from "./Components/ChangePassword";
 
 
 const RouterComp =() =>{
@@ -27,6 +28,11 @@ const RouterComp =() =>{
                                component={Profile}
                                hideNavBar={false}
                                />
+                        <Scene key="ChangePassword"
+                               component={ChangePassword}
+                               hideNavBar={false}
+                               navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}                        />
+
                     </Scene>
 
                 </Scene>

@@ -5,13 +5,27 @@ import Button from 'react-native-button';
 import {connect} from "react-redux";
 import {loginuser} from "./actions/actions";
 import {Actions} from "react-native-router-flux";
+import GetDailyBirthdays from "./common/GetDailyBirthdays";
 
 
 class HomePage extends Component{
-
     componentDidMount() {
         Keyboard.dismiss();
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackAction);
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackAction);
+    }
+
+    handleBackAction = () => {
+            if (Actions.Home()) {
+                Actions.pop();
+                return false;
+            }
+            return true;
+    }
+
 render() {
     return (
           <View style={styles.BackStyle}>
@@ -86,9 +100,7 @@ render() {
                   </Text>
               </View>
               <View style={styles.containerStyle2}>
-                  <Text style={styles.labelStyle}>
-                      כאן יופיעו ימי הולדת
-                  </Text>
+                      <GetDailyBirthdays/>
               </View>
 
 

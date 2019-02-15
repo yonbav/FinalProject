@@ -16,7 +16,7 @@ class DailyBrif extends Component {
                 <View style = {styles.containerStyle}>
 
                 <Button
-                    id={item.id}
+                    onPress={() => Actions.pdf()}
                     containerStyle ={styles.buttonStyleBack}
                     style={styles.buttonStyleText}>
                     {item.text}

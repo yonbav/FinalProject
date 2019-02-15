@@ -17,10 +17,10 @@ router.post('/',jsonParser,(req,res,next) => {
         if (result) {
             bool = true;
             user= result;
-        }
-        if(req.body.authorization <= user.authorization){
-            console.log(user);
-            res.send({'success': bool,'user': user});
+            if(req.body.authorization <= user.authorization){
+                console.log(user);
+                res.send({'success': bool,'user': user});
+            }
         }
         else {
             bool=false;
