@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert} from 'react-native';
+import {Text} from 'react-native';
 
 
 
@@ -7,24 +7,39 @@ export default class GetDailyBirthdays extends Component{
     constructor() {
         super();
         this.state = {
+            index: 0,
             Birthday:""
         }
     }
 
     componentDidMount() {
-        setInterval( () => {
-            this.setState( ({
-                Birthday:  initialArr.map(b => {
-                    return  b.text;
-                })
-                })
-            )
-        })
+        if(initialArr.length ==0)
+            this.setState({
+                Birthday: "אין ימי הולדת היום."
+            });
+        else {
+            setInterval(() => {
+
+                this.setState({
+                    Birthday: initialArr[this.state.index % (initialArr.length)].text
+                });
+
+                this.state.index++;
+            }, 1500)
+        }
     }
+    componentWillUnmount() {
+        this.setState({
+            index: 0
+        });    }
     render() {
         return(
                 <Text style={styles.labelStyle}>
+                    {this.state.Birthday} {"\n"}
+                    {this.state.Birthday}{"\n"}
+                    {this.state.Birthday}{"\n"}
                     {this.state.Birthday}
+
                 </Text>
         );
     }

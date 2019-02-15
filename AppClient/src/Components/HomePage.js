@@ -38,49 +38,47 @@ render() {
 
               <Text style={styles.labelStyle2}>
                    שלום {this.props.user.firstname},
-
-
               </Text>
 
               <View style = {styles.containerStyle}>
-
+                  <Button
+                      onPress={() => Actions.DailyBrif()}
+                      containerStyle ={styles.buttonStyleBack}
+                      style={styles.buttonStyleText}>
+                      תדריך יומי
+                  </Button>
                        <Button
                            containerStyle ={styles.buttonStyleBack}
                            style={styles.buttonStyleText}>
                            מידע חשוב
                        </Button>
-                  <Button
-                      onPress={() => Actions.DailyBrif()}
-                      containerStyle ={styles.buttonStyleBack2}
-                      style={styles.buttonStyleText}>
-                      תדריך יומי
-                  </Button>
+
               </View>
               <View style = {styles.containerStyle}>
-
+                  <Button
+                      containerStyle ={styles.buttonStyleBack}
+                      style={styles.buttonStyleText}>
+                      עדכוני מש"א
+                  </Button>
                   <Button
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
                       עולם ההטבות
                   </Button>
-                  <Button
-                      containerStyle ={styles.buttonStyleBack2}
-                      style={styles.buttonStyleText}>
-                      עדכוני מש"א
-                  </Button>
+
               </View>
               <View style = {styles.containerStyle}>
-
+                  <Button
+                      containerStyle ={styles.buttonStyleBack}
+                      style={styles.buttonStyleText}>
+                      הדרכת עובדים
+                  </Button>
                   <Button
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
                       הדרכת מנהלים
                   </Button>
-                  <Button
-                      containerStyle ={styles.buttonStyleBack2}
-                      style={styles.buttonStyleText}>
-                      הדרכת עובדים
-                  </Button>
+
 
 
               </View>
@@ -122,8 +120,8 @@ const styles = {
         paddingBottom: 560
     },
     userMenu:{
-        alignItems:'flex-end',
-        alignSelf: 'flex-end',
+        alignItems:'flex-start',
+        alignSelf: 'flex-start',
         marginBottom: 0,
         paddingTop: 20
     },
@@ -141,26 +139,14 @@ const styles = {
         borderRadius: 5,
         borderWidth: 1,
         borderColor:'#FF7802',
-        paddingRight: 5,
-        paddingLeft: 15,
-        marginRight: 5
+        justifyContent: 'center',
+
     },
     labelStyle: {
         fontSize: 18,
         paddingLeft: 20,
         flex: 1,
         color: '#000',
-    },
-    buttonStyleBack2:{
-        flex:1,
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor:'#FF7802',
-       paddingLeft: 20,
-        marginLeft: 5
-
-
     },
     buttonStyleText:{
         alignSelf: 'center',
@@ -173,20 +159,22 @@ const styles = {
     containerStyle:{
         borderBottomWidth: 1,
         padding: 5,
+        justifyContent: 'space-evenly',
         backgroundColor: '#ffc68e',
-        justifyContent: 'flex-start',
+        justifyItems: 'space-between',
         flexDirection: 'row',
         borderColor: '#ffc68e',
-        position: 'relative',
         margin: 10,
-        marginTop: 10
+        marginTop: 10,
+        position: 'relative'
+
 
     },
     containerStyle2:{
         borderBottomWidth: 1,
         padding: 5,
         backgroundColor: '#ffc68e',
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-end',
         flexDirection: 'row',
         borderColor: '#ffc68e',
         position: 'relative',
