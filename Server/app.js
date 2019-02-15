@@ -1,8 +1,17 @@
-const express = require('express');
+const bodyParser = require("body-parser");
+var express = require('express');
 const mongoose = require('mongoose');
-
 const app = express();
-
+const userfunc = require("./Api/Routes/userfunctions")
+app.use(bodyParser.json());
+const User = require('./models/user');
+app.use((req,res,next)=>{
+    res.setHeader("Access-Control-Allow-Origin","*");
+    res.setHeader("Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Methods","GET , POST , DELETE , PUT , PATCH");
+    next();
+});
 mongoose.connect('mongodb+srv://ronel:!!1122oo@kra-t6f6u.mongodb.net/kra?retryWrites=true',{
     useNewUrlParser: true
 }).then(()=>{
@@ -11,15 +20,6 @@ mongoose.connect('mongodb+srv://ronel:!!1122oo@kra-t6f6u.mongodb.net/kra?retryWr
     console.log("connection failed");
 });
 
-const functionAddUser = require('./Api/Routes/user/adduser');
-const functionLogin = require('./Api/Routes/login');
-const functionRemoveUser= require('./Api/Routes/user/removeuser');
-//const functionEditUser = require('./Api/Routes/user/edituser');
-
-app.use('/user/adduser',functionAddUser);
-app.use('/login',functionLogin );
-app.use('/user/removeuser',functionRemoveUser );
-//app.use('/user/edituser',functionEditUser );
-
+app.use("/user", userfunc);
 
 module.exports = app;
