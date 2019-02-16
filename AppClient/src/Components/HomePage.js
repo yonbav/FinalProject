@@ -174,7 +174,7 @@ const styles = {
         borderBottomWidth: 1,
         padding: 5,
         backgroundColor: '#ffc68e',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
         flexDirection: 'row',
         borderColor: '#ffc68e',
         position: 'relative',

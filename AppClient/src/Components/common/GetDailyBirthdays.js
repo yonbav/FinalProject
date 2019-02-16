@@ -1,5 +1,6 @@
 import React ,{Component} from 'react';
 import {Text} from 'react-native';
+import axios from 'axios';
 
 
 
@@ -8,39 +9,50 @@ export default class GetDailyBirthdays extends Component{
         super();
         this.state = {
             index: 0,
-            Birthday:""
-        }
-    }
+            Firstname:"",
+            Lastname:"",
+            Branch:"",
 
+        };
+        this.componentDidMount = this.componentDidMount.bind(this);
+
+    }
     componentDidMount() {
-        if(initialArr.length ==0)
-            this.setState({
-                Birthday: "אין ימי הולדת היום."
-            });
-        else {
-            setInterval(() => {
-
+        var x = {};
+        axios.get('http://192.168.1.71:3000/getBD').then(function (res) {
+             x = res.data;
+        })
+            if(x.length ==0)
                 this.setState({
-                    Birthday: initialArr[this.state.index % (initialArr.length)].text
+                    Birthday: "אין ימי הולדת היום."
                 });
+            else {
+                setInterval(() => {
+                    var y = this.state.index % (x.length);
+                    this.setState({
+                        Firstname: x[y].firstname,
+                        Lastname: x[y].lastname,
+                        Branch: x[y].branch
+                    });
 
-                this.state.index++;
-            }, 1500)
-        }
-    }
+                    this.state.index++;
+                }, 1500)
+            }}
+
+
+
+
+
+
     componentWillUnmount() {
-        clearInterval();
         this.setState({
             index: 0
-        });    }
+        });
+    }
     render() {
         return(
-                <Text style={styles.labelStyle}>
-                    {this.state.Birthday} {"\n"}
-                    {this.state.Birthday}{"\n"}
-                    {this.state.Birthday}{"\n"}
-                    {this.state.Birthday}
-
+                <Text style={styles.labelStyle} >
+                    {this.state.Firstname} {this.state.Lastname} {this.state.Branch}
                 </Text>
         );
     }
@@ -51,23 +63,7 @@ const styles = {
         paddingLeft: 20,
         flex: 1,
         color: '#000',
+
     }
 };
-const initialArr =[{
-    id:1,
-    text: "7.9",
-},
-    {
-        id:2,
-        text: "6.9",
-    },
-    {
-        id:3,
-        text: "5.9",
-    },
-    {
-        id:4,
-        text: "4.9",
-    }
-];
 
