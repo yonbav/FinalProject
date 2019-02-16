@@ -4,10 +4,14 @@ import CardSection from "./common/CardSection"
 import Input from "./common/Input"
 import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert} from 'react-native';
 import Applogo from "./common/Applogo";
+import {connect} from "react-redux";
+import {loginuser} from "./actions/actions";
+import {Actions} from "react-native-router-flux";
+import axios from 'axios';
 
 
 
-export default class ChangePassword extends Component{
+class ChangePassword extends Component{
 
     constructor() {
         super();
@@ -35,7 +39,9 @@ export default class ChangePassword extends Component{
     }
     onPressButton(){
         if (this.state.password1 === this.state.password2){
-            console.log("yes");
+            axios.patch('http://192.168.1.71:3000/user/changepassword/' + this.props.user._id, {
+                password: this.state.password1,
+            }).then(()=> Actions.Profile())
             this.setState({
                 equal: ""
             })
@@ -96,7 +102,11 @@ export default class ChangePassword extends Component{
     }
 }
 
-
+const mapStateToProps =  state =>{
+    return {
+        user: state.auth.user
+    };
+};
 const styles = {
     LoginStyle: {
         paddingTop: 20,
@@ -150,4 +160,6 @@ const styles = {
 
     }
 };
+export default connect(mapStateToProps,{loginuser})(ChangePassword);
+
 

@@ -21,6 +21,10 @@ router.post('/',jsonParser,(req,res,next) => {
                 console.log(user);
                 res.send({'success': bool,'user': user});
             }
+            else {
+                bool=false;
+                res.send({'success': bool});
+            }
         }
         else {
             bool=false;

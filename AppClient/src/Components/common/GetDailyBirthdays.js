@@ -29,6 +29,7 @@ export default class GetDailyBirthdays extends Component{
         }
     }
     componentWillUnmount() {
+        clearInterval();
         this.setState({
             index: 0
         });    }

@@ -4,7 +4,7 @@ import {
     Text,
     View,
     Image,
-    TouchableOpacity
+    TouchableOpacity, Keyboard, BackHandler
 } from 'react-native';
 import {connect} from "react-redux";
 import {loginuser} from "../actions/actions";
@@ -12,7 +12,9 @@ import {Actions} from "react-native-router-flux";
 import Button from "../HomePage";
 
 class Profile extends Component {
-
+    componentDidMount() {
+        Keyboard.dismiss();
+    }
     renderImage(){
         if (this.props.user.gender == "male")
         {

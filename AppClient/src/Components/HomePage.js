@@ -20,7 +20,7 @@ class HomePage extends Component{
 
     handleBackAction = () => {
             if (Actions.Home()) {
-                Actions.pop();
+                this.Actions.pop();
                 return false;
             }
             return true;

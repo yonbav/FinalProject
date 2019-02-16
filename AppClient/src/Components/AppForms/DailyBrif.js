@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {BackHandler, Keyboard, Text, View} from 'react-native';
+import {BackHandler, Keyboard, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from "react-native-router-flux";
 import Button from 'react-native-button';
 import Header from "../common/Header";
@@ -13,14 +13,11 @@ class DailyBrif extends Component {
     renderButtons() {
         return initialArr.map((item) => {
             return (
-                <View style = {styles.containerStyle}>
+                <View key={item.id} style = {styles.containerStyle}>
 
-                <Button
-                    onPress={() => Actions.pdf()}
-                    containerStyle ={styles.buttonStyleBack}
-                    style={styles.buttonStyleText}>
-                    {item.text}
-                </Button>
+                    <TouchableOpacity key={item.id} style={styles.buttonStyleBack} onPress={() => Actions.pdf()} >
+                        <Text style={styles.buttonStyleText}> {item.text}</Text>
+                    </TouchableOpacity>
                 </View>
             );
         });

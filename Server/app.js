@@ -2,7 +2,7 @@ const bodyParser = require("body-parser");
 var express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-const userfunc = require("./Api/Routes/userfunctions")
+
 app.use(bodyParser.json());
 const User = require('./models/user');
 app.use((req,res,next)=>{
@@ -20,6 +20,10 @@ mongoose.connect('mongodb+srv://ronel:!!1122oo@kra-t6f6u.mongodb.net/kra?retryWr
     console.log("connection failed");
 });
 
-app.use("/user", userfunc);
 
+const userfunc = require("./Api/Routes/userfunctions");
+const loginfunc = require("./Api/Routes/login");
+
+app.use("/user", userfunc);
+app.use("/login",loginfunc);
 module.exports = app;
