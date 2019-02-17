@@ -37,7 +37,7 @@ render() {
               <Applogo/>
 
               <Text style={styles.labelStyle2}>
-                   שלום {this.props.user.firstname},
+                   ברוך הבא {this.props.user.firstname},
               </Text>
 
               <View style = {styles.containerStyle}>
@@ -129,17 +129,21 @@ const styles = {
         fontWeight: 'bold',
         fontSize: 20,
         color: '#ff8a37',
-        textAlign: 'center',
+        textAlign: 'left',
         marginTop: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingRight: 15
     },
     buttonStyleBack:{
         flex:1,
         backgroundColor: '#fff',
-        borderRadius: 5,
+        borderRadius: 30,
         borderWidth: 1,
         borderColor:'#FF7802',
         justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        width:250,
 
     },
     labelStyle: {
@@ -159,13 +163,14 @@ const styles = {
     containerStyle:{
         borderBottomWidth: 1,
         padding: 5,
-        justifyContent: 'space-evenly',
+        justifyContent: 'flex-start',
         backgroundColor: '#ffc68e',
         justifyItems: 'space-between',
+        alignItems: 'space-between',
         flexDirection: 'row',
         borderColor: '#ffc68e',
         margin: 10,
-        marginTop: 10,
+        marginTop: 20,
         position: 'relative'
 
 

@@ -12,15 +12,29 @@ class DailyBrif extends Component {
 
     renderButtons() {
         return initialArr.map((item) => {
-            return (
-                <View key={item.id} style = {styles.containerStyle}>
+            if(item ===initialArr[0]) {
+                return (
+                    <View key={item.id} style={styles.containerStyle}>
 
-                    <TouchableOpacity key={item.id} style={styles.buttonStyleBack} onPress={() => Actions.pdf()} >
-                        <Text style={styles.buttonStyleText}> {item.text}</Text>
-                    </TouchableOpacity>
-                </View>
-            );
+                        <TouchableOpacity key={item.id} style={[styles.buttonStyleBack,{width:350}]} onPress={() => Actions.pdf()}>
+                            <Text style={styles.buttonStyleText}> {item.text}</Text>
+                        </TouchableOpacity>
+                    </View>
+                );
+            }
+            else{
+                return (
+                    <View key={item.id} style={styles.containerStyle}>
+
+                        <TouchableOpacity key={item.id} style={[styles.buttonStyleBack,{width:250}]} onPress={() => Actions.pdf()}>
+                            <Text style={styles.buttonStyleText}> {item.text}</Text>
+                        </TouchableOpacity>
+                    </View>
+                );
+            }
+
         });
+
     }
 
     render() {
@@ -49,7 +63,16 @@ const initialArr =[{
     },
     {
         id:4,
-        text: "4.9",    }
+        text: "4.9",    },
+    {
+        id:5,
+        text: "3.9",    },
+    {
+        id:6,
+        text: "2.9",    },
+    {
+        id:7,
+        text: "1.9",    },
 ];
 const styles = {
     BackStyle: {
@@ -58,24 +81,16 @@ const styles = {
         paddingBottom: 800
     },
     buttonStyleBack:{
-        flex:1,
-        backgroundColor: '#fff',
-        borderRadius: 5,
+        margin:5,
+        height:45,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width:250,
         borderWidth: 1,
+        borderRadius:30,
+        backgroundColor: "#fff",
         borderColor:'#FF7802',
-        paddingRight: 5,
-        paddingLeft: 15,
-        marginRight: 5
-    },
-    buttonStyleBack2:{
-        flex:1,
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor:'#FF7802',
-        paddingLeft: 20,
-        marginLeft: 5
-
 
     },
     buttonStyleText:{
@@ -90,7 +105,7 @@ const styles = {
         borderBottomWidth: 1,
         padding: 5,
         backgroundColor: '#ffc68e',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         flexDirection: 'row',
         borderColor: '#ffc68e',
         position: 'relative',

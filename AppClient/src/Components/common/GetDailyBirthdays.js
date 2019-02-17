@@ -19,12 +19,12 @@ export default class GetDailyBirthdays extends Component{
     }
     componentDidMount() {
         var x = {};
-        axios.get('http://192.168.1.71:3000/getBD').then(function (res) {
+        axios.get('http://192.168.1.32:3000/getBD').then(function (res) {
              x = res.data;
-        })
-            if(x.length ==0)
+        });
+            if(x === null)
                 this.setState({
-                    Birthday: "אין ימי הולדת היום."
+                    Firstname: "אין ימי הולדת היום."
                 });
             else {
                 setInterval(() => {
@@ -32,7 +32,7 @@ export default class GetDailyBirthdays extends Component{
                     this.setState({
                         Firstname: x[y].firstname,
                         Lastname: x[y].lastname,
-                        Branch: x[y].branch
+                        Branch: "("+x[y].branch+")"
                     });
 
                     this.state.index++;

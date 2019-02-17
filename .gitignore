@@ -4,3 +4,5 @@ Server/.expo/
 Server/Api/Routes/get_birthdays.js
 Specifications/Final project description Kravitz -final.doc
 AppClient/src/Components/AppForms/Profile.js
+WebClient/node_modules/
+WebClient/server/node_modules/
