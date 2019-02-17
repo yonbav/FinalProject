@@ -9,17 +9,24 @@
   "dependencies": {
     "axios": "^0.18.0",
     "expo": "^32.0.0",
+    "link": "^0.1.5",
     "react": "16.5.0",
     "react-addons-pure-render-mixin": "^15.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-axios": "^0.17.1",
     "react-native-button": "^2.3.0",
     "react-native-navigation-bar": "^0.2.1",
+    "react-native-pdf": "^5.0.11",
     "react-native-router-flux": "3.43.0",
+    "react-native-view-pdf": "^0.7.0",
+    "react-native-webview": "git+https://github.com/react-native-community/react-native-webview.git",
     "react-navigation": "git+https://github.com/react-community/react-navigation.git#7edd9a7",
     "react-redux": "^6.0.0",
     "react-static-container": "^1.0.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "^0.10.15",
+    "rn-pdf-reader-js": "^0.2.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",

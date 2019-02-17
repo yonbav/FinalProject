@@ -1,82 +1,84 @@
 import React,{Component} from 'react'
-import {Text,View,Image,Keyboard,BackHandler} from "react-native";
+import {Text,View,Image,Keyboard,BackHandler, TouchableOpacity} from "react-native";
 import Applogo from "./common/Applogo";
 import Button from 'react-native-button';
 import {connect} from "react-redux";
 import {loginuser} from "./actions/actions";
 import {Actions} from "react-native-router-flux";
+import GetDailyBirthdays from "./common/GetDailyBirthdays";
 
 
 class HomePage extends Component{
-
     componentDidMount() {
         Keyboard.dismiss();
-
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-            this.goBack(); // works best when the goBack is async
-            return true;
-        });
-
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackAction);
     }
-    goBack =() => {
-        Actions.main()
-    };
+
     componentWillUnmount() {
-        this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackAction);
     }
+
+    handleBackAction = () => {
+            if (Actions.Home()) {
+                this.Actions.pop();
+                return false;
+            }
+            return true;
+    }
+
 render() {
     return (
           <View style={styles.BackStyle}>
               <View style={styles.userMenu}>
-              <Image source = {require('../../src/Resources/usermenu.png')}/>
+                  <TouchableOpacity  onPress={() => Actions.Profile()}>
+                      <Image source = {require('../../src/Resources/usermenu.png')} />
+                  </TouchableOpacity >
               </View>
               <Applogo/>
 
               <Text style={styles.labelStyle2}>
-                   שלום {this.props.user.name},
-
-
+                   שלום {this.props.user.firstname},
               </Text>
 
               <View style = {styles.containerStyle}>
-
+                  <Button
+                      onPress={() => Actions.DailyBrif()}
+                      containerStyle ={styles.buttonStyleBack}
+                      style={styles.buttonStyleText}>
+                      תדריך יומי
+                  </Button>
                        <Button
                            containerStyle ={styles.buttonStyleBack}
                            style={styles.buttonStyleText}>
                            מידע חשוב
                        </Button>
-                  <Button
-                      onPress={() => Actions.DailyBrif()}
-                      containerStyle ={styles.buttonStyleBack2}
-                      style={styles.buttonStyleText}>
-                      תדריך יומי
-                  </Button>
+
               </View>
               <View style = {styles.containerStyle}>
-
+                  <Button
+                      containerStyle ={styles.buttonStyleBack}
+                      style={styles.buttonStyleText}>
+                      עדכוני מש"א
+                  </Button>
                   <Button
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
                       עולם ההטבות
                   </Button>
-                  <Button
-                      containerStyle ={styles.buttonStyleBack2}
-                      style={styles.buttonStyleText}>
-                      עדכוני מש"א
-                  </Button>
+
               </View>
               <View style = {styles.containerStyle}>
-
+                  <Button
+                      containerStyle ={styles.buttonStyleBack}
+                      style={styles.buttonStyleText}>
+                      הדרכת עובדים
+                  </Button>
                   <Button
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
                       הדרכת מנהלים
                   </Button>
-                  <Button
-                      containerStyle ={styles.buttonStyleBack2}
-                      style={styles.buttonStyleText}>
-                      הדרכת עובדים
-                  </Button>
+
 
 
               </View>
@@ -96,9 +98,7 @@ render() {
                   </Text>
               </View>
               <View style={styles.containerStyle2}>
-                  <Text style={styles.labelStyle}>
-                      כאן יופיעו ימי הולדת
-                  </Text>
+                      <GetDailyBirthdays/>
               </View>
 
 
@@ -120,8 +120,8 @@ const styles = {
         paddingBottom: 560
     },
     userMenu:{
-        alignItems:'flex-end',
-        alignSelf: 'flex-end',
+        alignItems:'flex-start',
+        alignSelf: 'flex-start',
         marginBottom: 0,
         paddingTop: 20
     },
@@ -139,26 +139,14 @@ const styles = {
         borderRadius: 5,
         borderWidth: 1,
         borderColor:'#FF7802',
-        paddingRight: 5,
-        paddingLeft: 15,
-        marginRight: 5
+        justifyContent: 'center',
+
     },
     labelStyle: {
         fontSize: 18,
         paddingLeft: 20,
         flex: 1,
         color: '#000',
-    },
-    buttonStyleBack2:{
-        flex:1,
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor:'#FF7802',
-       paddingLeft: 20,
-        marginLeft: 5
-
-
     },
     buttonStyleText:{
         alignSelf: 'center',
@@ -171,13 +159,15 @@ const styles = {
     containerStyle:{
         borderBottomWidth: 1,
         padding: 5,
+        justifyContent: 'space-evenly',
         backgroundColor: '#ffc68e',
-        justifyContent: 'flex-start',
+        justifyItems: 'space-between',
         flexDirection: 'row',
         borderColor: '#ffc68e',
-        position: 'relative',
         margin: 10,
-        marginTop: 10
+        marginTop: 10,
+        position: 'relative'
+
 
     },
     containerStyle2:{
