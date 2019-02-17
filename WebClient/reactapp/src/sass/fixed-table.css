@@ -1,0 +1,84 @@
+.fixed-table-container {
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid #f3f3f3;
+}
+
+.fixed-table-container .table{
+  margin-bottom: 0;
+}
+
+.fixed-table-container .table thead th{
+  border-bottom: none;
+}
+
+.fixed-table-container table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 15px !important;
+}
+
+.fixed-table-container th,
+.fixed-table-container td {
+  border-right: 1px solid #f3f3f3;
+  padding: 12px 8px;
+  text-align: center;
+  vertical-align: middle;
+  min-height: 40px !important;
+  /**
+    * Current implementation doesn't work when
+    * cells in a row have different heights
+    */
+  white-space: nowrap !important;
+}
+
+
+.fixed-table-container th {
+  background: #17a2b8;
+  color: white;
+}
+
+.fixed-table-container th:first-child {
+  max-width: 250px !important;
+}
+
+.fixed-table-container th.link-cell{
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+
+.fixed-table-container th.link-cell:hover{
+  color: black;
+  text-decoration-color: black;
+}
+
+
+.fixed-table-container td.link-cell div{
+  text-decoration: underline;
+  text-decoration-color:black;
+}
+
+.fixed-table-container td.link-cell div:hover{
+  color: #17a2b8;
+  text-decoration-color:#17a2b8;
+}
+
+.fixed-table-container td:first-child {
+  background: #17a2b8;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px;
+  max-width: 250px !important;
+  line-height: 15px;
+}
+
+.fixed-table-container tr:last-child td {
+  border-bottom: 0;
+}
+
+.fixed-table-container th:last-child,
+.fixed-table-container td:last-child {
+  border-right: 0;
+}

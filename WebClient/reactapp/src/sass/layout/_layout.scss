@@ -1,0 +1,22 @@
+#app-container {
+    position: relative;
+    #app-main{
+        position: relative;
+        #app-content{
+            padding-top: 60px;
+            padding-bottom: 30px;
+            width: 100%;
+            height: 100vh;
+        }
+    }
+}
+
+.splash-loader{
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(238, 238, 238);
+}

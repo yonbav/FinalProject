@@ -1,0 +1,84 @@
+.pointer{
+    cursor: pointer;
+}
+
+.none-border{
+    border: none !important;
+}
+
+.border-grey{
+    border: 1px solid #b7b7b7;
+}
+
+//map info windows close button disable
+.gm-ui-hover-effect {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+
+textarea:focus, input:focus{
+    outline: none !important;
+}
+
+*:focus {
+    outline: none !important;
+}
+
+.shadow{
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.shadow-white{
+    box-shadow: 0 3px 2px 0 #d8d8d8;
+}
+
+.shadow-lg{
+    box-shadow: 0 7px 12px 0 rgba(0, 0, 0, 0.15);
+}
+.font-14{
+    font-size: 14px !important;
+}
+.font-13{
+    font-size: 13px !important;
+}
+.font-12{
+    font-size: 12px !important;
+}
+.font-11{
+    font-size: 11px !important;
+}
+.font-10{
+    font-size: 10px !important;
+}
+.font-9{
+    font-size: 9px !important;
+}
+.font-8{
+    font-size: 8px !important;
+}
+.font-7{
+    font-size: 7px !important;
+}
+.font-6{
+    font-size: 6px !important;
+}
+.font-5{
+    font-size: 5px !important;
+}
+.red{
+    color: red;
+    text-decoration-color: red !important;
+}
+
+.green{
+    color: #04d504;
+    text-decoration-color: #04d504 !important;
+}
+
+.black{
+    color: black;
+    text-decoration-color: black !important;
+}
+
