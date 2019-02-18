@@ -29,5 +29,7 @@ app.use("/user", userfunc);
 app.use("/login",loginfunc);
 app.use("/getBD",birthdayfunc);
 
+var ip = require("ip");
+console.dir ( ip.address() );
 
 module.exports = app;

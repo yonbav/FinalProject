@@ -8,42 +8,45 @@ export default class GetDailyBirthdays extends Component{
     constructor() {
         super();
         this.state = {
-            index: 0,
-            Firstname:"",
-            Lastname:"",
-            Branch:"",
+            data: [],
+            Firstname: "",
+            Lastname: "",
+            Branch: "",
+            index: 0
 
         };
-        this.componentDidMount = this.componentDidMount.bind(this);
+        this.GetData = this.GetData.bind(this)
 
     }
-    componentDidMount() {
-        var x = {};
-        axios.get('http://192.168.1.32:3000/getBD').then(function (res) {
-             x = res.data;
-        });
-            if(x === null)
+    GetData() {
+        axios.get('http://192.168.1.32:3000/getBD')
+            .then(result => {
+                if(result.data.length === 0)
                 this.setState({
                     Firstname: "אין ימי הולדת היום."
                 });
             else {
-                setInterval(() => {
-                    var y = this.state.index % (x.length);
                     this.setState({
-                        Firstname: x[y].firstname,
-                        Lastname: x[y].lastname,
-                        Branch: "("+x[y].branch+")"
+                        Firstname: result.data[0].firstname,
+                        Lastname: result.data[0].lastname,
+                        Branch: "("+result.data[0].branch+")"
+                    });
+                setInterval(() => {
+                    var y = this.state.index % (result.data.length);
+                    this.setState({
+                        Firstname: result.data[y].firstname,
+                        Lastname: result.data[y].lastname,
+                        Branch: "("+result.data[y].branch+")"
                     });
 
                     this.state.index++;
                 }, 1500)
-            }}
+            }})
 
-
-
-
-
-
+    }
+    componentDidMount() {
+        this.GetData();
+    }
     componentWillUnmount() {
         this.setState({
             index: 0
