@@ -1,11 +1,11 @@
 import React ,{Component} from 'react';
 import {connect} from 'react-redux'
-import {idChanged, passwordChanged,loginuser} from "./actions/actions";
-import Card from "./common/Card"
-import CardSection from "./common/CardSection"
-import Input from "./common/Input"
+import {idChanged, passwordChanged,loginuser} from "../actions/actions";
+import Card from "../common/Card"
+import CardSection from "../common/CardSection"
+import Input from "../common/Input"
 import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert,BackHandler} from 'react-native';
-import Applogo from "./common/Applogo";
+import Applogo from "../common/Applogo";
 
 
 
@@ -71,7 +71,7 @@ class LoginForm extends Component{
                 <Card>
                     <CardSection>
                         <Input
-                            label=<Image source = {require('../../src/Resources/user.png')}/>
+                            label=<Image source = {require('../../Resources/user.png')}/>
                         placeholder="ת.ז"
                             onChangeText={this.onIdChanged.bind(this)}
                             value={this.props.id}
@@ -80,7 +80,7 @@ class LoginForm extends Component{
                     <CardSection>
                         <Input
                             secureTextEntry
-                            label=<Image source = {require('../../src/Resources/lock.png')}/>
+                            label=<Image source = {require('../../Resources/lock.png')}/>
                             placeholder="סיסמא"
                             onChangeText={this.onPasswordChanged.bind(this)}
                             value={this.props.password}

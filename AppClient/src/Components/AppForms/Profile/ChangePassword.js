@@ -1,11 +1,11 @@
 import React ,{Component} from 'react';
-import Card from "./common/Card"
-import CardSection from "./common/CardSection"
-import Input from "./common/Input"
+import Card from "../../common/Card"
+import CardSection from "../../common/CardSection"
+import Input from "../../common/Input"
 import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert} from 'react-native';
-import Applogo from "./common/Applogo";
+import Applogo from "../../common/Applogo";
 import {connect} from "react-redux";
-import {loginuser} from "./actions/actions";
+import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
 import axios from 'axios';
 
@@ -69,7 +69,7 @@ class ChangePassword extends Component{
 
                         <CardSection>
                             <Input
-                                label=<Image source = {require('../../src/Resources/lock.png')}/>
+                                label=<Image source = {require('../../../Resources/lock.png')}/>
                             placeholder="סיסמא"
                             value={this.state.password1}
                             onChangeText={this.handlechangetext1}
@@ -79,7 +79,7 @@ class ChangePassword extends Component{
                         <CardSection>
                             <Input
                                 secureTextEntry
-                                label=<Image source = {require('../../src/Resources/lock.png')}/>
+                                label=<Image source = {require('../../../Resources/lock.png')}/>
                             placeholder="חזור על הסיסמא בשנית"
                             value={this.state.password2}
                             onChangeText={this.handlechangetext2}

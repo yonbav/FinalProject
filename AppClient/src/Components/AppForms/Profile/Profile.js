@@ -7,9 +7,9 @@ import {
     TouchableOpacity, Keyboard, BackHandler
 } from 'react-native';
 import {connect} from "react-redux";
-import {loginuser} from "../actions/actions";
+import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
-import Button from "../HomePage";
+import Button from "../HomePage/HomePage";
 
 class Profile extends Component {
     componentDidMount() {

@@ -23,11 +23,15 @@ mongoose.connect('mongodb+srv://ronel:!!1122oo@kra-t6f6u.mongodb.net/kra?retryWr
 
 const userfunc = require("./Api/Routes/userfunctions");
 const loginfunc = require("./Api/Routes/login");
-const birthdayfunc = require("./Api/Routes/getbirthday");
+const birthdaydailyfunc = require("./Api/Routes/getdailybirthday");
+const birthdayfunc = require("./Api/Routes/getbirthdays");
+
 
 app.use("/user", userfunc);
 app.use("/login",loginfunc);
-app.use("/getBD",birthdayfunc);
+app.use("/getBD",birthdaydailyfunc);
+app.use("/getBirthdays",birthdayfunc);
+
 
 var ip = require("ip");
 console.dir ( ip.address() );

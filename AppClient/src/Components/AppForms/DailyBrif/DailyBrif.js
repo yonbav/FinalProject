@@ -1,8 +1,7 @@
 import React,{Component} from 'react'
-import {BackHandler, Keyboard, Text, TouchableOpacity, View} from 'react-native';
+import {Keyboard, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from "react-native-router-flux";
-import Button from 'react-native-button';
-import Header from "../common/Header";
+import Header from "../../common/Header";
 
 class DailyBrif extends Component {
 

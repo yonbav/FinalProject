@@ -1,11 +1,11 @@
 import React,{Component} from 'react'
 import {Text,View,Image,Keyboard,BackHandler, TouchableOpacity} from "react-native";
-import Applogo from "./common/Applogo";
+import Applogo from "../../common/Applogo";
 import Button from 'react-native-button';
 import {connect} from "react-redux";
-import {loginuser} from "./actions/actions";
+import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
-import GetDailyBirthdays from "./common/GetDailyBirthdays";
+import GetDailyBirthdays from "./GetDailyBirthdays";
 import ViewShot from "react-native-view-shot";
 
 
@@ -32,7 +32,7 @@ render() {
           <View style={styles.BackStyle}>
               <View style={styles.userMenu}>
                   <TouchableOpacity  onPress={() => Actions.Profile()}>
-                      <Image source = {require('../../src/Resources/usermenu.png')} />
+                      <Image source = {require('../../../Resources/usermenu.png')} />
                   </TouchableOpacity >
               </View>
               <Applogo/>
@@ -49,6 +49,7 @@ render() {
                       תדריך יומי
                   </Button>
                        <Button
+                           onPress={() => Actions.Importantinfo()}
                            containerStyle ={styles.buttonStyleBack}
                            style={styles.buttonStyleText}>
                            מידע חשוב
@@ -57,6 +58,7 @@ render() {
               </View>
               <View style = {styles.containerStyle}>
                   <Button
+                      onPress={() => Actions.HumRes()}
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
                       עדכוני מש"א
