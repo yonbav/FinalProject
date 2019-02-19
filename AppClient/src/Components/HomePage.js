@@ -6,12 +6,14 @@ import {connect} from "react-redux";
 import {loginuser} from "./actions/actions";
 import {Actions} from "react-native-router-flux";
 import GetDailyBirthdays from "./common/GetDailyBirthdays";
+import ViewShot from "react-native-view-shot";
 
 
 class HomePage extends Component{
     componentDidMount() {
         Keyboard.dismiss();
         BackHandler.addEventListener('hardwareBackPress', this.handleBackAction);
+
     }
 
     componentWillUnmount() {
@@ -25,7 +27,6 @@ class HomePage extends Component{
             }
             return true;
     }
-
 render() {
     return (
           <View style={styles.BackStyle}>

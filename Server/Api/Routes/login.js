@@ -16,7 +16,9 @@ router.post('/',jsonParser,(req,res,next) => {
         if (err) throw err;
         if (result) {
             bool = true;
-            user= result;
+            user= result.toObject();
+            delete user.id;
+            delete user.password;
             if(req.body.authorization <= user.authorization){
                 console.log(user);
                 res.send({'success': bool,'user': user});
