@@ -34,7 +34,7 @@ const styles = {
 
     },
     textStyle: {
-        fontSize: 30,
+        fontSize: 25,
         color: 'black',
         fontWeight: 'bold'
     },

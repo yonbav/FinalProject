@@ -31,7 +31,7 @@ class Profile extends Component {
                 <View style={styles.body}>
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>{this.props.user.firstname} {this.props.user.lastname}</Text>
-                        <Text style={styles.info}>{this.props.user.birthday},{this.props.user.id}</Text>
+                        <Text style={styles.info}>{this.props.user.birthday}</Text>
                         <Text style={styles.description}>{this.props.user.email}{"\n"}
                             {this.props.user.phone_number}{"\n"}
                             {this.props.user.branch}

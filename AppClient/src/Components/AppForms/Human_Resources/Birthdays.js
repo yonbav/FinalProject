@@ -30,9 +30,11 @@ export default class Birthdays extends Component{
         axios.get('http://192.168.1.32:3000/getBirthdays')
             .then(result => {
                 this.setState({
-                        data: result.data
-                    })
-                })
+                        data: result.data.filter(item=>
+                            item.firstname = item.firstname +' ' + item.lastname
+                        ),
+                    });
+            })
 
     }
     componentDidMount() {
@@ -43,7 +45,7 @@ export default class Birthdays extends Component{
             return this.state.data.map((item) => {
                 return (
                     <View key={item._id} style={styles.buttonStyleBack}>
-                        <Text style={styles.buttonStyleText}>{item.firstname} {item.lastname} {item.birthday}
+                        <Text style={styles.buttonStyleText}>{item.firstname} {item.birthday}
                         </Text>
                     </View>
                 );
@@ -54,11 +56,12 @@ export default class Birthdays extends Component{
         {
             const newData = this.state.data.filter(item=>
                 item.firstname.includes(this.state.search)
+
             );
             return newData.map((item) => {
                 return (
                     <View key={item._id} style={styles.buttonStyleBack}>
-                        <Text style={styles.buttonStyleText}>{item.firstname} {item.lastname} {item.birthday}
+                        <Text style={styles.buttonStyleText}>{item.firstname}  {item.birthday}
                         </Text>
                     </View>
                 );
@@ -70,7 +73,7 @@ export default class Birthdays extends Component{
 
     render() {
         return (
-                <ScrollView  contentContainerStyle={{height: metrics.screenHeight + StatusBar.currentHeight}}>
+                <ScrollView>
 
             <View style={styles.BackStyle}>
                 <View>

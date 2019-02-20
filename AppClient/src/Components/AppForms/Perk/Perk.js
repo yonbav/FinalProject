@@ -4,15 +4,14 @@ import {Actions} from "react-native-router-flux";
 import Header from "../../common/Header";
 import Button from 'react-native-button';
 
-class HumanResources extends Component {
-
+class Perk extends Component {
 
 
     render() {
         return (
             <View style={styles.BackStyle}>
                 <View>
-                    <Header name="עדכוני משא"/>
+                    <Header name="עולם ההטבות"/>
                 </View>
 
                 <View style = {styles.containerStyle}>
@@ -20,41 +19,26 @@ class HumanResources extends Component {
                         onPress={() => Actions.Birthdays()}
                         containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
-                        ימי הולדת
+                        קישור להטבה 1
                     </Button>
-                    <Button
-                        onPress={() => Actions.Birthdays()}
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        חבר מביא חבר
-                    </Button>
-
                 </View>
                 <View style = {styles.containerStyle}>
                     <Button
                         onPress={() => Actions.Birthdays()}
                         containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
-                        עדכוני עובדים ברשת
+                        קישור להטבה 2
                     </Button>
-                    <Button
-                        onPress={() => Actions.Birthdays()}
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        תקנון מניעת הטרדה מינית
-                    </Button>
-
                 </View>
                 <View style = {styles.containerStyle}>
                     <Button
                         onPress={() => Actions.Birthdays()}
                         containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
-                        טפסי קליטת עובד חדש
+                        קישור להטבה 3
                     </Button>
                 </View>
             </View>
-
         );
     }
 }
@@ -70,7 +54,7 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width:200,
+        width:250,
         borderWidth: 1,
         borderRadius:30,
         backgroundColor: "#fff",
@@ -111,4 +95,4 @@ const styles = {
     }
 }
 
-export default HumanResources;
+export default Perk;

@@ -9,6 +9,7 @@ import PdfView from "./Components/AppForms/DailyBrif/PdfView";
 import importantinfo from "./Components/AppForms/important-info/importantinfo";
 import HumanResources from "./Components/AppForms/Human_Resources/HumanResources";
 import Birthdays from "./Components/AppForms/Human_Resources/Birthdays";
+import Perk from "./Components/AppForms/Perk/Perk";
 
 
 const RouterComp =() =>{
@@ -38,6 +39,11 @@ const RouterComp =() =>{
                                />
                         <Scene key="HumRes"
                                component={HumanResources}
+                               hideNavBar={false}
+                               navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}
+                        />
+                        <Scene key="Perk"
+                               component={Perk}
                                hideNavBar={false}
                                navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}
                         />

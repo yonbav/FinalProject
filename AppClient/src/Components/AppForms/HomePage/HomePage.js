@@ -64,6 +64,7 @@ render() {
                       עדכוני מש"א
                   </Button>
                   <Button
+                      onPress={() => Actions.Perk()}
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
                       עולם ההטבות
