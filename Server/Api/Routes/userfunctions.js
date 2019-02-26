@@ -1,7 +1,8 @@
 const bodyParser = require("body-parser");
 var express = require('express');
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 var app = express();
 const router = express.Router();
 var jsonParser = bodyParser.json();
@@ -11,30 +12,30 @@ app.use(bodyParser.json());
 const User = require('../../models/user');
 
 router.post('/adduser',jsonParser,(req,res,next) => {
-    const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        firstname:req.body.firstname,
-        lastname:req.body.lastname,
-        id:req.body.id,
-        password:req.body.password ,
-        birthday:req.body.birthday,
-        authorization:req.body.authorization,
-        email:req.body.email,
-        gender:req.body.gender,
-        phone_number:req.body.phone_number,
-        branch:req.body.branch
+    bcrypt.hash(req.body.password, 10).then(hash => {
+       const user = new User({
+            _id: new mongoose.Types.ObjectId(),
+            firstname:req.body.firstname,
+            lastname:req.body.lastname,
+            id:req.body.id,
+            password:hash ,
+            birthday:req.body.birthday,
+            authorization:req.body.authorization,
+            email:req.body.email,
+            gender:req.body.gender,
+            phone_number:req.body.phone_number,
+            branch:req.body.branch
+        });
+        user.save().then(result =>{
+            res.status(201).json({
+                message:'Created user successfully',
+                createdUser: result
+            })
+        }).catch(err=> {
+            res.status(401).json({error:err});
+        });
     });
-    user.save().then(result =>{
-        res.status(201).json({
-            message:'Created user successfully',
-            createdUser: result
-        })
-            .catch(err=> {
-                console.log(err);
-                res.status(500).json({error:err});
-            });
 
-    });
 });
 
 router.get('/:userid',(req,res,next) => {

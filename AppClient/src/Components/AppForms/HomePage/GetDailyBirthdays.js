@@ -19,7 +19,7 @@ export default class GetDailyBirthdays extends Component{
 
     }
     GetData() {
-        axios.get('http://192.168.1.32:3000/getBD')
+        axios.get('http://192.168.1.40:3000/getBD')
             .then(result => {
                 if(result.data.length === 0)
                 this.setState({
