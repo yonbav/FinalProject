@@ -11,7 +11,8 @@ const userSchema = mongoose.Schema({
     email:{type:String},
     gender:{type:String},
     phone_number:{type:String},
-    branch:{type:String}
+    branch:{type:String},
+    token: {type:String}
 });
 
 module.exports = mongoose.model('User',userSchema);

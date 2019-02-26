@@ -24,7 +24,8 @@ router.post('/adduser',jsonParser,(req,res,next) => {
             email:req.body.email,
             gender:req.body.gender,
             phone_number:req.body.phone_number,
-            branch:req.body.branch
+            branch:req.body.branch,
+           token: null
         });
         user.save().then(result =>{
             res.status(201).json({
