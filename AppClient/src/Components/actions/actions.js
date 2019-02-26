@@ -1,7 +1,7 @@
 import {ID_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS,LOGIN_USER,CONECTTION_FAILED} from "./types";
 import  {PASSWORD_CHANGED} from "./types";
 import {Actions} from "react-native-router-flux";
-
+import axios from 'axios'
 
 export const idChanged = (text) =>{
   return {
@@ -19,23 +19,17 @@ export const loginuser = (id,password) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
-        fetch('http://192.168.1.40:3000/login',{
-            method:'POST',
-            headers:{
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+        axios.post("http://192.168.1.40:3000/login",{
                 id: id,
                 password: password,
-                authorization:'1'
-            }),
-        }).then((response)=> response.json())
-            .then((res)=> {
-                if(res.success === true)
+                authorization: '1'
+        })
+    .then((res)=> {
+        res = res.data;
+        if(res.success === true)
                 {
                     dispatch({type:LOGIN_SUCCESS,payload: res.user});
-                    Actions.main(res.user);
+                    Actions.main();
                 }
                 else
                 {

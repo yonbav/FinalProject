@@ -10,7 +10,7 @@ var jsonParser = bodyParser.json();
 app.use(bodyParser.json());
 
 router.post('/',jsonParser,(req,res,next) => {
-
+    console.log(req.body.id);
     User.findOne({id: req.body.id }).then(user => {
         if (user) {
             return checkPassword(user, req.body.password, res,req.body.authorization);
@@ -29,6 +29,7 @@ checkPassword = (user, password, res,authorization) => {
         delete user.id;
         delete user.password;
         if(authorization <= user.authorization){
+            console.log("lala");
             res.send({'success': true,'user': user});
         }
         else{
