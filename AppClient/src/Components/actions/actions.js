@@ -2,7 +2,7 @@ import {ID_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS,LOGIN_USER,CONECTTION_FAILED} fr
 import  {PASSWORD_CHANGED} from "./types";
 import {Actions} from "react-native-router-flux";
 import axios from 'axios'
-
+import deviceStorage from '../../Services/deviceStorage'
 export const idChanged = (text) =>{
   return {
       type: ID_CHANGED,
@@ -19,7 +19,7 @@ export const loginuser = (id,password) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
-        axios.post("http://192.168.1.40:3000/login",{
+        axios.post("http://192.168.1.40:3000/Auth/login",{
                 id: id,
                 password: password,
                 authorization: '1'

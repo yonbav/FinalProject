@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
 import Button from "../HomePage/HomePage";
+import axios from "axios";
 
 class Profile extends Component {
     componentDidMount() {
@@ -21,6 +22,34 @@ class Profile extends Component {
             return <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
         }
         return <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar3.png'}}/>
+
+    }
+    changePassword()
+    {
+        axios.post("http://192.168.1.40:3000/Auth/CheckToken",{
+            id: this.props.user.id,
+            token: this.props.user.token,
+        })
+            .then((res)=> {
+                res = res.data;
+                if (res.success === true) {
+                    Actions.ChangePassword();
+                }
+            })
+
+    }
+    logout()
+    {
+        axios.post("http://192.168.1.40:3000/Auth/logout",{
+            id: this.props.user.id,
+            token: this.props.user.token,
+        })
+            .then((res)=> {
+                res = res.data;
+                if (res.success === true) {
+                    Actions.auth();
+                }
+            })
 
     }
     render() {
@@ -38,11 +67,11 @@ class Profile extends Component {
 
                         </Text>
 
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => Actions.ChangePassword()}
+                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.changePassword()}
                         >
                             <Text>שינוי סיסמה</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => Actions.auth()}>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.logout()}>
                             <Text>התנתקות</Text>
                         </TouchableOpacity>
                     </View>

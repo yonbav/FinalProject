@@ -1,10 +1,12 @@
 import React ,{Component} from 'react';
 import {Text} from 'react-native';
 import axios from 'axios';
+import {connect} from "react-redux";
+import {loginuser} from "../../actions/actions";
 
 
 
-export default class GetDailyBirthdays extends Component{
+class GetDailyBirthdays extends Component{
     constructor() {
         super();
         this.state = {
@@ -19,29 +21,37 @@ export default class GetDailyBirthdays extends Component{
 
     }
     GetData() {
-        axios.get('http://192.168.1.40:3000/getBD')
-            .then(result => {
-                if(result.data.length === 0)
-                this.setState({
-                    Firstname: "אין ימי הולדת היום."
-                });
-            else {
-                    this.setState({
-                        Firstname: result.data[0].firstname,
-                        Lastname: result.data[0].lastname,
-                        Branch: "("+result.data[0].branch+")"
-                    });
-                setInterval(() => {
-                    var y = this.state.index % (result.data.length);
-                    this.setState({
-                        Firstname: result.data[y].firstname,
-                        Lastname: result.data[y].lastname,
-                        Branch: "("+result.data[y].branch+")"
-                    });
+        axios.post("http://192.168.1.40:3000/Auth/CheckToken",{
+            id: this.props.user.id,
+            token: this.props.user.token,
+        }).then((res)=> {
+            if(res.data.success === true) {
+                axios.get('http://192.168.1.40:3000/getBD')
+                    .then(result => {
+                        if (result.data.length === 0)
+                            this.setState({
+                                Firstname: "אין ימי הולדת היום."
+                            });
+                        else {
+                            this.setState({
+                                Firstname: result.data[0].firstname,
+                                Lastname: result.data[0].lastname,
+                                Branch: "(" + result.data[0].branch + ")"
+                            });
+                            setInterval(() => {
+                                var y = this.state.index % (result.data.length);
+                                this.setState({
+                                    Firstname: result.data[y].firstname,
+                                    Lastname: result.data[y].lastname,
+                                    Branch: "(" + result.data[y].branch + ")"
+                                });
 
-                    this.state.index++;
-                }, 1500)
-            }})
+                                this.state.index++;
+                            }, 1500)
+                        }
+                    })
+            }
+        })
 
     }
     componentDidMount() {
@@ -60,6 +70,11 @@ export default class GetDailyBirthdays extends Component{
         );
     }
 };
+const mapStateToProps =  state =>{
+    return {
+        user: state.auth.user
+    };
+};
 const styles = {
     labelStyle: {
         fontSize: 18,
@@ -69,4 +84,6 @@ const styles = {
 
     }
 };
+export default connect(mapStateToProps,{loginuser})(GetDailyBirthdays);
+
 
