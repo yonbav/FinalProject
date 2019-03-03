@@ -21,7 +21,6 @@ router.post('/adduser',jsonParser,(req,res,next) => {
             password:hash ,
             birthday:req.body.birthday,
             authorization:req.body.authorization,
-            email:req.body.email,
             gender:req.body.gender,
             phone_number:req.body.phone_number,
             branch:req.body.branch,
@@ -91,16 +90,18 @@ router.patch('/edituser/:userid',(req,res,next) => {
 
 router.patch('/changepassword/:userid', (req,res,next)=> {
     const id = req.params.userid;
-    User.updateOne({_id:id},{password : req.body.password})
-        .exec().then(result=>{
-        res.status(200).json({
-            message:'Password updated'
-        });
+    bcrypt.hash(req.body.password, 10).then(hash => {
+        User.updateOne({_id: id}, {password: hash})
+            .exec().then(result => {
+            res.status(200).json({
+                message: 'Password updated'
+            });
+        })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({error: err});
+            });
     })
-        .catch(err=> {
-            console.log(err);
-            res.status(500).json({error:err});
-        });
 });
 
 router.delete('/:userid',(req,res,next) => {

@@ -3,6 +3,7 @@ import {Text} from 'react-native';
 import axios from 'axios';
 import {connect} from "react-redux";
 import {loginuser} from "../../actions/actions";
+import Actions from "../../../reducers/reducers";
 
 
 
@@ -21,12 +22,12 @@ class GetDailyBirthdays extends Component{
 
     }
     GetData() {
-        axios.post("http://192.168.1.40:3000/Auth/CheckToken",{
+        axios.post("http://192.168.1.32:3000/Auth/CheckToken",{
             id: this.props.user.id,
             token: this.props.user.token,
         }).then((res)=> {
             if(res.data.success === true) {
-                axios.get('http://192.168.1.40:3000/getBD')
+                axios.get('http://192.168.1.32:3000/getBD')
                     .then(result => {
                         if (result.data.length === 0)
                             this.setState({
@@ -51,6 +52,7 @@ class GetDailyBirthdays extends Component{
                         }
                     })
             }
+            else{Actions.auth()}
         })
 
     }

@@ -6,26 +6,23 @@ import {connect} from "react-redux";
 import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
 import GetDailyBirthdays from "./GetDailyBirthdays";
-import ViewShot from "react-native-view-shot";
+import Messeges from "./Messeges";
 
 
 class HomePage extends Component{
+    constructor() {
+        super();
+        this.state = {
+            num: 0
+        };
+    }
+    getResponse(result){
+        this.setState({
+            num: result
+        });
+    }
     componentDidMount() {
         Keyboard.dismiss();
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackAction);
-
-    }
-
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackAction);
-    }
-
-    handleBackAction = () => {
-            if (Actions.Home()) {
-                this.Actions.pop();
-                return false;
-            }
-            return true;
     }
 render() {
     return (
@@ -52,7 +49,7 @@ render() {
                            onPress={() => Actions.Importantinfo()}
                            containerStyle ={styles.buttonStyleBack}
                            style={styles.buttonStyleText}>
-                           מידע חשוב
+                           מבצעים
                        </Button>
 
               </View>
@@ -64,10 +61,10 @@ render() {
                       עדכוני מש"א
                   </Button>
                   <Button
-                      onPress={() => Actions.Perk()}
+                      onPress={() => Actions.Importantinfo()}
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
-                      עולם ההטבות
+                      מידע חשוב
                   </Button>
 
               </View>
@@ -92,8 +89,10 @@ render() {
                   </Text>
               </View>
               <View style={styles.containerStyle2}>
+                  <Messeges num={2} callback={this.getResponse.bind(this)}/>
+
                   <Text style={styles.labelStyle}>
-                      כאן יופיעו הודעות חשובות
+                        יש לך {this.state.num} הודעות חשובות שלא נקראו לחץ לצפייה
                   </Text>
               </View>
               <View style={styles.containerStyle}>
@@ -151,7 +150,7 @@ const styles = {
 
     },
     labelStyle: {
-        fontSize: 18,
+        fontSize: 15,
         paddingLeft: 20,
         flex: 1,
         color: '#000',

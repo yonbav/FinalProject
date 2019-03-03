@@ -39,7 +39,7 @@ class ChangePassword extends Component{
     }
     onPressButton(){
         if (this.state.password1 === this.state.password2){
-            axios.patch('http://192.168.1.40:3000/user/changepassword/' + this.props.user._id, {
+            axios.patch('http://192.168.1.32:3000/user/changepassword/' + this.props.user._id, {
                 password: this.state.password1,
             }).then(()=> Actions.Profile())
             this.setState({

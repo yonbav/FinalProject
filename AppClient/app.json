@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ClientApp",
-    "slug": "ClientApp",
+    "name": "Kravitz",
+    "slug": "Kravitz",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -10,7 +10,8 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Kra.png",
+    "description": "employee-management-system",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

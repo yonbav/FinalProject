@@ -19,7 +19,7 @@ export const loginuser = (id,password) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
-        axios.post("http://192.168.1.40:3000/Auth/login",{
+        axios.post("http://192.168.1.32:3000/Auth/login",{
                 id: id,
                 password: password,
                 authorization: '1'
@@ -29,7 +29,7 @@ export const loginuser = (id,password) => {
         if(res.success === true)
                 {
                     dispatch({type:LOGIN_SUCCESS,payload: res.user});
-                    Actions.main();
+                    Actions.main({type: 'reset'});
                 }
                 else
                 {

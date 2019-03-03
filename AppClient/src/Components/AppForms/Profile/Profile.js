@@ -11,6 +11,7 @@ import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
 import Button from "../HomePage/HomePage";
 import axios from "axios";
+import Footer from "../../common/Footer";
 
 class Profile extends Component {
     componentDidMount() {
@@ -26,21 +27,23 @@ class Profile extends Component {
     }
     changePassword()
     {
-        axios.post("http://192.168.1.40:3000/Auth/CheckToken",{
+        axios.post("http://192.168.1.32:3000/Auth/CheckToken",{
             id: this.props.user.id,
             token: this.props.user.token,
         })
             .then((res)=> {
                 res = res.data;
+                console.log(res.success);
                 if (res.success === true) {
                     Actions.ChangePassword();
                 }
+                else{Actions.auth();}
             })
 
     }
     logout()
     {
-        axios.post("http://192.168.1.40:3000/Auth/logout",{
+        axios.post("http://192.168.1.32:3000/Auth/logout",{
             id: this.props.user.id,
             token: this.props.user.token,
         })
@@ -52,16 +55,27 @@ class Profile extends Component {
             })
 
     }
+    EmploeeType(){
+        if(this.props.user.authorization === '1' || this.props.user.authorization === '2')
+            return <Text style={styles.description}>עובד</Text>;
+        else if(this.props.user.authorization === '3' || this.props.user.authorization === '4')
+            return <Text style={styles.description}>מנהל</Text>;
+        else
+            return <Text style={styles.description}>ראש מטה</Text>
+
+    }
     render() {
         return (
-            <View style={styles.container}>
+            <View style={{flex:1}}>
+            <View style={{flex:15}}>
                 <View style={styles.header}></View>
                 {this.renderImage()}
                 <View style={styles.body}>
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>{this.props.user.firstname} {this.props.user.lastname}</Text>
                         <Text style={styles.info}>{this.props.user.birthday}</Text>
-                        <Text style={styles.description}>{this.props.user.email}{"\n"}
+                        {this.EmploeeType()}
+                        <Text style={styles.description}>
                             {this.props.user.phone_number}{"\n"}
                             {this.props.user.branch}
 
@@ -76,7 +90,12 @@ class Profile extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+
             </View>
+                <Footer des = "במקרה שפרטיך שונו אנא לפנות למייל kravitz@gmail.com "/>
+            </View>
+
+
         );
     }
 }
@@ -138,6 +157,7 @@ const styles = StyleSheet.create({
         borderRadius:30,
         backgroundColor: "#ffc68e",
     },
+
 });
 export default connect(mapStateToProps,{loginuser})(Profile);
 
