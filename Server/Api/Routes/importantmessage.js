@@ -3,17 +3,7 @@ const mongoose = require('mongoose');
 var app = express();
 const router = express.Router();
 const IMessage = require('../../models/importantmessages');
-const User = require('../../models/user');
 
-
-
-var dateNow = new Date();
-var dd = dateNow.getDate();
-var monthSingleDigit = dateNow.getMonth() + 1,
-    mm = monthSingleDigit < 10 ? '0' + monthSingleDigit : monthSingleDigit;
-var yy = dateNow.getFullYear().toString().substr(2);
-
-var formattedDate = dd + '/' + mm + '/' + yy;
 
 
 
@@ -23,9 +13,8 @@ router.post('/addmessage',(req,res,next) => {
         title:req.body.title,
         contect:req.body.contect,
         readby:[],
-        createdtime:formattedDate
+        createdtime:new Date()
     });
-
     message.save().then(result =>{
         res.status(201).json({
             message:'Created Imessage successfully',

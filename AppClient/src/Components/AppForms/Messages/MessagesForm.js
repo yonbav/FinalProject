@@ -16,6 +16,13 @@ class MessagesForm extends Component {
         this.renderButtons = this.renderButtons.bind(this);
 
     }
+    DateView=(dateNow)=>{
+        var formattedDate = dateNow.slice(0,10);
+        return(<View style = {[styles.MessageStyleBack,{justifyContent: 'flex-start'}]}>
+            <Text style={[styles.MessageStyleText,{alignSelf: 'flex-end'},{marginTop: 10}]}>
+                {formattedDate}</Text>
+        </View>);
+    };
     GetData() {
         axios.get('http://192.168.1.32:3000/Message/')
             .then(result => {
@@ -41,10 +48,7 @@ class MessagesForm extends Component {
                         <Text style={[styles.MessageStyleText,{alignSelf: 'flex-start'}]}>
                         {item.contect}</Text>
                     </View>
-                    <View style = {[styles.MessageStyleBack,{justifyContent: 'flex-start'}]}>
-                        <Text style={[styles.MessageStyleText,{alignSelf: 'flex-end'},{marginTop: 10}]}>
-                            {item.createdtime}</Text>
-                    </View>
+                    {this.DateView(item.createdtime)}
                     <View
                         style={{
                             borderBottomColor: 'black',
