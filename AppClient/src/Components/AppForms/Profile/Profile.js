@@ -16,6 +16,7 @@ import Footer from "../../common/Footer";
 class Profile extends Component {
     componentDidMount() {
         Keyboard.dismiss();
+        Actions.refresh();
     }
     renderImage(){
         if (this.props.user.gender == "male")
@@ -33,7 +34,6 @@ class Profile extends Component {
         })
             .then((res)=> {
                 res = res.data;
-                console.log(res.success);
                 if (res.success === true) {
                     Actions.ChangePassword();
                 }

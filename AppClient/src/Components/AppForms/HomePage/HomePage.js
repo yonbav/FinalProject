@@ -6,7 +6,8 @@ import {connect} from "react-redux";
 import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
 import GetDailyBirthdays from "./GetDailyBirthdays";
-import Messeges from "./Messeges";
+import Messeges from "../Messages/Messeges";
+import axios from "axios";
 
 
 class HomePage extends Component{
@@ -15,6 +16,7 @@ class HomePage extends Component{
         this.state = {
             num: 0
         };
+        this.getResponse = this.getResponse.bind(this)
     }
     getResponse(result){
         this.setState({
@@ -24,9 +26,22 @@ class HomePage extends Component{
     componentDidMount() {
         Keyboard.dismiss();
     }
+    mixFunction=()=>{
+        this.update();
+        this.getResponse(0);
+
+    }
+    update(){
+        axios.post("http://192.168.1.32:3000/Message/pushread",{
+            id: this.props.user.id
+        }).then(()=> {
+            Actions.Messages();
+        })
+    }
 render() {
     return (
-          <View style={styles.BackStyle}>
+
+    <View style={styles.BackStyle}>
               <View style={styles.userMenu}>
                   <TouchableOpacity  onPress={() => Actions.Profile()}>
                       <Image source = {require('../../../Resources/usermenu.png')} />
@@ -89,10 +104,13 @@ render() {
                   </Text>
               </View>
               <View style={styles.containerStyle2}>
-                  <Messeges num={2} callback={this.getResponse.bind(this)}/>
+                  <Messeges  id ={this.props.user.id} callback={this.getResponse.bind(this)}/>
+                  <TouchableOpacity  onPress={()=>this.mixFunction()}>
+                      <Text style={[{color: "#050cff"},{fontSize:15}]}> לחץ לצפייה </Text>
+                  </TouchableOpacity>
 
                   <Text style={styles.labelStyle}>
-                        יש לך {this.state.num} הודעות חשובות שלא נקראו לחץ לצפייה
+                        יש לך {this.state.num} הודעות חשובות שלא נקראו
                   </Text>
               </View>
               <View style={styles.containerStyle}>

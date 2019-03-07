@@ -25,13 +25,13 @@ const userfunc = require("./Api/Routes/userfunctions");
 const authfunc = require("./Api/Routes/Auth");
 const birthdaydailyfunc = require("./Api/Routes/getdailybirthday");
 const birthdayfunc = require("./Api/Routes/getbirthdays");
-
+const importantmessagefunc = require("./Api/Routes/importantmessage");
 
 app.use("/user", userfunc);
 app.use("/Auth",authfunc);
 app.use("/getBD",birthdaydailyfunc);
 app.use("/getBirthdays",birthdayfunc);
-
+app.use("/Message",importantmessagefunc);
 
 var ip = require("ip");
 console.dir ( ip.address() );

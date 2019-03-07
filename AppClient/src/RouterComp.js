@@ -11,6 +11,7 @@ import importantinfo from "./Components/AppForms/important-info/importantinfo";
 import HumanResources from "./Components/AppForms/Human_Resources/HumanResources";
 import Birthdays from "./Components/AppForms/Human_Resources/Birthdays";
 import {Actions} from "react-native-router-flux";
+import MessagesForm from "./Components/AppForms/Messages/MessagesForm";
 
 const onExitApp = () => {
     Alert.alert(
@@ -57,6 +58,11 @@ const RouterComp =() =>{
 
                         <Scene key="Birthdays"
                                component={Birthdays}
+                               hideNavBar={false}
+                               navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}
+                        />
+                        <Scene key="Messages"
+                               component={MessagesForm}
                                hideNavBar={false}
                                navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}
                         />

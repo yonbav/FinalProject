@@ -47,9 +47,6 @@ router.post('/logout',jsonParser,(req,res,next) => {
                 else{return res.send({'success': true});}
             })
 });
-router.get('/get1',jsonParser,(req,res,next) => {
-       return res.send({'success': 4});
-});
 
 checkPassword = (user, password, res,authorization) => {
     fetchedUser = user;

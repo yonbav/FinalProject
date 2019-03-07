@@ -10,8 +10,10 @@ class Messeges extends Component{
         this.GetData();
     }
     GetData() {
-        axios.get("http://192.168.1.32:3000/Auth/get1").then((res)=> {
-            this.handleClick(res.data.success);
+        axios.post("http://192.168.1.32:3000/Message/unread",{
+            id: this.props.id
+        }).then((res)=> {
+            this.handleClick(res.data.docs);
         })
         }
     handleClick(num){
