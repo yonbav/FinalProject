@@ -2,7 +2,7 @@ import React ,{Component} from 'react';
 import Card from "../../common/Card"
 import CardSection from "../../common/CardSection"
 import Input from "../../common/Input"
-import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert} from 'react-native';
+import {Text, View, TouchableOpacity, Image, ActivityIndicator, Alert, Keyboard} from 'react-native';
 import Applogo from "../../common/Applogo";
 import {connect} from "react-redux";
 import {loginuser} from "../../actions/actions";
@@ -38,10 +38,12 @@ class ChangePassword extends Component{
         })
     }
     onPressButton(){
+        Keyboard.dismiss();
         if (this.state.password1 === this.state.password2){
             axios.patch('http://192.168.1.32:3000/user/changepassword/' + this.props.user._id, {
                 password: this.state.password1,
-            }).then(()=> Actions.Profile())
+            }).then(()=>  {Actions.pop();
+            Actions.Profile();})
             this.setState({
                 equal: ""
             })

@@ -27,17 +27,11 @@ class HomePage extends Component{
         Keyboard.dismiss();
     }
     mixFunction=()=>{
-        this.update();
+        Actions.Messages({id: this.props.user.id,messages: this.state.num});
         this.getResponse(0);
 
     }
-    update(){
-        axios.post("http://192.168.1.32:3000/Message/pushread",{
-            id: this.props.user.id
-        }).then(()=> {
-            Actions.Messages();
-        })
-    }
+
 render() {
     return (
 
