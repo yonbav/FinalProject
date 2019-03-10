@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
 import axios from 'axios';
+import Header from "../../common/Header";
 
 
 
@@ -60,12 +61,9 @@ class ChangePassword extends Component{
     render() {
         return (
             <View style={styles.BackStyle}>
-                <View style={{paddingTop:50}}>
-                    <Applogo/>
+                <View style={{marginTop: 100}}>
+                    <Header name="שינוי סיסמה:"/>
                 </View>
-                <Text style={styles.textStyle}>
-                    שינוי סיסמא:
-                </Text>
                 <View style={styles.LoginStyle}>
                     <Card>
 
@@ -111,7 +109,7 @@ const mapStateToProps =  state =>{
 };
 const styles = {
     LoginStyle: {
-        paddingTop: 20,
+        paddingTop: 100,
     },
     textStyle: {
         fontSize: 30,
@@ -121,7 +119,7 @@ const styles = {
     },
     BackStyle: {
         backgroundColor: "#ffc68e",
-        paddingBottom: 450
+        paddingBottom: 560
     },
     buttonStyleBack:{
         flex:1,

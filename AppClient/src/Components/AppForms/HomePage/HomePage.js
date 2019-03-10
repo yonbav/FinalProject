@@ -1,13 +1,10 @@
 import React,{Component} from 'react'
-import {Text,View,Image,Keyboard,BackHandler, TouchableOpacity} from "react-native";
+import {Text,View,Image,Keyboard, TouchableOpacity} from "react-native";
 import Applogo from "../../common/Applogo";
 import Button from 'react-native-button';
-import {connect} from "react-redux";
-import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
 import GetDailyBirthdays from "./GetDailyBirthdays";
 import Messeges from "../Messages/Messeges";
-import axios from "axios";
 
 
 class HomePage extends Component{
@@ -34,7 +31,6 @@ class HomePage extends Component{
 
 render() {
     return (
-
     <View style={styles.BackStyle}>
               <View style={styles.userMenu}>
                   <TouchableOpacity  onPress={() => Actions.Profile()}>
@@ -42,11 +38,9 @@ render() {
                   </TouchableOpacity >
               </View>
               <Applogo/>
-
               <Text style={styles.labelStyle2}>
                    ברוך הבא {this.props.user.firstname},
               </Text>
-
               <View style = {styles.containerStyle}>
                   <Button
                       onPress={() => Actions.DailyBrif()}
@@ -55,7 +49,6 @@ render() {
                       תדריך יומי
                   </Button>
                        <Button
-                           onPress={() => Actions.Importantinfo()}
                            containerStyle ={styles.buttonStyleBack}
                            style={styles.buttonStyleText}>
                            מבצעים
@@ -79,41 +72,28 @@ render() {
               </View>
               <View style = {styles.containerStyle}>
                   <Button
+                      onPress={() => Actions.EmployeeTraining()}
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
                       הדרכת עובדים
                   </Button>
                   <Button
+                      onPress={() => {Actions.ManagerTraining()}}
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
                       הדרכת מנהלים
                   </Button>
-
-
-
-              </View>
-              <View style={styles.containerStyle}>
-                  <Text style={[styles.labelStyle,{fontWeight: 'bold'}]}>
-                      הודעות חשובות:
-                  </Text>
               </View>
               <View style={styles.containerStyle2}>
                   <Messeges  id ={this.props.user.id} callback={this.getResponse.bind(this)}/>
-                  <TouchableOpacity  onPress={()=>this.mixFunction()}>
-                      <Text style={[{color: "#050cff"},{fontSize:15}]}> לחץ לצפייה </Text>
+                  <TouchableOpacity style={[styles.buttonStyleBack1,{width:400}]} onPress={()=>this.mixFunction()}>
+                      <Text style={styles.buttonStyleText1}>{this.state.num} הודעות חשובות </Text>
                   </TouchableOpacity>
-
-                  <Text style={styles.labelStyle}>
-                        יש לך {this.state.num} הודעות חשובות שלא נקראו
-                  </Text>
               </View>
-              <View style={styles.containerStyle}>
-                  <Text style={[styles.labelStyle,{fontWeight: 'bold'}]}>
-                      ימי הולדת:
-                  </Text>
-              </View>
-              <View style={styles.containerStyle2}>
+              <View style={[styles.buttonStyleBack1,{width:400}]}>
+                  <TouchableOpacity style={[styles.buttonStyleBack1,{width:400}]}>
                       <GetDailyBirthdays/>
+                  </TouchableOpacity>
               </View>
 
 
@@ -123,12 +103,7 @@ render() {
     );
 };
 }
-const mapStateToProps =  state =>{
-    return {
-        user: state.auth.user
 
-    };
-};
 const styles = {
     BackStyle: {
         backgroundColor: "#ffc68e",
@@ -190,17 +165,26 @@ const styles = {
 
 
     },
-    containerStyle2:{
-        borderBottomWidth: 1,
-        padding: 5,
-        backgroundColor: '#ffc68e',
-        justifyContent: 'flex-start',
+    buttonStyleBack1:{
+        margin:5,
+        height:45,
         flexDirection: 'row',
-        borderColor: '#ffc68e',
-        position: 'relative',
-        marginLeft: 10,
-        marginRight: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width:250,
+        borderWidth: 1,
+        borderRadius:30,
+        backgroundColor: "#373c84",
+        borderColor:'#FF7802',
 
-    }
+    },
+    buttonStyleText1:{
+        alignSelf: 'center',
+        color:'#fff',
+        fontSize: 16,
+        fontWeight: '600',
+        paddingTop: 10,
+        paddingBottom: 10
+    },
 };
-export default connect(mapStateToProps,{loginuser})(HomePage);
+export default HomePage;

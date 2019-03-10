@@ -36,6 +36,13 @@ class UnreadMessages extends Component {
         this.GetData();
     }
     renderButtons() {
+        if(this.state.data.length === 0){
+            return (<View style = {[styles.MessageStyleBack,{justifyContent: 'center'}]}>
+                <Text style={[styles.MessageStyleText,{alignSelf: 'center'},{fontWeight: 'bold'}]}>
+                    אין הודעות
+                </Text>
+            </View>)
+        }
         return this.state.data.map((item) => {
             return (
                 <View key={item._id} style={styles.containerStyle}>

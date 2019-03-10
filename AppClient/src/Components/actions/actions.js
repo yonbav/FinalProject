@@ -29,7 +29,7 @@ export const loginuser = (id,password) => {
         if(res.success === true)
                 {
                     dispatch({type:LOGIN_SUCCESS,payload: res.user});
-                    Actions.main({type: 'reset'});
+                    Actions.main({type: 'reset',user:res.user});
                 }
                 else
                 {

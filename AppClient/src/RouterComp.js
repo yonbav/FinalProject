@@ -12,6 +12,8 @@ import HumanResources from "./Components/AppForms/Human_Resources/HumanResources
 import Birthdays from "./Components/AppForms/Human_Resources/Birthdays";
 import {Actions} from "react-native-router-flux";
 import MessagesForm from "./Components/AppForms/Messages/MessagesForm";
+import EmployeeTraining from "./Components/AppForms/EmployeeTraining/EmployeeTraining";
+import ManagerTraining from "./Components/AppForms/ManagerTraining/ManagerTraining";
 
 const onExitApp = () => {
     Alert.alert(
@@ -29,7 +31,7 @@ const RouterComp =() =>{
 
     return (
 
-            <Router onExitApp={onExitApp}>
+            <Router onExitApp={onExitApp} duration={200}>
                 <Scene key ="root" hideNavBar>
                     <Scene key ="auth" hideNavBar type= "reset">
                     <Scene key="Login" component={LoginForm} title="LoginForm" />
@@ -63,6 +65,17 @@ const RouterComp =() =>{
                         />
                         <Scene key="Messages"
                                component={MessagesForm}
+                               hideNavBar={false}
+                               navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}
+                        />
+
+                        <Scene key="EmployeeTraining"
+                               component={EmployeeTraining}
+                               hideNavBar={false}
+                               navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}
+                        />
+                        <Scene key="ManagerTraining"
+                               component={ManagerTraining}
                                hideNavBar={false}
                                navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}
                         />

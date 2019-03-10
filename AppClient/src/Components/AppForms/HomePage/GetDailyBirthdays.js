@@ -79,10 +79,12 @@ const mapStateToProps =  state =>{
 };
 const styles = {
     labelStyle: {
-        fontSize: 18,
-        paddingLeft: 20,
-        flex: 1,
-        color: '#000',
+        alignSelf: 'center',
+        color:'#fff',
+        fontSize: 16,
+        fontWeight: '600',
+        paddingTop: 10,
+        paddingBottom: 10
 
     }
 };

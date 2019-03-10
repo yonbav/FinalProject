@@ -19,7 +19,6 @@ export default class example extends Component {
 
     }
     render() {
-        console.log(this.props.messages);
         return (
             <View style={[styles.container, {paddingTop: 20}]}>
                 <ScrollableTabView
