@@ -6,6 +6,7 @@ const importantmessageSchema = mongoose.Schema({
     title:{type:String},
     contect:{type:String},
     readby:[String],
-    createdtime:{type:String}
+    createdtime:{type:String},
+    image: {type:String}
 });
 module.exports = mongoose.model('ImportantMessage',importantmessageSchema);

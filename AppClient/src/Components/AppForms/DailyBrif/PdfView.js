@@ -15,7 +15,7 @@ export default class PdfView extends React.Component {
             <View style={styles.container}>
                 <View style={styles.Pdf}>
                 <PDFReader
-                    source={{ uri: "http://gahp.net/wp-content/uploads/2017/09/sample.pdf" }}
+                    source={{ uri: "http://192.168.1.32:3000/uploads/1.pdf" }}
                 />
                 </View>
                 <View style={styles.Cheack}>

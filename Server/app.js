@@ -1,6 +1,7 @@
 const bodyParser = require("body-parser");
 var express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const app = express();
 
 app.use(bodyParser.json());
@@ -27,6 +28,7 @@ const birthdaydailyfunc = require("./Api/Routes/getdailybirthday");
 const birthdayfunc = require("./Api/Routes/getbirthdays");
 const importantmessagefunc = require("./Api/Routes/importantmessage");
 
+app.use('/uploads', express.static(path.join('uploads')));
 app.use("/user", userfunc);
 app.use("/Auth",authfunc);
 app.use("/getBD",birthdaydailyfunc);
