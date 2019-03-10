@@ -2,31 +2,56 @@ import React,{Component} from 'react'
 import {Keyboard, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from "react-native-router-flux";
 import Header from "../../common/Header";
+import axios from "axios";
 
 class DailyBrif extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            data: [],
+
+        };
+        this.GetData = this.GetData.bind(this);
+        this.renderButtons = this.renderButtons.bind(this);
+
+    }
+
+    GetData() {
+        axios.get('http://192.168.1.32:3000/daily/')
+            .then(result => {
+                this.setState({
+                    data: result.data
+                });
+            })
+
+    }
     componentDidMount() {
-        Keyboard.dismiss()
-    };
+        this.GetData();
+        Keyboard.dismiss();
+    }
 
     renderButtons() {
-        return initialArr.map((item) => {
-            if(item ===initialArr[0]) {
+        return this.state.data.map((item) => {
+            if(item ===this.state.data[0]) {
                 return (
-                    <View key={item.id} style={styles.containerStyle}>
+                    <View key={item._id} style={styles.containerStyle}>
 
-                        <TouchableOpacity key={item.id} style={[styles.buttonStyleBack,{width:350}]} onPress={() => Actions.pdf()}>
-                            <Text style={styles.buttonStyleText}> {item.text}</Text>
+                        <TouchableOpacity key={item._id} style={[styles.buttonStyleBack,{width:350}]} onPress={() =>
+                            Actions.pdf({url: "http://192.168.1.32:3000/"+item.image ,
+                            title: item.title , user: this.props.user})}>
+                            <Text style={styles.buttonStyleText}> {item.title}</Text>
                         </TouchableOpacity>
                     </View>
                 );
             }
             else{
                 return (
-                    <View key={item.id} style={styles.containerStyle}>
-
-                        <TouchableOpacity key={item.id} style={[styles.buttonStyleBack,{width:250}]} onPress={() => Actions.pdf()}>
-                            <Text style={styles.buttonStyleText}> {item.text}</Text>
+                    <View key={item._id} style={styles.containerStyle}>
+                        <TouchableOpacity key={item._id} style={[styles.buttonStyleBack,{width:250}]} onPress={() =>
+                            Actions.pdf({url: "http://192.168.1.32:3000/"+item.image ,
+                                title: item.title , user: this.props.user})}>
+                            <Text style={styles.buttonStyleText}> {item.title}</Text>
                         </TouchableOpacity>
                     </View>
                 );
@@ -48,31 +73,6 @@ class DailyBrif extends Component {
         );
     }
 }
-const initialArr =[{
-    id:1,
-    text: "7.9",
-},
-    {
-        id:2,
-        text: "6.9",
-    },
-    {
-        id:3,
-        text: "5.9",
-    },
-    {
-        id:4,
-        text: "4.9",    },
-    {
-        id:5,
-        text: "3.9",    },
-    {
-        id:6,
-        text: "2.9",    },
-    {
-        id:7,
-        text: "1.9",    },
-];
 const styles = {
     BackStyle: {
         paddingTop:100,

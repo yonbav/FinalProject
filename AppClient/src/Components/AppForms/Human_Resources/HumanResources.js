@@ -22,12 +22,7 @@ class HumanResources extends Component {
                         style={styles.buttonStyleText}>
                         ימי הולדת
                     </Button>
-                    <Button
-                        onPress={() => Actions.Birthdays()}
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        חבר מביא חבר
-                    </Button>
+
 
                 </View>
                 <View style = {styles.containerStyle}>
@@ -35,7 +30,7 @@ class HumanResources extends Component {
                         onPress={() => Actions.Birthdays()}
                         containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
-                        עדכוני עובדים ברשת
+                        חבר מביא חבר
                     </Button>
                     <Button
                         onPress={() => Actions.Birthdays()}
@@ -44,14 +39,6 @@ class HumanResources extends Component {
                         תקנון מניעת הטרדה מינית
                     </Button>
 
-                </View>
-                <View style = {styles.containerStyle}>
-                    <Button
-                        onPress={() => Actions.Birthdays()}
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        טפסי קליטת עובד חדש
-                    </Button>
                 </View>
             </View>
 

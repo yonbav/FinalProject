@@ -38,7 +38,7 @@ router.post('/adddailbrief',upload.single('DailyBriefImage'),(req,res,next) => {
 router.get('/', (req,res,next) => {
     DailyBriefing.find().exec().then(doc=>{
         if(doc) {
-            res.status(200).json(doc);
+            res.status(200).json(doc.reverse());
         }else{
             res.status(404).json({message : 'No valid found for DailyBriefing'});
         }
@@ -50,22 +50,16 @@ router.get('/', (req,res,next) => {
 });
 
 
-router.post('/unreadCount',(req,res,next) => {
-    DailyBriefing.find({readby: {$ne: req.body.id}}).countDocuments().then(docs=> {
-        res.send({docs});
-    }).catch(err=> {
-        res.status(401).json({error:err});
-    });
-});
+
 router.post('/unread',(req,res,next) => {
-    DailyBriefing.find({readby: {$ne: req.body.id}}).then(docs=> {
-        res.status(200).json(docs);
+    DailyBriefing.findOne({title:req.body.title , readby: {$ne: req.body.id}}).then(docs=> {
+        res.status(200).json({docs});
     }).catch(err=> {
         res.status(401).json({error:err});
     });
 });
 router.post('/pushread',(req,res,next) => {
-    DailyBriefing.updateOne({ readby: { $nin: [req.body.id] } }, { $push: { readby: req.body.id}  }).then(docs=> {
+    DailyBriefing.updateOne({ title:req.body.title , readby: { $nin: [req.body.id] } }, { $push: { readby: req.body.id}  }).then(docs=> {
         res.status(200).json({docs: docs.nModified});
     }).catch(err=> {
         res.status(401).json({error:err});

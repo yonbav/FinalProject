@@ -1,7 +1,8 @@
 import React from 'react';
-import { View,Text} from 'react-native';
+import {View, Text, Keyboard} from 'react-native';
 import PDFReader from 'rn-pdf-reader-js';
 import { CheckBox } from 'react-native-elements'
+import axios from "axios";
 
 export default class PdfView extends React.Component {
     constructor() {
@@ -9,13 +10,47 @@ export default class PdfView extends React.Component {
         this.state = {
             checked: false
         }
+        this.GetData = this.GetData.bind(this);
+        this.getResponse = this.getResponse.bind(this)
     }
+    getResponse(result){
+        this.setState({
+            checked: result
+        });
+    }
+    GetData() {
+        axios.post('http://192.168.1.32:3000/daily/unread',{
+            title: this.props.title,
+            id: this.props.user.id
+        })
+            .then(result => {
+                    if(result.data.docs === null) {
+                        this.getResponse(true)
+                    }
+            })
+
+    }
+    Checkandpush(){
+        axios.post('http://192.168.1.32:3000/daily/pushread',{
+            title: this.props.title,
+            id: this.props.user.id
+        })
+            .then(result => {
+                if(result.data.docs === 1) {
+                    this.getResponse(true)
+                }
+            })
+    }
+    componentDidMount() {
+        this.GetData();
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.Pdf}>
                 <PDFReader
-                    source={{ uri: "http://192.168.1.32:3000/uploads/1.pdf" }}
+                    source={{ uri: this.props.url }}
                 />
                 </View>
                 <View style={styles.Cheack}>
@@ -25,7 +60,7 @@ export default class PdfView extends React.Component {
                         checkedIcon='dot-circle-o'
                         uncheckedIcon='circle-o'
                         checked={this.state.checked}
-                        onPress={() => this.setState({checked: !this.state.checked})}
+                        onPress={() => this.Checkandpush()}
                     />
                 </View>
             </View>

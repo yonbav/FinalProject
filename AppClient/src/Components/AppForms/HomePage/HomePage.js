@@ -43,7 +43,7 @@ render() {
               </Text>
               <View style = {styles.containerStyle}>
                   <Button
-                      onPress={() => Actions.DailyBrif()}
+                      onPress={() => Actions.DailyBrif({user: this.props.user})}
                       containerStyle ={styles.buttonStyleBack}
                       style={styles.buttonStyleText}>
                       תדריך יומי

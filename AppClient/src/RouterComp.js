@@ -82,6 +82,7 @@ const RouterComp =() =>{
                         <Scene key="pdf"
                                component={PdfView}
                                hideNavBar={false}
+                               navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}
                         />
                         <Scene key="ChangePassword"
                                component={ChangePassword}
