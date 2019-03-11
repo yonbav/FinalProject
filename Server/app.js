@@ -32,6 +32,8 @@ const jobsfunc = require("./Api/Routes/jobs");
 const infofunc = require("./Api/Routes/importantinformation");
 
 app.use('/uploads', express.static(path.join('uploads')));
+app.use('/Information', express.static(path.join('Information')));
+
 app.use("/user", userfunc);
 app.use("/Auth",authfunc);
 app.use("/getBD",birthdaydailyfunc);

@@ -19,16 +19,17 @@ export default class PdfView extends React.Component {
         });
     }
     GetData() {
-        axios.post('http://192.168.43.209:3000/daily/unread',{
-            title: this.props.title,
-            id: this.props.user.id
-        })
-            .then(result => {
-                    if(result.data.docs === null) {
+        if(this.props.user) {
+            axios.post('http://192.168.43.209:3000/daily/unread', {
+                title: this.props.title,
+                id: this.props.user.id
+            })
+                .then(result => {
+                    if (result.data.docs === null) {
                         this.getResponse(true)
                     }
-            })
-
+                })
+        }
     }
     Checkandpush(){
         if(this.state.checked === false) {
@@ -41,6 +42,19 @@ export default class PdfView extends React.Component {
                         this.getResponse(true)
                     }
                 })
+        }
+    }
+    renderCheckBox()
+    {
+        if(this.props.user) {
+            return (<CheckBox
+                center
+                title='אשר קריאה'
+                checkedIcon='dot-circle-o'
+                uncheckedIcon='circle-o'
+                checked={this.state.checked}
+                onPress={() => this.Checkandpush()}
+            />)
         }
     }
     componentDidMount() {
@@ -56,14 +70,7 @@ export default class PdfView extends React.Component {
                 />
                 </View>
                 <View style={styles.Cheack}>
-                    <CheckBox
-                        center
-                        title='אשר קריאה'
-                        checkedIcon='dot-circle-o'
-                        uncheckedIcon='circle-o'
-                        checked={this.state.checked}
-                        onPress={() => this.Checkandpush()}
-                    />
+                    {this.renderCheckBox()}
                 </View>
             </View>
         );

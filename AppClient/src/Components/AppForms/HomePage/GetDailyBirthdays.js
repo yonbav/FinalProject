@@ -1,8 +1,6 @@
 import React ,{Component} from 'react';
 import {Text} from 'react-native';
 import axios from 'axios';
-import {connect} from "react-redux";
-import {loginuser} from "../../actions/actions";
 import Actions from "../../../reducers/reducers";
 
 
@@ -15,8 +13,8 @@ class GetDailyBirthdays extends Component{
             Firstname: "",
             Lastname: "",
             Branch: "",
-            index: 0
-
+            index: 0,
+            myInterval: null
         };
         this.GetData = this.GetData.bind(this)
 
@@ -39,7 +37,7 @@ class GetDailyBirthdays extends Component{
                                 Lastname: result.data[0].lastname,
                                 Branch: "(" + result.data[0].branch + ")"
                             });
-                            setInterval(() => {
+                            this.state.myInterval = setInterval(() => {
                                 var y = this.state.index % (result.data.length);
                                 this.setState({
                                     Firstname: result.data[y].firstname,
@@ -56,8 +54,11 @@ class GetDailyBirthdays extends Component{
         })
 
     }
-    componentDidMount() {
-        this.GetData();
+     componentDidMount() {
+         this.GetData();
+    }
+    componentWillUnmount() {
+        clearInterval(this.state.myInterval);
     }
 
     render() {
@@ -68,11 +69,7 @@ class GetDailyBirthdays extends Component{
         );
     }
 };
-const mapStateToProps =  state =>{
-    return {
-        user: state.auth.user
-    };
-};
+
 const styles = {
     labelStyle: {
         alignSelf: 'center',
@@ -84,6 +81,6 @@ const styles = {
 
     }
 };
-export default connect(mapStateToProps,{loginuser})(GetDailyBirthdays);
+export default GetDailyBirthdays;
 
 

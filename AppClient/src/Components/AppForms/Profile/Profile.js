@@ -46,7 +46,7 @@ class Profile extends Component {
             .then((res)=> {
                 res = res.data;
                 if (res.success === true) {
-                    Actions.auth();
+                    Actions.auth({type: 'reset'});
                 }
             })
 

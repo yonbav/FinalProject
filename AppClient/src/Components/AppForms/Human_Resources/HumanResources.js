@@ -3,14 +3,30 @@ import {Keyboard, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from "react-native-router-flux";
 import Header from "../../common/Header";
 import Button from 'react-native-button';
+import Harassment from "./Harassment";
 
 class HumanResources extends Component {
+    constructor() {
+        super();
+        this.state = {
+            num: 0,
+            harassmentData: []
+        };
+        this.getResponse = this.getResponse.bind(this)
 
+    }
+    getResponse(result){
+        this.setState({
+            harassmentData: result
+        });
+    }
 
 
     render() {
         return (
             <View style={styles.BackStyle}>
+                <Harassment  callback={this.getResponse.bind(this)}/>
+
                 <View>
                     <Header name="עדכוני משא"/>
                 </View>
@@ -27,13 +43,14 @@ class HumanResources extends Component {
                 </View>
                 <View style = {styles.containerStyle}>
                     <Button
-                        onPress={() => Actions.Birthdays()}
                         containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
                         חבר מביא חבר
                     </Button>
                     <Button
-                        onPress={() => Actions.Birthdays()}
+                        onPress={() =>
+                            Actions.pdf({url: "http://192.168.43.209:3000/"+this.state.harassmentData.image ,
+                                title: "מניעת הטרדה מינית"})}
                         containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
                         תקנון מניעת הטרדה מינית

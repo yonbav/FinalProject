@@ -5,25 +5,35 @@ import Button from 'react-native-button';
 import {Actions} from "react-native-router-flux";
 import GetDailyBirthdays from "./GetDailyBirthdays";
 import Messeges from "../Messages/Messeges";
+import Sales from "./Sales";
 
 
 class HomePage extends Component{
     constructor() {
         super();
         this.state = {
-            num: 0
+            num: 0,
+            SalesData: []
         };
         this.getResponse = this.getResponse.bind(this)
+        this.getResponse2 = this.getResponse2.bind(this)
+
     }
     getResponse(result){
         this.setState({
             num: result
         });
     }
+    getResponse2(result){
+        this.setState({
+            SalesData: result
+        });
+    }
     componentDidMount() {
         Keyboard.dismiss();
-
     }
+
+
     mixFunction=()=>{
         Actions.Messages({id: this.props.user.id,messages: this.state.num});
         this.getResponse(0);
@@ -32,7 +42,7 @@ class HomePage extends Component{
     renderManager(){
         if(this.props.user.authorization > 2)
         {
-            return (<Button
+            return(<Button
                 onPress={() => {Actions.ManagerTraining()}}
                 containerStyle ={styles.buttonStyleBack}
                 style={styles.buttonStyleText}>
@@ -41,9 +51,11 @@ class HomePage extends Component{
         }
     }
 
+
 render() {
     return (
     <View style={styles.BackStyle}>
+        <Sales  callback={this.getResponse2.bind(this)}/>
               <View style={styles.userMenu}>
                   <TouchableOpacity  onPress={() => Actions.Profile({user: this.props.user})}>
                       <Image source = {require('../../../Resources/usermenu.png')} />
@@ -62,6 +74,9 @@ render() {
                       תדריך יומי
                   </Button>
                        <Button
+                           onPress={() =>
+                               Actions.pdf({url: "http://192.168.43.209:3000/"+this.state.SalesData.image ,
+                                   title: "מבצעים"})}
                            containerStyle ={styles.buttonStyleBack}
                            style={styles.buttonStyleText}>
                            מבצעים
@@ -99,7 +114,7 @@ render() {
                   </TouchableOpacity>
               </View>
               <View style={[styles.buttonStyleBack1,{width:400}]}>
-                      <GetDailyBirthdays/>
+                      <GetDailyBirthdays user={this.props.user}/>
               </View>
 
 

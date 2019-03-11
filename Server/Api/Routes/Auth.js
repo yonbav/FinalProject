@@ -41,6 +41,7 @@ router.post('/CheckToken',jsonParser,(req,res,next) => {
 
         });
     });
+
 router.post('/logout',jsonParser,(req,res,next) => {
             User.findOneAndUpdate({id: req.body.id}, {token: null}, {new: true},function(err, doc) {
                 if(err){return res.send({'success': false});}

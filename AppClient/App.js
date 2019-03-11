@@ -6,6 +6,7 @@ import reducers from './src/reducers/reducers'
 import {YellowBox} from 'react-native';
 import  ReduxThunk from 'redux-thunk';
 import RouterComp from "./src/RouterComp";
+
 YellowBox.ignoreWarnings([
   'Remote debugger',
   console.disableYellowBox = true
