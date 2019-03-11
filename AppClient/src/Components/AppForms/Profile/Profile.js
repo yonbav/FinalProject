@@ -4,12 +4,9 @@ import {
     Text,
     View,
     Image,
-    TouchableOpacity, Keyboard, BackHandler
+    TouchableOpacity, Keyboard
 } from 'react-native';
-import {connect} from "react-redux";
-import {loginuser} from "../../actions/actions";
 import {Actions} from "react-native-router-flux";
-import Button from "../HomePage/HomePage";
 import axios from "axios";
 import Footer from "../../common/Footer";
 
@@ -27,7 +24,7 @@ class Profile extends Component {
     }
     changePassword()
     {
-        axios.post("http://192.168.1.32:3000/Auth/CheckToken",{
+        axios.post("http://192.168.43.209:3000/Auth/CheckToken",{
             id: this.props.user.id,
             token: this.props.user.token,
         })
@@ -42,7 +39,7 @@ class Profile extends Component {
     }
     logout()
     {
-        axios.post("http://192.168.1.32:3000/Auth/logout",{
+        axios.post("http://192.168.43.209:3000/Auth/logout",{
             id: this.props.user.id,
             token: this.props.user.token,
         })
@@ -73,8 +70,8 @@ class Profile extends Component {
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>{this.props.user.firstname} {this.props.user.lastname}</Text>
                         <Text style={styles.info}>{this.props.user.birthday}</Text>
-                        {this.EmploeeType()}
                         <Text style={styles.description}>
+                        {this.EmploeeType()}{"\n"}
                             {this.props.user.phone_number}{"\n"}
                             {this.props.user.branch}
 
@@ -91,18 +88,14 @@ class Profile extends Component {
                 </View>
 
             </View>
-                <Footer des = "במקרה שפרטיך שונו אנא לפנות למייל kravitz@gmail.com "/>
+                <Footer des = "במקרה שפרטיך שונו אנא לפנות למייל " mail="kravitz@gmail.com"/>
             </View>
 
 
         );
     }
 }
-const mapStateToProps =  state =>{
-    return {
-        user: state.auth.user
-    };
-};
+
 
 const styles = StyleSheet.create({
     header:{
@@ -158,5 +151,5 @@ const styles = StyleSheet.create({
     },
 
 });
-export default connect(mapStateToProps,{loginuser})(Profile);
+export default Profile;
 

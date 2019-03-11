@@ -19,7 +19,7 @@ export default class PdfView extends React.Component {
         });
     }
     GetData() {
-        axios.post('http://192.168.1.32:3000/daily/unread',{
+        axios.post('http://192.168.43.209:3000/daily/unread',{
             title: this.props.title,
             id: this.props.user.id
         })
@@ -31,15 +31,17 @@ export default class PdfView extends React.Component {
 
     }
     Checkandpush(){
-        axios.post('http://192.168.1.32:3000/daily/pushread',{
-            title: this.props.title,
-            id: this.props.user.id
-        })
-            .then(result => {
-                if(result.data.docs === 1) {
-                    this.getResponse(true)
-                }
+        if(this.state.checked === false) {
+            axios.post('http://192.168.43.209:3000/daily/pushread', {
+                title: this.props.title,
+                id: this.props.user.id
             })
+                .then(result => {
+                    if (result.data.docs === 1) {
+                        this.getResponse(true)
+                    }
+                })
+        }
     }
     componentDidMount() {
         this.GetData();

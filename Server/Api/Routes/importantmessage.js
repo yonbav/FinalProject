@@ -3,18 +3,6 @@ const mongoose = require('mongoose');
 var app = express();
 const router = express.Router();
 const IMessage = require('../../models/importantmessages');
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: function (req,file,cb) {
-        cb(null,'./uploads/');
-    },
-    filename: function (req,file,cb) {
-        cb(null,file.originalname);
-    }
-});
-const upload = multer({storage:storage});
-
-
 
 var dateNow = new Date();
 var dd = dateNow.getDate();
@@ -24,15 +12,13 @@ var yy = dateNow.getFullYear().toString().substr(2);
 var formattedDate = dd + '/' + mm + '/' +yy;
 
 
-router.post('/addmessage',upload.single('messageImage'),(req,res,next) => {
-    console.log(req.file.filename);
+router.post('/addmessage',(req,res,next) => {
     const message = new IMessage({
         _id: new mongoose.Types.ObjectId(),
         title:req.body.title,
         contect:req.body.contect,
         readby:[],
         createdtime:formattedDate,
-        image: "uploads/"+req.file.filename
     });
     message.save().then(result =>{
         res.status(201).json({

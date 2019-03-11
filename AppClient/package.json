@@ -16,6 +16,7 @@
     "react-native-button": "^2.3.0",
     "react-native-elements": "^1.1.0",
     "react-native-pdf": "^5.0.11",
+    "react-native-really-awesome-button": "^1.4.0",
     "react-native-router-flux": "3.43.0",
     "react-native-screenshot-detector": "^1.0.0",
     "react-native-scrollable-tab-view": "^0.10.0",

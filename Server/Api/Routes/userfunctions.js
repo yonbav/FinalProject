@@ -90,18 +90,30 @@ router.patch('/edituser/:userid',(req,res,next) => {
 
 router.patch('/changepassword/:userid', (req,res,next)=> {
     const id = req.params.userid;
-    bcrypt.hash(req.body.password, 10).then(hash => {
-        User.updateOne({_id: id}, {password: hash})
-            .exec().then(result => {
-            res.status(200).json({
-                message: 'Password updated'
+        User.findOne({_id: id})
+            .then((user) => {
+                console.log(user.password);
+                bcrypt.compare(req.body.Oldpassword, user.password).then(result => {
+                    if (result) {
+                        bcrypt.hash(req.body.Newpassword, 10).then(hash2 => {
+                            User.updateOne({_id: id}, {password: hash2})
+                                .exec().then(() => {
+                                res.status(200).json({
+                                    success: true
+                                });
+                            })
+                                .catch(err => {
+                                    console.log(err);
+                                    res.status(500).json({error: err});
+                                });
+                        })
+                    } else {
+                        res.status(200).json({
+                            success: false
+                        });
+                    }
+                })
             });
-        })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({error: err});
-            });
-    })
 });
 
 router.delete('/:userid',(req,res,next) => {

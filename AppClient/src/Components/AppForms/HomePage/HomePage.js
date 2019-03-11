@@ -22,22 +22,35 @@ class HomePage extends Component{
     }
     componentDidMount() {
         Keyboard.dismiss();
+
     }
     mixFunction=()=>{
         Actions.Messages({id: this.props.user.id,messages: this.state.num});
         this.getResponse(0);
 
     }
+    renderManager(){
+        if(this.props.user.authorization > 2)
+        {
+            return (<Button
+                onPress={() => {Actions.ManagerTraining()}}
+                containerStyle ={styles.buttonStyleBack}
+                style={styles.buttonStyleText}>
+                הדרכת מנהלים
+            </Button>)
+        }
+    }
 
 render() {
     return (
     <View style={styles.BackStyle}>
               <View style={styles.userMenu}>
-                  <TouchableOpacity  onPress={() => Actions.Profile()}>
+                  <TouchableOpacity  onPress={() => Actions.Profile({user: this.props.user})}>
                       <Image source = {require('../../../Resources/usermenu.png')} />
                   </TouchableOpacity >
               </View>
-              <Applogo/>
+
+        <Applogo/>
               <Text style={styles.labelStyle2}>
                    ברוך הבא {this.props.user.firstname},
               </Text>
@@ -77,12 +90,7 @@ render() {
                       style={styles.buttonStyleText}>
                       הדרכת עובדים
                   </Button>
-                  <Button
-                      onPress={() => {Actions.ManagerTraining()}}
-                      containerStyle ={styles.buttonStyleBack}
-                      style={styles.buttonStyleText}>
-                      הדרכת מנהלים
-                  </Button>
+                  {this.renderManager()}
               </View>
               <View style={styles.containerStyle2}>
                   <Messeges  id ={this.props.user.id} callback={this.getResponse.bind(this)}/>
@@ -91,9 +99,7 @@ render() {
                   </TouchableOpacity>
               </View>
               <View style={[styles.buttonStyleBack1,{width:400}]}>
-                  <TouchableOpacity style={[styles.buttonStyleBack1,{width:400}]}>
                       <GetDailyBirthdays/>
-                  </TouchableOpacity>
               </View>
 
 

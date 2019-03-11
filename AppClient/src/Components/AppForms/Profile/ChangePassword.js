@@ -17,16 +17,23 @@ class ChangePassword extends Component{
     constructor() {
         super();
         this.state ={
+            password: "",
             password1: "",
             password2: "",
             equal: ""
 
         }
+        this.handlechangetext = this.handlechangetext.bind(this);
         this.handlechangetext1 = this.handlechangetext1.bind(this);
         this.handlechangetext2 = this.handlechangetext2.bind(this);
         this.onPressButton = this.onPressButton.bind(this);
 
 
+    }
+    handlechangetext(newText) {
+        this.setState({
+            password: newText
+        })
     }
     handlechangetext1(newText) {
         this.setState({
@@ -41,13 +48,21 @@ class ChangePassword extends Component{
     onPressButton(){
         Keyboard.dismiss();
         if (this.state.password1 === this.state.password2){
-            axios.patch('http://192.168.1.32:3000/user/changepassword/' + this.props.user._id, {
-                password: this.state.password1,
-            }).then(()=>  {Actions.pop();
-            Actions.Profile();})
-            this.setState({
-                equal: ""
-            })
+            axios.patch('http://192.168.43.209:3000/user/changepassword/' + this.props.user._id, {
+                Oldpassword: this.state.password,
+                Newpassword: this.state.password1,
+            }).then((res)=>  {
+                if(res.data.success === true)
+                {
+                    Actions.pop();
+                    Actions.Profile();
+                    this.setState({
+                    equal: ""})}
+                else{
+                    this.setState({
+                        equal: "הסיסמאות אינן תואמות"})}
+               })
+
         }
         else{
             this.setState({
@@ -66,11 +81,19 @@ class ChangePassword extends Component{
                 </View>
                 <View style={styles.LoginStyle}>
                     <Card>
-
                         <CardSection>
                             <Input
                                 label=<Image source = {require('../../../Resources/lock.png')}/>
-                            placeholder="סיסמא"
+                            placeholder="סיסמא ישנה"
+                            value={this.state.password}
+                            onChangeText={this.handlechangetext}
+
+                            />
+                        </CardSection>
+                        <CardSection>
+                            <Input
+                                label=<Image source = {require('../../../Resources/lock.png')}/>
+                            placeholder="סיסמא חדשה"
                             value={this.state.password1}
                             onChangeText={this.handlechangetext1}
 
@@ -80,7 +103,7 @@ class ChangePassword extends Component{
                             <Input
                                 secureTextEntry
                                 label=<Image source = {require('../../../Resources/lock.png')}/>
-                            placeholder="חזור על הסיסמא בשנית"
+                            placeholder="חזור על הסיסמא החדשה בשנית"
                             value={this.state.password2}
                             onChangeText={this.handlechangetext2}
                             />
