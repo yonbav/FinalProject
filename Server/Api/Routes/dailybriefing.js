@@ -37,6 +37,19 @@ router.post('/adddailbrief',upload.single('DailyBriefImage'),(req,res,next) => {
 });
 
 
+router.get('/:id', (req,res,next) => {
+    DailyBriefing.findOne({title: req.params.id}).exec().then(doc=>{
+        if(doc) {
+            res.status(200).json(doc);
+        }else{
+            res.status(404).json({message : 'No valid found for Info'});
+        }
+    })
+        .catch(err=> {
+            console.log(err);
+            res.status(500).json({error:err});
+        });
+});
 
 router.get('/', (req,res,next) => {
     DailyBriefing.find().exec().then(doc=>{
