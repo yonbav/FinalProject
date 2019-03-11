@@ -28,6 +28,8 @@ const birthdaydailyfunc = require("./Api/Routes/getdailybirthday");
 const birthdayfunc = require("./Api/Routes/getbirthdays");
 const importantmessagefunc = require("./Api/Routes/importantmessage");
 const dailybriefingfunc = require("./Api/Routes/dailybriefing");
+const jobsfunc = require("./Api/Routes/jobs");
+const infofunc = require("./Api/Routes/importantinformation");
 
 app.use('/uploads', express.static(path.join('uploads')));
 app.use("/user", userfunc);
@@ -36,6 +38,8 @@ app.use("/getBD",birthdaydailyfunc);
 app.use("/getBirthdays",birthdayfunc);
 app.use("/Message",importantmessagefunc);
 app.use("/daily",dailybriefingfunc);
+app.use("/jobs",jobsfunc);
+app.use("/info",infofunc);
 
 
 var ip = require("ip");
