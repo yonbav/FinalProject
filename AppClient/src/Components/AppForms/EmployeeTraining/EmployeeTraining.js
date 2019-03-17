@@ -1,11 +1,36 @@
 import React,{Component} from 'react'
-import { Linking, View} from 'react-native';
+import {Linking, TouchableOpacity, View} from 'react-native';
 import Header from "../../common/Header";
 import Button from 'react-native-button';
+import RequestPdf from "../RequestPdf";
+import {Actions} from "react-native-router-flux";
 
 class EmployeeTraining extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            num: 0,
+            Data: []
+        };
+        this.getResponse = this.getResponse.bind(this)
 
+    }
+    findWithAttr(array, attr, value) {
+        for(var i = 0; i < array.length; i += 1) {
+            if(array[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    mixFunction=(text,id)=>{
+        Actions.pdf({url: "http://192.168.1.32:3000/"+this.state.Data[id].image,title: text});
+    }
+
+    getResponse(result){
+        this.state.Data.push(result);
+    }
 
     render() {
         return (
@@ -28,8 +53,10 @@ class EmployeeTraining extends Component {
                         style={styles.buttonStyleText}>
                         חוברת קליטה לעובד חדש
                     </Button>
+                    <RequestPdf title ="Trainingfornewemployees" callback={this.getResponse.bind(this)}/>
                     <Button
-                        containerStyle ={styles.buttonStyleBack}
+                        onPress={() => this.mixFunction("חוברת הדרכה",
+                            this.findWithAttr(this.state.Data,'title',"Trainingfornewemployees"))}                        containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
                         חוברת הדרכה על הקופה
                     </Button>
@@ -41,14 +68,16 @@ class EmployeeTraining extends Component {
                         style={styles.buttonStyleText}>
                         לינק למבדק ידע עובד חדש
                     </Button>
+                    <RequestPdf title ="CheckListNewEmploee" callback={this.getResponse.bind(this)}/>
                     <Button
+                        onPress={() => this.mixFunction("צ'ק ליסט קליטה",
+                            this.findWithAttr(this.state.Data,'title',"CheckListNewEmploee"))}
                         containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
                         צ'ק ליסט קליטה לעובד חדש
                     </Button>
                 </View>
             </View>
-
         );
     }
 }

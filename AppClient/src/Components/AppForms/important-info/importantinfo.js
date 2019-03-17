@@ -2,16 +2,42 @@ import React,{Component} from 'react'
 import {Keyboard, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from "react-native-router-flux";
 import Header from "../../common/Header";
+import RequestPdf from "../RequestPdf";
 
 class importantinfo extends Component {
+    constructor() {
+        super();
+        this.state = {
+            num: 0,
+            Data: []
+        };
+        this.getResponse = this.getResponse.bind(this)
+
+    }
+     findWithAttr(array, attr, value) {
+        for(var i = 0; i < array.length; i += 1) {
+            if(array[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    getResponse(result){
+        this.state.Data.push(result);
+    }
+    mixFunction=(text,id)=>{
+        Actions.pdf({url: "http://192.168.1.32:3000/"+this.state.Data[id].image,title: text});
+    }
 
     renderButtons() {
 
         return initialArr.map((item) => {
                 return (
                     <View key={item.id} style={styles.containerStyle}>
-
-                        <TouchableOpacity key={item.id} style={[styles.buttonStyleBack,{width:200}]} onPress={() => Actions.pdf()}>
+                        <TouchableOpacity key={item.id} style={[styles.buttonStyleBack,{width:200}]}
+                                          onPress={() => this.mixFunction(item.text,
+                                              this.findWithAttr(this.state.Data,'title',item.title))}>
                             <Text style={styles.buttonStyleText}> {item.text}</Text>
                         </TouchableOpacity>
                     </View>
@@ -24,6 +50,10 @@ class importantinfo extends Component {
     render() {
         return (
             <View style={styles.BackStyle}>
+                <RequestPdf title ="Branches" callback={this.getResponse.bind(this)}/>
+                <RequestPdf title ="Mate" callback={this.getResponse.bind(this)}/>
+                <RequestPdf title ="Kav" callback={this.getResponse.bind(this)}/>
+
                 <View>
                     <Header name="מידע חשוב"/>
                 </View>
@@ -36,18 +66,20 @@ class importantinfo extends Component {
 }
 const initialArr =[
     {
-        id:1,
+        id:0,
         text: "טלפונים ומנהלי סניפים",
+        title: "Branches"
+    },
+    {
+        id:1,
+        text: "טלפונים מטה",
+        title: "Mate"
     },
     {
         id:2,
-        text: "טלפונים מטה",    },
-    {
-        id:3,
-        text: "תיקיית נהלים",    },
-    {
-        id:4,
-        text: "קו קופה",    },
+        text: "קו קופה",
+        title: "Kav"
+    },
 
 ];
 const styles = {

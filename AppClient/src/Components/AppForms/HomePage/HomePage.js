@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {Text,View,Image,Keyboard, TouchableOpacity} from "react-native";
 import Applogo from "../../common/Applogo";
 import Button from 'react-native-button';
-import {Actions} from "react-native-router-flux";
+import {Actions, Scene} from "react-native-router-flux";
 import GetDailyBirthdays from "./GetDailyBirthdays";
 import Messeges from "../Messages/Messeges";
 import Sales from "./Sales";
@@ -23,6 +23,8 @@ class HomePage extends Component{
         this.setState({
             num: result
         });
+        Actions.refresh({rightTitle: this.state.num})
+
     }
     getResponse2(result){
         this.setState({
@@ -31,6 +33,9 @@ class HomePage extends Component{
     }
     componentDidMount() {
         Keyboard.dismiss();
+        Actions.refresh({onRight: ()=> this.mixFunction()})
+        console.log(this.props.onRight);
+
     }
 
 
@@ -56,17 +61,15 @@ render() {
     return (
     <View style={styles.BackStyle}>
         <Sales  callback={this.getResponse2.bind(this)}/>
-              <View style={styles.userMenu}>
-                  <TouchableOpacity  onPress={() => Actions.Profile({user: this.props.user})}>
-                      <Image source = {require('../../../Resources/usermenu.png')} />
-                  </TouchableOpacity >
-              </View>
 
+        <View style={{paddingTop:75}}>
         <Applogo/>
+        </View>
               <Text style={styles.labelStyle2}>
                    ברוך הבא {this.props.user.firstname},
               </Text>
-              <View style = {styles.containerStyle}>
+
+        <View style = {styles.containerStyle}>
                   <Button
                       onPress={() => Actions.DailyBrif({user: this.props.user})}
                       containerStyle ={styles.buttonStyleBack}
@@ -75,7 +78,7 @@ render() {
                   </Button>
                        <Button
                            onPress={() =>
-                               Actions.pdf({url: "http://192.168.43.209:3000/"+this.state.SalesData.image ,
+                               Actions.pdf({url: "http://192.168.1.32:3000/"+this.state.SalesData.image ,
                                    title: "מבצעים"})}
                            containerStyle ={styles.buttonStyleBack}
                            style={styles.buttonStyleText}>
@@ -109,9 +112,6 @@ render() {
               </View>
               <View style={styles.containerStyle2}>
                   <Messeges  id ={this.props.user.id} callback={this.getResponse.bind(this)}/>
-                  <TouchableOpacity style={[styles.buttonStyleBack1,{width:400}]} onPress={()=>this.mixFunction()}>
-                      <Text style={styles.buttonStyleText1}>{this.state.num} הודעות חשובות </Text>
-                  </TouchableOpacity>
               </View>
               <View style={[styles.buttonStyleBack1,{width:400}]}>
                       <GetDailyBirthdays user={this.props.user}/>

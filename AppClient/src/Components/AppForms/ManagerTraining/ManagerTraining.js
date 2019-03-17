@@ -2,10 +2,35 @@ import React,{Component} from 'react'
 import {View,} from 'react-native';
 import Header from "../../common/Header";
 import Button from 'react-native-button';
+import {Actions} from "react-native-router-flux";
+import RequestPdf from "../RequestPdf";
 
 class ManagerTraining extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            num: 0,
+            Data: []
+        };
+        this.getResponse = this.getResponse.bind(this)
 
+    }
+    findWithAttr(array, attr, value) {
+        for(var i = 0; i < array.length; i += 1) {
+            if(array[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    mixFunction=(text,id)=>{
+        Actions.pdf({url: "http://192.168.1.32:3000/"+this.state.Data[id].image,title: text});
+    }
+
+    getResponse(result){
+        this.state.Data.push(result);
+    }
     render() {
         return (
             <View style={styles.BackStyle}>
@@ -20,7 +45,10 @@ class ManagerTraining extends Component {
                     </Button>
                 </View>
                 <View style = {styles.containerStyle}>
-                <Button
+                    <RequestPdf title ="CheckListPriority" callback={this.getResponse.bind(this)}/>
+                    <Button
+                        onPress={() => this.mixFunction("צ'ק ליסט פריורטי",
+                            this.findWithAttr(this.state.Data,'title',"CheckListPriority"))}
                     containerStyle ={styles.buttonStyleBack}
                     style={styles.buttonStyleText}>
                     צ'ק ליסט פריוריטי

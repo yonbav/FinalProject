@@ -3,6 +3,7 @@ import React,{Component} from 'react'
 import { Text, View, ScrollView} from 'react-native';
 import axios from "axios";
 import {Actions} from "react-native-router-flux";
+import MessageFormat from "./MessageFormat";
 
 class UnreadMessages extends Component {
 
@@ -17,7 +18,7 @@ class UnreadMessages extends Component {
 
     }
     GetData() {
-        axios.post('http://192.168.43.209:3000/Message/unread',{
+        axios.post('http://192.168.1.32:3000/Message/unread',{
             id: this.props.id
         }).then(result => {
                 this.setState({
@@ -30,7 +31,7 @@ class UnreadMessages extends Component {
 
     }
     update(){
-        axios.post("http://192.168.43.209:3000/Message/pushread",{
+        axios.post("http://192.168.1.32:3000/Message/pushread",{
             id: this.props.id
         })
     }
@@ -39,36 +40,17 @@ class UnreadMessages extends Component {
     }
     renderButtons() {
         if(this.state.data.length === 0){
-            return (<View style = {[styles.MessageStyleBack,{justifyContent: 'center'}]}>
-                <Text style={[styles.MessageStyleText,{alignSelf: 'center'},{fontWeight: 'bold'}]}>
-                    אין הודעות
-                </Text>
-            </View>)
+            return (
+                <View style = {[styles.MessageStyleBack,{justifyContent: 'center'}]}>
+                    <Text style={[styles.MessageStyleText,{alignSelf: 'center'},{fontWeight: 'bold'}]}>
+                        אין הודעות
+                    </Text>
+                </View>
+            )
         }
         return this.state.data.map((item) => {
             return (
-                <View key={item._id} style={styles.containerStyle}>
-                    <View style = {[styles.MessageStyleBack,{justifyContent: 'center'}]}>
-                        <Text style={[styles.MessageStyleText,{alignSelf: 'center'},{fontWeight: 'bold'}]}>
-                            {item.title}
-                        </Text>
-                    </View>
-                    <View style = {[styles.MessageStyleBack,{justifyContent: 'flex-start'}]}>
-                        <Text style={[styles.MessageStyleText,{alignSelf: 'flex-start'}]}>
-                            {item.contect}</Text>
-                    </View>
-                    <View style = {[styles.MessageStyleBack,{justifyContent: 'flex-start'}]}>
-                        <Text style={[styles.MessageStyleText,{alignSelf: 'flex-end'},{marginTop: 10}]}>
-                            {item.createdtime}
-                        </Text>
-                    </View>
-                    <View
-                        style={{
-                            borderBottomColor: 'black',
-                            borderBottomWidth: 1,
-                        }}
-                    />
-                </View>
+                <MessageFormat title={item.title} contect={item.contect} Date={item.createdtime}/>
             );
 
         });

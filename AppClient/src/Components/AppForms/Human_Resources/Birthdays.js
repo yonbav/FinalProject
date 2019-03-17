@@ -27,7 +27,7 @@ export default class Birthdays extends Component{
         this.setState({ search });
     };
     GetData() {
-        axios.get('http://192.168.43.209:3000/getBirthdays')
+        axios.get('http://192.168.1.32:3000/getBirthdays')
             .then(result => {
                 this.setState({
                         data: result.data.filter(item=>

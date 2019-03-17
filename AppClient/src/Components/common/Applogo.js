@@ -18,7 +18,7 @@ const styles = {
         alignSelf: 'center',
     },
     TopStyle:{
-        backgroundColor: "#ffc68e"
+        backgroundColor: "#ffc68e",
     }
 };
 export default Applogo;

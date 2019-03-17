@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import { Text, View, ScrollView} from 'react-native';
-import Header from "../../common/Header";
 import axios from "axios";
+import MessageFormat from "./MessageFormat";
 
 class AllMessages extends Component {
 
@@ -17,7 +17,7 @@ class AllMessages extends Component {
     }
 
     GetData() {
-        axios.get('http://192.168.43.209:3000/Message/')
+        axios.get('http://192.168.1.32:3000/Message/')
             .then(result => {
                 this.setState({
                     data: result.data
@@ -39,28 +39,7 @@ class AllMessages extends Component {
 
         return this.state.data.map((item) => {
             return (
-                <View key={item._id} style={styles.containerStyle}>
-                    <View style = {[styles.MessageStyleBack,{justifyContent: 'center'}]}>
-                        <Text style={[styles.MessageStyleText,{alignSelf: 'center'},{fontWeight: 'bold'}]}>
-                            {item.title}
-                        </Text>
-                    </View>
-                    <View style = {[styles.MessageStyleBack,{justifyContent: 'flex-start'}]}>
-                        <Text style={[styles.MessageStyleText,{alignSelf: 'flex-start'}]}>
-                            {item.contect}</Text>
-                    </View>
-                    <View style = {[styles.MessageStyleBack,{justifyContent: 'flex-start'}]}>
-                        <Text style={[styles.MessageStyleText,{alignSelf: 'flex-end'},{marginTop: 10}]}>
-                            {item.createdtime}
-                        </Text>
-                    </View>
-                    <View
-                        style={{
-                            borderBottomColor: 'black',
-                            borderBottomWidth: 1,
-                        }}
-                    />
-                </View>
+                <MessageFormat title={item.title} contect={item.contect} Date={item.createdtime}/>
             );
 
         });

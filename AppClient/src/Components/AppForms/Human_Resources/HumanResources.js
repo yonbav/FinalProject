@@ -49,7 +49,7 @@ class HumanResources extends Component {
                     </Button>
                     <Button
                         onPress={() =>
-                            Actions.pdf({url: "http://192.168.43.209:3000/"+this.state.harassmentData.image ,
+                            Actions.pdf({url: "http://192.168.1.32:3000/"+this.state.harassmentData.image ,
                                 title: "מניעת הטרדה מינית"})}
                         containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>

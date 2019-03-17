@@ -12,7 +12,7 @@ class Messeges extends Component{
         this.GetData();
     }
     GetData() {
-        axios.post("http://192.168.43.209:3000/Message/unreadCount",{
+        axios.post("http://192.168.1.32:3000/Message/unreadCount",{
             id: this.props.id
         }).then((res)=> {
             this.handleClick(res.data.docs);
