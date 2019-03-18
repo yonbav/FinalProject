@@ -33,6 +33,7 @@ router.post('/CheckToken',jsonParser,(req,res,next) => {
 });
 
     router.post('/login', jsonParser, (req, res, next) => {
+
         User.findOne({id: req.body.id}).then(user => {
             if (user) {
                 return checkPassword(user, req.body.password, res, req.body.authorization);

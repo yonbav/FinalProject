@@ -1,48 +1,56 @@
 import React,{Component} from 'react'
-import {Text,View,Image,Keyboard, TouchableOpacity} from "react-native";
+import {Text,View,Image,Keyboard, TouchableOpacity,FlatList} from "react-native";
 import Applogo from "../../common/Applogo";
 import Button from 'react-native-button';
-import {Actions, Scene} from "react-native-router-flux";
+import {Actions} from "react-native-router-flux";
 import GetDailyBirthdays from "./GetDailyBirthdays";
 import Messeges from "../Messages/Messeges";
 import Sales from "./Sales";
-
+import UsernameClick from "./UsernameClick";
+import Mail from "./Mail";
+import axios from "axios";
 
 class HomePage extends Component{
     constructor() {
         super();
         this.state = {
             num: 0,
-            SalesData: []
+            SalesData: [],
+            stories: [{id: 1}],
+            isFetching:false
         };
-        this.getResponse = this.getResponse.bind(this)
-        this.getResponse2 = this.getResponse2.bind(this)
-
+        this.getResponse = this.getResponse.bind(this);
+        this.getResponse2 = this.getResponse2.bind(this);
     }
-    getResponse(result){
-        this.setState({
+    async getResponse(result) {
+        await this.setState({
             num: result
         });
-        Actions.refresh({rightTitle: this.state.num})
-
     }
     getResponse2(result){
         this.setState({
             SalesData: result
         });
     }
-    componentDidMount() {
-        Keyboard.dismiss();
-        Actions.refresh({onRight: ()=> this.mixFunction()})
-        console.log(this.props.onRight);
+    GetData=()=> {
+        axios.post("http://192.168.43.209:3000/Message/unreadCount",{
+            id: this.props.user.id
+        }).then((res)=> {
+            this.setState({num:res.data.docs})
+        })
+    }
+    onRefresh(){
+        this.setState({isFetching:true})
+        {this.GetData()}
+        this.setState({isFetching:false})
 
     }
-
-
+    componentDidMount() {
+        Keyboard.dismiss();
+    }
     mixFunction=()=>{
         Actions.Messages({id: this.props.user.id,messages: this.state.num});
         this.getResponse(0);
-
     }
     renderManager(){
         if(this.props.user.authorization > 2)
@@ -55,70 +63,74 @@ class HomePage extends Component{
             </Button>)
         }
     }
-
-
+    _renderItem = () => (
+        <Applogo/>
+)
 render() {
     return (
     <View style={styles.BackStyle}>
+        <Messeges  id ={this.props.user.id} callback={this.getResponse.bind(this)}/>
         <Sales  callback={this.getResponse2.bind(this)}/>
+            <View style={{flexDirection: 'row',justifyContent: 'space-between',padding: 5}}>
+                <UsernameClick user={this.props.user}/>
+                <TouchableOpacity onPress={()=>this.mixFunction()}>
+                <Mail num={this.state.num}/>
+                </TouchableOpacity>
+            </View>
+        <FlatList
+            onRefresh={() => this.onRefresh()}
+            refreshing={this.state.isFetching}
+            data={this.state.stories}
+            keyExtractor={(item) => item.toString()}
+            renderItem={this._renderItem}
+        />
 
-        <View style={{paddingTop:75}}>
-        <Applogo/>
-        </View>
-              <Text style={styles.labelStyle2}>
-                   ברוך הבא {this.props.user.firstname},
-              </Text>
+        <Text style={styles.labelStyle2}>שלום {this.props.user.firstname},</Text>
 
         <View style = {styles.containerStyle}>
-                  <Button
-                      onPress={() => Actions.DailyBrif({user: this.props.user})}
-                      containerStyle ={styles.buttonStyleBack}
-                      style={styles.buttonStyleText}>
-                      תדריך יומי
-                  </Button>
-                       <Button
-                           onPress={() =>
-                               Actions.pdf({url: "http://192.168.1.32:3000/"+this.state.SalesData.image ,
-                                   title: "מבצעים"})}
-                           containerStyle ={styles.buttonStyleBack}
-                           style={styles.buttonStyleText}>
-                           מבצעים
-                       </Button>
+            <Button
+                onPress={() => Actions.DailyBrif({user: this.props.user})}
+                containerStyle ={styles.buttonStyleBack}
+                style={styles.buttonStyleText}>
+                תדריך יומי
+            </Button>
+            <Button
+                onPress={() =>
+                    Actions.pdf({url: "http://192.168.43.209:3000/"+this.state.SalesData.image ,
+                        title: "מבצעים"})}
+                containerStyle ={styles.buttonStyleBack}
+                style={styles.buttonStyleText}>
+                מבצעים
+            </Button>
 
-              </View>
-              <View style = {styles.containerStyle}>
-                  <Button
-                      onPress={() => Actions.HumRes()}
-                      containerStyle ={styles.buttonStyleBack}
-                      style={styles.buttonStyleText}>
-                      עדכוני מש"א
-                  </Button>
-                  <Button
-                      onPress={() => Actions.Importantinfo()}
-                      containerStyle ={styles.buttonStyleBack}
-                      style={styles.buttonStyleText}>
-                      מידע חשוב
-                  </Button>
+        </View>
+        <View style = {styles.containerStyle}>
+            <Button
+                onPress={() => Actions.HumRes()}
+                containerStyle ={styles.buttonStyleBack}
+                style={styles.buttonStyleText}>
+                עדכוני מש"א
+            </Button>
+            <Button
+                onPress={() => Actions.Importantinfo()}
+                containerStyle ={styles.buttonStyleBack}
+                style={styles.buttonStyleText}>
+                מידע חשוב
+            </Button>
 
-              </View>
-              <View style = {styles.containerStyle}>
-                  <Button
-                      onPress={() => Actions.EmployeeTraining()}
-                      containerStyle ={styles.buttonStyleBack}
-                      style={styles.buttonStyleText}>
-                      הדרכת עובדים
-                  </Button>
-                  {this.renderManager()}
-              </View>
-              <View style={styles.containerStyle2}>
-                  <Messeges  id ={this.props.user.id} callback={this.getResponse.bind(this)}/>
-              </View>
-              <View style={[styles.buttonStyleBack1,{width:400}]}>
-                      <GetDailyBirthdays user={this.props.user}/>
-              </View>
-
-
-
+        </View>
+        <View style = {styles.containerStyle}>
+            <Button
+                onPress={() => Actions.EmployeeTraining()}
+                containerStyle ={styles.buttonStyleBack}
+                style={styles.buttonStyleText}>
+                הדרכת עובדים
+            </Button>
+            {this.renderManager()}
+        </View>
+        <View style={[styles.buttonStyleBack1,{width:400}]}>
+            <GetDailyBirthdays user={this.props.user}/>
+        </View>
           </View>
 
     );
@@ -130,16 +142,11 @@ const styles = {
         backgroundColor: "#ffc68e",
         paddingBottom: 560
     },
-    userMenu:{
-        alignItems:'flex-start',
-        alignSelf: 'flex-start',
-        marginBottom: 0,
-        paddingTop: 20
-    },
+
     labelStyle2: {
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#ff8a37',
+        color: '#1c000b',
         textAlign: 'left',
         marginTop: 10,
         justifyContent: 'space-between',

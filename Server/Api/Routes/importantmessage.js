@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 var app = express();
 const router = express.Router();
 const IMessage = require('../../models/importantmessages');
-
 var dateNow = new Date();
 var dd = dateNow.getDate();
 var monthSingleDigit = dateNow.getMonth() + 1,

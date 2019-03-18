@@ -26,7 +26,7 @@ class Profile extends Component {
     }
     changePassword()
     {
-        axios.post("http://192.168.1.32:3000/Auth/CheckToken",{
+        axios.post("http://192.168.43.209:3000/Auth/CheckToken",{
             id: this.props.user.id,
             token: this.props.user.token,
         })
@@ -41,7 +41,7 @@ class Profile extends Component {
     }
     logout()
     {
-        axios.post("http://192.168.1.32:3000/Auth/logout",{
+        axios.post("http://192.168.43.209:3000/Auth/logout",{
             id: this.props.user.id,
             token: this.props.user.token,
         })

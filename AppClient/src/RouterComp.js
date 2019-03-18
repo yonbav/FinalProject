@@ -1,5 +1,5 @@
 import React from 'react'
-import {Alert, BackHandler, Image, TouchableOpacity, View} from 'react-native'
+import {Alert, BackHandler, Image, TouchableOpacity, View,Text} from 'react-native'
 import {Router,Scene} from 'react-native-router-flux';
 import LoginForm from './Components/AppForms/LoginForm';
 import HomePage from './Components/AppForms/HomePage/HomePage';
@@ -37,20 +37,8 @@ const RouterComp =() =>{
                     <Scene key="Login" component={LoginForm} title="LoginForm" />
                     </Scene>
                     <Scene key ="main" >
-                    <Scene key="Home"
-                           component={HomePage}
-                           title=""
-                           hideNavBar={false}
-                           navigationBarStyle={[{height:70},{backgroundColor: "#ffc68e"}]}
-                           leftButtonImage={require('./Resources/user.png')}
-                           leftButtonStyle={styles.userMenu}
-                           onLeft={()=> Actions.Profile()}
-                           rightButtonTextStyle={styles.badge}
-                           rightTitle="0"
-                           rightButtonImage={require('./Resources/Mail.png')}
-                           onRight={()=> Actions.Profile()}
-                    />
-                    <Scene key="DailyBrif"
+                        <Scene key="Home" component={HomePage} title=""  hideNavBar={true} />
+                        <Scene key="DailyBrif"
                            component={DailyBrif}
                             hideNavBar={false}
                            navigationBarStyle={[{paddingTop:10},{backgroundColor: "#ffc68e"}]}

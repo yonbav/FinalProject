@@ -17,7 +17,7 @@ class AllMessages extends Component {
     }
 
     GetData() {
-        axios.get('http://192.168.1.32:3000/Message/')
+        axios.get('http://192.168.43.209:3000/Message/')
             .then(result => {
                 this.setState({
                     data: result.data
@@ -39,7 +39,7 @@ class AllMessages extends Component {
 
         return this.state.data.map((item) => {
             return (
-                <MessageFormat title={item.title} contect={item.contect} Date={item.createdtime}/>
+                <MessageFormat key={item._id} title={item.title} contect={item.contect} Date={item.createdtime}/>
             );
 
         });
