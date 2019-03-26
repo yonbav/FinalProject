@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Kravitz",
+    "name": "קרביץ",
     "slug": "Kravitz",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -13,7 +13,7 @@
     "icon": "./assets/Kra.png",
     "description": "employee-management-system",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/kravits.gif",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,6 +25,13 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.Kravitz.Kravitzapp"
+    },
+    "notification": {
+      "icon": "./assets/Kra.png",
+      "androidMode": "default"
     }
   }
 }

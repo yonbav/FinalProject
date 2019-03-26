@@ -18,7 +18,7 @@ class DailyBrif extends Component {
     }
 
     GetData() {
-        axios.get('http://192.168.43.209:3000/daily/')
+        axios.get('http://192.168.1.34:3000/daily/')
             .then(result => {
                 this.setState({
                     data: result.data
@@ -38,7 +38,7 @@ class DailyBrif extends Component {
                     <View key={item._id} style={styles.containerStyle}>
 
                         <TouchableOpacity key={item._id} style={[styles.buttonStyleBack,{width:350}]} onPress={() =>
-                            Actions.pdf({url: "http://192.168.43.209:3000/"+item.image ,
+                            Actions.pdf({url: "http://192.168.1.34:3000/"+item.image ,
                             title: item.title , user: this.props.user})}>
                             <Text style={styles.buttonStyleText}> {item.title}</Text>
                         </TouchableOpacity>
@@ -49,7 +49,7 @@ class DailyBrif extends Component {
                 return (
                     <View key={item._id} style={styles.containerStyle}>
                         <TouchableOpacity key={item._id} style={[styles.buttonStyleBack,{width:250}]} onPress={() =>
-                            Actions.pdf({url: "http://192.168.43.209:3000/"+item.image ,
+                            Actions.pdf({url: "http://192.168.1.34:3000/"+item.image ,
                                 title: item.title , user: this.props.user})}>
                             <Text style={styles.buttonStyleText}> {item.title}</Text>
                         </TouchableOpacity>

@@ -17,7 +17,7 @@ class AllMessages extends Component {
     }
 
     GetData() {
-        axios.get('http://192.168.43.209:3000/Message/')
+        axios.get('http://192.168.1.34:3000/Message/')
             .then(result => {
                 this.setState({
                     data: result.data

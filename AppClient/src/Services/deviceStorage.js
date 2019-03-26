@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native';
+import axios from "axios";
 
 const deviceStorage = {
     async saveKey(key, valueToSave) {
@@ -12,17 +13,35 @@ const deviceStorage = {
     async loadJWT() {
         try {
             const value = await AsyncStorage.getItem('id_token');
-            if (value !== null) {
+            if(value){
+                 await  axios.post('http://192.168.1.34:3000/user/token', {
+                    token: value
+                })
+                    .then( result => {
+                        if (result.data) {
+                            this.setState({
+                                data: value,
+                                loading: true,
+                                user: result.data
+                            });
+                        } else {
+                            this.setState({
+                                data: null,
+                                loading: true,
+                                user: null
+                            });
+                        }
+                    })
+            }
+            else {
                 this.setState({
-                    jwt: value,
-                    loading: false
-                });
-            } else {
-                this.setState({
-                    loading: false
+                    data: null,
+                    loading: true,
+                    user:null
                 });
             }
-        } catch (error) {
+        }
+         catch (error) {
             console.log('AsyncStorage Error: ' + error.message);
         }
     },
@@ -31,12 +50,8 @@ const deviceStorage = {
         try{
             await AsyncStorage.removeItem('id_token')
                 .then(
-                    () => {
-                        this.setState({
-                            jwt: ''
-                        })
-                    }
-                );
+                    deviceStorage.loadJWT()
+        );
         } catch (error) {
             console.log('AsyncStorage Error: ' + error.message);
         }

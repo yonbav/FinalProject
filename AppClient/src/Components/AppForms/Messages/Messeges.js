@@ -22,7 +22,7 @@ class Messeges extends Component{
 
     GetData=()=> {
         this.setState({isFetching:true})
-        axios.post("http://192.168.43.209:3000/Message/unreadCount",{
+        axios.post("http://192.168.1.34:3000/Message/unreadCount",{
             id: this.props.id
         }).then((res)=> {
             this.setState({num:res.data.docs})
@@ -53,5 +53,4 @@ const styles = {
     }
 }
 export default Messeges;
-
 

@@ -19,7 +19,7 @@ export const loginuser = (id,password) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
-        axios.post("http://192.168.43.209:3000/Auth/login",{
+        axios.post("http://192.168.1.34:3000/Auth/login",{
                 id: id,
                 password: password,
                 authorization: '1'
@@ -28,6 +28,8 @@ export const loginuser = (id,password) => {
         res = res.data;
         if(res.success === true)
                 {
+                    deviceStorage.saveKey("id_token", res.user.token);
+
                     dispatch({type:LOGIN_SUCCESS,payload: res.user});
                     Actions.main({type: 'reset',user:res.user});
                 }

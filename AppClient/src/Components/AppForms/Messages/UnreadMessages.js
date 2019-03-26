@@ -18,7 +18,7 @@ class UnreadMessages extends Component {
 
     }
     GetData() {
-        axios.post('http://192.168.43.209:3000/Message/unread',{
+        axios.post('http://192.168.1.34:3000/Message/unread',{
             id: this.props.id
         }).then(result => {
                 this.setState({
@@ -31,7 +31,7 @@ class UnreadMessages extends Component {
 
     }
     update(){
-        axios.post("http://192.168.43.209:3000/Message/pushread",{
+        axios.post("http://192.168.1.34:3000/Message/pushread",{
             id: this.props.id
         })
     }

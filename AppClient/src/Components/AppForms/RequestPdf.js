@@ -9,7 +9,7 @@ class RequestPdf extends Component{
         this.GetData();
     }
     GetData() {
-        axios.get("http://192.168.43.209:3000/info/"+this.props.title
+        axios.get("http://192.168.1.34:3000/info/"+this.props.title
         ).then((res)=> {
             this.handleClick(res.data);
 
@@ -26,5 +26,4 @@ class RequestPdf extends Component{
 };
 
 export default RequestPdf;
-
 

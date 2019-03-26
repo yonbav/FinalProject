@@ -27,7 +27,7 @@ class importantinfo extends Component {
         this.state.Data.push(result);
     }
     mixFunction=(text,id)=>{
-        Actions.pdf({url: "http://192.168.43.209:3000/"+this.state.Data[id].image,title: text});
+        Actions.pdf({url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
     }
 
     renderButtons() {

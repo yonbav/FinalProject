@@ -33,8 +33,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "rn-fetch-blob": "^0.10.15",
-    "rn-pdf-reader-js": "^0.2.1",
-    "Expo": "latest"
+    "rn-pdf-reader-js": "^0.2.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",

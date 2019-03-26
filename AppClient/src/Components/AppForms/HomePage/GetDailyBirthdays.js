@@ -20,12 +20,7 @@ class GetDailyBirthdays extends Component{
 
     }
     GetData() {
-        axios.post("http://192.168.43.209:3000/Auth/CheckToken",{
-            id: this.props.user.id,
-            token: this.props.user.token,
-        }).then((res)=> {
-            if(res.data.success === true) {
-                axios.get('http://192.168.43.209:3000/getBD')
+                axios.get('http://192.168.1.34:3000/getBD')
                     .then(result => {
                         if (result.data.length === 0)
                             this.setState({
@@ -48,9 +43,6 @@ class GetDailyBirthdays extends Component{
                                 this.state.index++;
                             }, 1500)
                         }
-                    })
-            }
-            else{Actions.auth()}
         })
 
     }
@@ -82,5 +74,3 @@ const styles = {
     }
 };
 export default GetDailyBirthdays;
-
-

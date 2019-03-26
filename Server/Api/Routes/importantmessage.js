@@ -1,3 +1,4 @@
+
 var express = require('express');
 const mongoose = require('mongoose');
 var app = express();
@@ -11,6 +12,7 @@ var yy = dateNow.getFullYear().toString().substr(2);
 var formattedDate = dd + '/' + mm + '/' +yy;
 
 
+
 router.post('/addmessage',(req,res,next) => {
     const message = new IMessage({
         _id: new mongoose.Types.ObjectId(),
@@ -18,16 +20,18 @@ router.post('/addmessage',(req,res,next) => {
         contect:req.body.contect,
         readby:[],
         createdtime:formattedDate,
+        createdAt: Date.now()
     });
-    message.save().then(result =>{
-        res.status(201).json({
-            message:'Created Imessage successfully',
-            createdMessage: result
-        })
-    }).catch(err=> {
-        res.status(401).json({error:err});
+        message.save().then(result =>{
+            res.status(201).json({
+                message:'Created Imessage successfully',
+                createdMessage: result
+            })
+        }).catch(err=> {
+            res.status(401).json({error:err});
+        });
+
     });
-});
 
 
 

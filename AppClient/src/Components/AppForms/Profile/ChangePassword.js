@@ -48,7 +48,7 @@ class ChangePassword extends Component{
     onPressButton(){
         Keyboard.dismiss();
         if (this.state.password1 === this.state.password2){
-            axios.patch('http://192.168.43.209:3000/user/changepassword/' + this.props.user._id, {
+            axios.patch('http://192.168.1.34:3000/user/changepassword/' + this.props.user._id, {
                 Oldpassword: this.state.password,
                 Newpassword: this.state.password1,
             }).then((res)=>  {
@@ -184,5 +184,4 @@ const styles = {
     }
 };
 export default connect(mapStateToProps,{loginuser})(ChangePassword);
-
 

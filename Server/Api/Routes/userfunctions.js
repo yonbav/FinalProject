@@ -54,6 +54,20 @@ router.get('/:userid',(req,res,next) => {
             res.status(500).json({error:err});
         });
 });
+router.post('/token',(req,res,next) => {
+
+    User.find({token: req.body.token}).then(doc=>{
+        if(doc.length !== 0) {
+            res.send(doc[0])
+        }else{
+            res.send(null)
+        }
+    })
+        .catch(err=> {
+            console.log(err);
+            res.status(500).json({error:err});
+        });
+});
 
 router.get('', (req,res,next) => {
     User.find().exec().then(doc=>{

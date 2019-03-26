@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import {Actions} from "react-native-router-flux";
 import axios from "axios";
-import {connect} from "react-redux";
-import {loginuser} from "../../actions/actions";
+import deviceStorage from '../../../Services/deviceStorage'
+
 import Footer from "../../common/Footer";
 
 class Profile extends Component {
@@ -17,7 +17,7 @@ class Profile extends Component {
         Keyboard.dismiss();
     }
     renderImage(){
-        if (this.props.user.gender == "male")
+        if (this.props.user.gender === "male")
         {
             return <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
         }
@@ -26,7 +26,7 @@ class Profile extends Component {
     }
     changePassword()
     {
-        axios.post("http://192.168.43.209:3000/Auth/CheckToken",{
+        axios.post("http://192.168.1.34:3000/Auth/CheckToken",{
             id: this.props.user.id,
             token: this.props.user.token,
         })
@@ -41,11 +41,11 @@ class Profile extends Component {
     }
     logout()
     {
-        axios.post("http://192.168.43.209:3000/Auth/logout",{
+        axios.post("http://192.168.1.34:3000/Auth/logout",{
             id: this.props.user.id,
             token: this.props.user.token,
         })
-            .then((res)=> {
+            .then( (res) => {
                 res = res.data;
                 if (res.success === true) {
                     Actions.auth({type: 'reset'});
@@ -98,11 +98,7 @@ class Profile extends Component {
     }
 }
 
-const mapStateToProps =  state =>{
-    return {
-        user: state.auth.user
-    };
-};
+
 const styles = StyleSheet.create({
     header:{
         backgroundColor: "#ffc68e",
@@ -157,5 +153,4 @@ const styles = StyleSheet.create({
     },
 
 });
-export default connect(mapStateToProps,{loginuser})(Profile);
-
+export default Profile;

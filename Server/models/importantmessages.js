@@ -7,5 +7,7 @@ const importantmessageSchema = mongoose.Schema({
     contect:{type:String},
     readby:[String],
     createdtime:{type:String},
+    expireAt:{type: Date, default: Date.now}
 });
+
 module.exports = mongoose.model('ImportantMessage',importantmessageSchema);

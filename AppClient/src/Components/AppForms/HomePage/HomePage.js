@@ -9,8 +9,49 @@ import Sales from "./Sales";
 import UsernameClick from "./UsernameClick";
 import Mail from "./Mail";
 import axios from "axios";
+import { Permissions, Notifications } from 'expo';
 
 class HomePage extends Component{
+    async registerForPushNotificationsAsync() {
+        const { status: existingStatus } = await Permissions.getAsync(
+            Permissions.NOTIFICATIONS
+        );
+        let finalStatus = existingStatus;
+
+        // only ask if permissions have not already been determined, because
+        // iOS won't necessarily prompt the user a second time.
+        if (existingStatus !== 'granted') {
+            // Android remote notification permissions are granted during the app
+            // install, so this will only ask on iOS
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+        }
+
+        // Stop here if the user did not grant permissions
+        if (finalStatus !== 'granted') {
+            return;
+        }
+
+        // Get the token that uniquely identifies this device
+        let token = await Notifications.getExpoPushTokenAsync();
+
+        // POST the token to your backend server from where you can retrieve it to send push notifications.
+        return fetch('http://192.168.1.34:3000/daily/registarnotification', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                token: {
+                    value: token,
+                },
+                user: {
+                    username: this.props.user.firstname,
+                },
+            }),
+        });
+    }
     constructor() {
         super();
         this.state = {
@@ -33,7 +74,7 @@ class HomePage extends Component{
         });
     }
     GetData=()=> {
-        axios.post("http://192.168.43.209:3000/Message/unreadCount",{
+        axios.post("http://192.168.1.34:3000/Message/unreadCount",{
             id: this.props.user.id
         }).then((res)=> {
             this.setState({num:res.data.docs})
@@ -47,6 +88,8 @@ class HomePage extends Component{
     }
     componentDidMount() {
         Keyboard.dismiss();
+        this.registerForPushNotificationsAsync();
+
     }
     mixFunction=()=>{
         Actions.Messages({id: this.props.user.id,messages: this.state.num});
@@ -69,6 +112,7 @@ class HomePage extends Component{
 render() {
     return (
     <View style={styles.BackStyle}>
+
         <Messeges  id ={this.props.user.id} callback={this.getResponse.bind(this)}/>
         <Sales  callback={this.getResponse2.bind(this)}/>
             <View style={{flexDirection: 'row',justifyContent: 'space-between',padding: 5}}>
@@ -96,7 +140,7 @@ render() {
             </Button>
             <Button
                 onPress={() =>
-                    Actions.pdf({url: "http://192.168.43.209:3000/"+this.state.SalesData.image ,
+                    Actions.pdf({url: "http://192.168.1.34:3000/"+this.state.SalesData.image ,
                         title: "מבצעים"})}
                 containerStyle ={styles.buttonStyleBack}
                 style={styles.buttonStyleText}>
