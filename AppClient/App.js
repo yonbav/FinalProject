@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import { Provider } from 'react-redux';
 import {createStore,applyMiddleware} from 'redux';
 import reducers from './src/reducers/reducers'
@@ -35,22 +35,17 @@ export default class App extends React.Component {
 
   render() {
     if (this.state.loading) {
-      if (this.state.data) {
+
         return (
             <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
-              <RouterComp token="1" user ={this.state.user}/>
+              <RouterComp data={this.state.data} user ={this.state.user}/>
             </Provider>
         );
-      } else {
-        return (
-            <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
-              <RouterComp token="0"/>
-            </Provider>
-        );
-      }
     }
     else{
-      return <Text>'Loading...'</Text>
+      return <View style={styles.loading}>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
     }
   }
 }
@@ -62,4 +57,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  loading:{
+    alignItems: 'center',
+    alignSelf: 'center',
+    paddingTop: 550
+  }
 });

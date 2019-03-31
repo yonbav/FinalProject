@@ -13,7 +13,7 @@
     "icon": "./assets/Kra.png",
     "description": "employee-management-system",
     "splash": {
-      "image": "./assets/kravits.gif",
+      "image": "./assets/kravits.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

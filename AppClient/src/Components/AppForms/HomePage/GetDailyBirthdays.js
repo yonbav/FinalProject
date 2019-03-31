@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {Text} from 'react-native';
+import {ActivityIndicator, Text} from 'react-native';
 import axios from 'axios';
 import Actions from "../../../reducers/reducers";
 
@@ -14,7 +14,8 @@ class GetDailyBirthdays extends Component{
             Lastname: "",
             Branch: "",
             index: 0,
-            myInterval: null
+            myInterval: null,
+            loading: false
         };
         this.GetData = this.GetData.bind(this)
 
@@ -24,13 +25,15 @@ class GetDailyBirthdays extends Component{
                     .then(result => {
                         if (result.data.length === 0)
                             this.setState({
-                                Firstname: "אין ימי הולדת היום."
+                                Firstname: "אין ימי הולדת היום.",
+                                loading: true
                             });
                         else {
                             this.setState({
                                 Firstname: result.data[0].firstname,
                                 Lastname: result.data[0].lastname,
-                                Branch: "(" + result.data[0].branch + ")"
+                                Branch: "(" + result.data[0].branch + ")",
+                                loading: true
                             });
                             this.state.myInterval = setInterval(() => {
                                 var y = this.state.index % (result.data.length);
@@ -54,11 +57,18 @@ class GetDailyBirthdays extends Component{
     }
 
     render() {
-        return(
-                <Text style={styles.labelStyle} >
+        if(this.state.loading) {
+            return (
+                <Text style={styles.labelStyle}>
                     {this.state.Firstname} {this.state.Lastname} {this.state.Branch}
                 </Text>
-        );
+            );
+        }
+        else{
+            return (
+                <ActivityIndicator size="large" color="#000" />
+            );
+        }
     }
 };
 

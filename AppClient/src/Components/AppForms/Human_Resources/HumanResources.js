@@ -43,6 +43,7 @@ class HumanResources extends Component {
                 </View>
                 <View style = {styles.containerStyle}>
                     <Button
+                        onPress={() => Actions.Jobs()}
                         containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
                         חבר מביא חבר

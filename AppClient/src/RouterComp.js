@@ -15,6 +15,7 @@ import MessagesForm from "./Components/AppForms/Messages/MessagesForm";
 import EmployeeTraining from "./Components/AppForms/EmployeeTraining/EmployeeTraining";
 import ManagerTraining from "./Components/AppForms/ManagerTraining/ManagerTraining";
 import deviceStorage from './Services/deviceStorage'
+import Jobs from "./Components/AppForms/Human_Resources/Jobs";
 
 const onExitApp = () => {
     Alert.alert(
@@ -31,8 +32,7 @@ const onExitApp = () => {
 
 class RouterComp extends Component {
     render() {
-        console.log(this.props.token);
-        if(this.props.token ==="0") {
+        if(this.props.data === null) {
             return (
                 <Router onExitApp={onExitApp} duration={200}>
                     <Scene key="root" hideNavBar>
@@ -91,6 +91,10 @@ class RouterComp extends Component {
                                    component={ChangePassword}
                                    hideNavBar={false}
                                    navigationBarStyle={[{paddingTop: 10}, {backgroundColor: "#ffc68e"}]}/>
+                            <Scene key="Jobs"
+                                   component={Jobs}
+                                   hideNavBar={false}
+                                   navigationBarStyle={[{paddingTop: 10}, {backgroundColor: "#ffc68e"}]}/>
 
                         </Scene>
 
@@ -102,6 +106,7 @@ class RouterComp extends Component {
             return (
                 <Router onExitApp={onExitApp} duration={200}>
                     <Scene key="root" hideNavBar>
+                        <Scene key="main">
                         <Scene key="Home" component={HomePage} title="" hideNavBar={true}
                                user={this.props.user}/>
                             <Scene key="DailyBrif"
@@ -154,7 +159,14 @@ class RouterComp extends Component {
                                    component={ChangePassword}
                                    hideNavBar={false}
                                    navigationBarStyle={[{paddingTop: 10}, {backgroundColor: "#ffc68e"}]}/>
-
+                            <Scene key="Jobs"
+                                   component={Jobs}
+                                   hideNavBar={false}
+                                   navigationBarStyle={[{paddingTop: 10}, {backgroundColor: "#ffc68e"}]}/>
+                        </Scene>
+                        <Scene key="auth" hideNavBar type="reset">
+                            <Scene key="Login" component={LoginForm} title="LoginForm"/>
+                        </Scene>
                         </Scene>
 
                 </Router>

@@ -10,6 +10,7 @@ import UsernameClick from "./UsernameClick";
 import Mail from "./Mail";
 import axios from "axios";
 import { Permissions, Notifications } from 'expo';
+import Footer from "../../common/Footer";
 
 class HomePage extends Component{
     async registerForPushNotificationsAsync() {
@@ -175,7 +176,8 @@ render() {
         <View style={[styles.buttonStyleBack1,{width:400}]}>
             <GetDailyBirthdays user={this.props.user}/>
         </View>
-          </View>
+
+    </View>
 
     );
 };
@@ -184,7 +186,7 @@ render() {
 const styles = {
     BackStyle: {
         backgroundColor: "#ffc68e",
-        paddingBottom: 560
+        paddingBottom: 560,
     },
 
     labelStyle2: {
