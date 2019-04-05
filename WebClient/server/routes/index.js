@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/api/ConfiguratorAPI/Login', function (req, res, next) {
-	if (req.body.Username !== "abcd" || req.body.Password !== "1234"){
+	if (req.body.Username !== "Admin" || req.body.Password !== "1234"){
 		res.status(200).json({
 			ErrorCode: 1
 		})
