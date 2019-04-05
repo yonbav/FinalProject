@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import kravitz_1 from './images/kravitz_1.jpg';
-import kravitz_2 from './images/kravitz_2.png';
+import kravitz_2 from './images/kravitz_2.jpg';
 import kravitz_3 from './images/kravitz_3.jpg';
 
 class ImageSlider extends Component {
