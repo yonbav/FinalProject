@@ -3,7 +3,6 @@ import {withRouter, Route, Switch} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Header from '../components/Header'
-import StatusBar from '../components/StatusBar'
 import ImageSlider from '../components/ImageSlider'
 import Splash from '../components/Splash'
 import {
@@ -43,12 +42,7 @@ class RouterApp extends React.Component {
             this.props.getAllClient();
         }, 10000);
         this.props.logDisplayProperties();
-        this.props.getBusinessDay();
-        this.props.getStoreStatus();
-        this.props.getOpenHours();
-        this.props.getEmployeeCount();
         this.props.getVersion();
-        this.props.getStoreName();
     }
 
     componentDidUpdate () {
@@ -68,19 +62,17 @@ class RouterApp extends React.Component {
 
         const { message } = this.props;
 
-        return (
-            
+        return (            
             <div>
                 <div id="app-main">
                     <Splash/>
                     <Header/>
-                    <ImageSlider />
+                    <ImageSlider/>
                     <main id="app-content">
                         <Switch>
                             <Route exact path="/" component={Monitor}/>
                         </Switch>
                     </main>
-                    <StatusBar/>
                     {message && message.isShowMsg && message.data.type === 'error' && NotificationManager.error (message.data.msg, 'Error')}
                     {message && message.isShowMsg && message.data.type === 'success' && NotificationManager.success (message.data.msg, 'Success')}
                     {message && message.isShowMsg && message.data.type === 'warning' && NotificationManager.warning (message.data.msg, 'Warning')}

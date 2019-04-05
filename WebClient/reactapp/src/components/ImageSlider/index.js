@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
+import kravitz_1 from './images/kravitz_1.jpg';
+import kravitz_2 from './images/kravitz_2.png';
+import kravitz_3 from './images/kravitz_3.jpg';
 
 class ImageSlider extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {}
-    }
-
     render() {
+        const c_height = 500;
+        const c_width = 800;
+        const c_interval = 10000;
+
         return (
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active" data-interval="10000">
-                        <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="450" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: First slide"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#555" dy=".3em">First slide</text></svg>
+            <div id="carouselExampleIndicators" className="carousel slide image-slider-fixed" data-ride="carousel">
+                <div className="carousel-inner">
+                    <div className="carousel-item active" data-interval={c_interval}>
+                        <img src={kravitz_1} alt="slide_pic_1" className="d-block w-100" height={c_height} width={c_width}/>
                     </div>
-                    <div class="carousel-item" data-interval="10000">
-                        <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="450" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: First slide"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#555" dy=".3em">Second slide</text></svg>
+                    <div className="carousel-item" data-interval={c_interval}>
+                        <img src={kravitz_2} alt="slide_pic_2" className="d-block w-100" height={c_height} width={c_width}/>
                     </div>
-                    <div class="carousel-item" data-interval="10000">
-                        <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="450" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: First slide"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#555" dy=".3em">Third slide</text></svg>
+                    <div className="carousel-item" data-interval={c_interval}>
+                        <img src={kravitz_3} alt="slide_pic_3" className="d-block w-100" height={c_height} width={c_width}/>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
+                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
+                <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Next</span>
                 </a>
             </div>)
     }

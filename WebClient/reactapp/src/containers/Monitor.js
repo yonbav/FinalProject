@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Table from '../components/Table'
 import LoginForm from '../components/LoginForm'
-import EditBusinessDate from '../components/EditBusinessDate';
 import Dialog from '../components/Dialog';
 
 class Monitor extends Component {
@@ -16,7 +14,6 @@ class Monitor extends Component {
         return (
             <div id="monitor">
                 <LoginForm/>
-                <EditBusinessDate/>
                 <Dialog/>
             </div>
         )
