@@ -15,7 +15,6 @@ class Monitor extends Component {
 
         return (
             <div id="monitor">
-                <Table/>
                 <LoginForm/>
                 <EditBusinessDate/>
                 <Dialog/>

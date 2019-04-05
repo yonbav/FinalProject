@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Header from '../components/Header'
 import StatusBar from '../components/StatusBar'
+import ImageSlider from '../components/ImageSlider'
 import Splash from '../components/Splash'
 import {
     hideMessage,
@@ -73,6 +74,7 @@ class RouterApp extends React.Component {
                 <div id="app-main">
                     <Splash/>
                     <Header/>
+                    <ImageSlider />
                     <main id="app-content">
                         <Switch>
                             <Route exact path="/" component={Monitor}/>
