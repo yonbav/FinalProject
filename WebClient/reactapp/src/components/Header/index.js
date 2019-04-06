@@ -30,12 +30,12 @@ class Header extends Component {
 
         if (!this.props.authUser)
         {
-            headerButtons = <button className="btn btn-warning btn-sm mr-3 btn-header" onClick={this.loginClick}>Login</button>
+            headerButtons = <div><button className="btn btn-warning btn-sm mr-3" onClick={this.loginClick}>Login</button></div>
         }
         else
         {
             headerButtons = <div className="row justify-content-center align-self-cente">
-                <button className="btn btn-warning btn-sm mr-3 btn-header" onClick={this.logoutClick}>Logout</button>
+                <button className="btn btn-warning btn-sm mr-3" onClick={this.logoutClick}>Logout</button>
                 <DropdownItem MainLabel="Users" Label_1="Add User" Label_2="Users List" Label_3="Load Excel"/>
                 <DropdownItem MainLabel="Daily Briefing" Label_1="Add Daily Briefing" Label_2="All Daily Briefing"/>
                 <DropdownItem MainLabel="Important Messages" Label_1="Add Message" Label_2="All Messages"/>

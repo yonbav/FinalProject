@@ -9,16 +9,18 @@ class DropDownItem extends Component {
 
     render() {
         return(
-            <div class="dropdown">
-                <button type="button" class="btn-header btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div className="dropdown">
+                <button type="button" className="btn-header btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {this.props.MainLabel}
                 </button>
 
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href={this.props.href_1}>{this.props.Label_1}</a>
-                    <a class="dropdown-item" href={this.props.href_2}>{this.props.Label_2}</a>
-                    <a class="dropdown-item" href={this.props.href_3}>{this.props.Label_3}</a>
-                </div>
+                <ul className="dropdown-menu dropdown-menu-right">
+                    <li className="dropdown-item" href={this.props.href_1}>{this.props.Label_1}</li>
+                    <div className="dropdown-divider"></div>
+                    <li className="dropdown-item" href={this.props.href_2}>{this.props.Label_2}</li>
+                    <div className="dropdown-divider"></div>
+                    <li className="dropdown-item" href={this.props.href_3}>{this.props.Label_3}</li>
+                </ul>
             </div>
       )
     }    
