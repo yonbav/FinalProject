@@ -7,6 +7,7 @@ import Input from "../common/Input"
 import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert,BackHandler} from 'react-native';
 import Applogo from "../common/Applogo";
 import deviceStorage from '../../Services/deviceStorage'
+import {Actions} from "react-native-router-flux";
 
 
 class LoginForm extends Component{
@@ -91,6 +92,9 @@ class LoginForm extends Component{
                     {this.renderButton()}
                         {this.renderErrorConnection()}
                     </View>
+                    <TouchableOpacity style={{alignItems: 'center',alignSelf:'center'}} onPress={() => Actions.ForgetPassword()}>
+                        <Text style={{color: '#4941ff'}}> שכחתי סיסמה </Text>
+                    </TouchableOpacity>
 
 
                 </Card>

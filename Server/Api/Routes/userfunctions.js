@@ -143,6 +143,24 @@ router.delete('/:userid',(req,res,next) => {
             res.status(500).json({error:err});
         });
 });
+router.patch('/forgetpassword/:userid', (req,res,next)=> {
+    const id = req.params.userid;
+
+    bcrypt.hash(req.body.Newpassword, 10).then(hash => {
+        User.updateOne({_id: id}, {password: hash})
+            .exec().then(() => {
+            res.status(200).json({
+                success: true
+            });
+        })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({error: err});
+            });
+    })
+
+
+});
 
 
 module.exports = router;
