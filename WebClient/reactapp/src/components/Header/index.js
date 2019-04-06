@@ -22,6 +22,7 @@ class Header extends Component {
 
     logoutClick()
     {
+        this.props.history.push('/')
         this.props.logoutSuccess()
     }
 
@@ -36,9 +37,16 @@ class Header extends Component {
         {
             headerButtons = <div className="row justify-content-center align-self-cente">
                 <button className="btn btn-warning btn-sm mr-3" onClick={this.logoutClick}>Logout</button>
-                <DropdownItem MainLabel="Users" Label_1="Add User" Label_2="Users List" Label_3="Load Excel"/>
-                <DropdownItem MainLabel="Daily Briefing" Label_1="Add Daily Briefing" Label_2="All Daily Briefing"/>
-                <DropdownItem MainLabel="Important Messages" Label_1="Add Message" Label_2="All Messages"/>
+                <DropdownItem MainLabel="Users"
+                    Label_1="Add User" Link_1="/Users/AddUser"
+                    Label_2="Users List" Link_2="/Users/UsersList"
+                    Label_3="Load Excel" Link_3="/Users/LoadUsersExcel"/>
+                <DropdownItem MainLabel="Daily Briefing"
+                    Label_1="Add Daily Briefing" Link_1="/DailyBriefings/AddDailyBriefing"
+                    Label_2="All Daily Briefing" Link_2="/DailyBriefings/DailyBriefingsList" />
+                <DropdownItem MainLabel="Important Messages"
+                    Label_1="Add Message" Link_1="/ImportantMessages/AddImportantMessage"
+                    Label_2="All Messages" Link_2="/ImportantMessages/ImportantMessagesList" />
             </div>
         }
 
@@ -50,7 +58,7 @@ class Header extends Component {
                         <small style={{margin:'20px'}} className="font-italic">version {this.props.version}</small>
                         <small className="font-italic">{this.props.storeName}</small>
                     </div>
-                </div>            
+                </div>    
                 {headerButtons}
             </div>
         )

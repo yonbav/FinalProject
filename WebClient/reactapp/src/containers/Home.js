@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import LoginForm from '../components/LoginForm'
-import Dialog from '../components/Dialog';
 
-class Monitor extends Component {
+class Home extends Component {
 
     constructor(props){
         super(props);
@@ -12,12 +11,12 @@ class Monitor extends Component {
     render() {
 
         return (
-            <div id="monitor">
+            <div id="home">
                 <LoginForm/>
-                <Dialog/>
+                <div> home </div>
             </div>
         )
     }
 }
 
-export default Monitor;
+export default Home;

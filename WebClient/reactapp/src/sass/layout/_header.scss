@@ -11,7 +11,7 @@
         background: cornsilk;
         width: 300px;
 
-        li {
+        Link {
             text-align: center;
             color: black;
             font-size: 18px;
@@ -20,15 +20,12 @@
                 background: lightgray;
             }
         }
-
-        li.inactive {
-            color: gray;
-            background: cornsilk;
-        }
     }    
 
     div
     {
+        margin: 0px 10px;
+
         button
         {
             margin: 10px 10px;
