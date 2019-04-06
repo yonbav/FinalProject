@@ -42,7 +42,9 @@ const deviceStorage = {
             }
         }
          catch (error) {
-            console.log('AsyncStorage Error: ' + error.message);
+             this.setState({
+                 error: "אין חיבור לאינטרנט"
+             });
         }
     },
 

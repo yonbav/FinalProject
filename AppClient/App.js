@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { Provider } from 'react-redux';
 import {createStore,applyMiddleware} from 'redux';
 import reducers from './src/reducers/reducers'
@@ -19,7 +19,8 @@ export default class App extends React.Component {
     this.state = {
       data: null,
       loading: false,
-      user: null
+      user: null,
+      error: null
     };
     this.loadJWT = deviceStorage.loadJWT.bind(this);
     this.loadJWT();
@@ -32,7 +33,10 @@ export default class App extends React.Component {
     });
 
   }
-
+  mixFunction=()=>{
+    this.setState({error: null});
+    this.loadJWT();
+  };
   render() {
     if (this.state.loading) {
 
@@ -43,9 +47,19 @@ export default class App extends React.Component {
         );
     }
     else{
-      return <View style={styles.loading}>
-        <ActivityIndicator size="large" color="#000" />
-      </View>
+      if(this.state.error){
+        return <View style={styles.loading}>
+          <TouchableOpacity onPress={() => {this.mixFunction()}}>
+              <Text>{this.state.error}</Text>
+          </TouchableOpacity>
+        </View>
+      }
+
+      else {
+        return <View style={styles.loading}>
+          <ActivityIndicator size="large" color="#000"/>
+        </View>
+      }
     }
   }
 }
@@ -60,6 +74,6 @@ const styles = StyleSheet.create({
   loading:{
     alignItems: 'center',
     alignSelf: 'center',
-    paddingTop: 550
+    paddingTop: 650
   }
 });
