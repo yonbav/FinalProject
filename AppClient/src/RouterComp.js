@@ -16,6 +16,9 @@ import EmployeeTraining from "./Components/AppForms/EmployeeTraining/EmployeeTra
 import ManagerTraining from "./Components/AppForms/ManagerTraining/ManagerTraining";
 import deviceStorage from './Services/deviceStorage'
 import Jobs from "./Components/AppForms/Human_Resources/Jobs";
+import ForgetPassword from "./Components/AppForms/ForgetPassword/ForgetPassword";
+import CodeVerify from "./Components/AppForms/ForgetPassword/CodeVerify";
+import ForgetPasswordChange from "./Components/AppForms/ForgetPassword/ForgetPasswordChange";
 
 const onExitApp = () => {
     Alert.alert(
@@ -38,6 +41,18 @@ class RouterComp extends Component {
                     <Scene key="root" hideNavBar>
                         <Scene key="auth" hideNavBar type="reset">
                             <Scene key="Login" component={LoginForm} title="LoginForm"/>
+                            <Scene key="ForgetPassword"
+                                   component={ForgetPassword}
+                                   hideNavBar={false}
+                                   navigationBarStyle={[{paddingTop: 10}, {backgroundColor: "#ffc68e"}]}/>
+                            <Scene key="CodeVerify"
+                                   component={CodeVerify}
+                                   hideNavBar={true}
+                            />
+                            <Scene key="ForgetPasswordChange"
+                                   component={ForgetPasswordChange}
+                                   hideNavBar={true}
+                            />
                         </Scene>
                         <Scene key="main">
                             <Scene key="Home" component={HomePage} title="" hideNavBar={true}/>
@@ -163,9 +178,22 @@ class RouterComp extends Component {
                                    component={Jobs}
                                    hideNavBar={false}
                                    navigationBarStyle={[{paddingTop: 10}, {backgroundColor: "#ffc68e"}]}/>
+
                         </Scene>
                         <Scene key="auth" hideNavBar type="reset">
                             <Scene key="Login" component={LoginForm} title="LoginForm"/>
+                            <Scene key="ForgetPassword"
+                                   component={ForgetPassword}
+                                   hideNavBar={false}
+                                   navigationBarStyle={[{paddingTop: 10}, {backgroundColor: "#ffc68e"}]}/>
+                            <Scene key="CodeVerify"
+                                   component={CodeVerify}
+                                   hideNavBar={true}
+                                   />
+                            <Scene key="ForgetPasswordChange"
+                                   component={ForgetPasswordChange}
+                                   hideNavBar={true}
+                            />
                         </Scene>
                         </Scene>
 
