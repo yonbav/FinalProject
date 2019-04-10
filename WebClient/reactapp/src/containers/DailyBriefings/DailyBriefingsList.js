@@ -44,7 +44,7 @@ class DailyBriefingsList extends Component {
             Cell: props => <button onClick={() => this.deleteDailyBriefing(props.value)} className="btn btn-link">Delete</button>
         }];
 
-        return <ReactTable defaultPageSize="10" className= "react-table-default" data={data} columns={columns} />
+        return <ReactTable defaultPageSize={10} className= "react-table-default" data={data} columns={columns} />
     }
 }
 
