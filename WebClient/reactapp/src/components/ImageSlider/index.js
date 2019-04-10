@@ -5,7 +5,7 @@ import kravitz_3 from './images/kravitz_3.jpg';
 
 class ImageSlider extends Component {
     render() {
-        const c_height = 500;
+        const c_height = 400;
         const c_width = 800;
         const c_interval = 10000;
 
