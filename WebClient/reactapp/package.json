@@ -63,6 +63,7 @@
     "react-router-redux": "^4.0.8",
     "react-sticky-table": "^2.0.4",
     "react-switch": "^4.0.1",
+    "react-table": "^6.9.2",
     "reactstrap": "^6.5.0",
     "recharts": "^1.4.2",
     "recompose": "^0.30.0",

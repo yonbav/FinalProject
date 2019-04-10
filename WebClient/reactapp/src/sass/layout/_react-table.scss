@@ -1,0 +1,50 @@
+.react-table-default {
+    margin: 40px;
+    .rt-table {
+        .rt-thead {
+            font-weight: bold;
+            border: 1px solid;
+            .rt-tr {
+                .rt-th{
+                    border: 1px solid;
+                }
+            }
+        }
+        
+        .rt-tbody {
+            border: 1px solid;
+            .rt-tr-group {
+                .rt-tr {
+                    .rt-td {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center; 
+                        border-left: 1px solid;
+                        border-bottom: 1px solid;
+                    }
+                }
+            }      
+        }
+    }
+    
+    .pagination-bottom {
+        .-pagination {
+            .-previous {
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+                button{
+                    max-width: 120px;
+                }
+            }
+            .-next {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                button{
+                    max-width: 120px;
+                }
+            }
+        }
+    }
+}
