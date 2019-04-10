@@ -36,7 +36,7 @@ class DailyBriefingsList extends Component {
               Header: '',
               accessor: '_id',
               maxWidth: '100',
-              Cell: props => <Link to={"DailyBriefings/EditDailyBriefing/" + props.value}>Edit</Link>
+              Cell: props => <Link to={"/DailyBriefings/EditDailyBriefing/" + props.value}>Edit</Link>
           }, {
             Header: '',
             accessor: '_id',
