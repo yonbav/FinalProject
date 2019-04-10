@@ -10,7 +10,7 @@ import UsernameClick from "./UsernameClick";
 import Mail from "./Mail";
 import axios from "axios";
 import { Permissions, Notifications } from 'expo';
-import Footer from "../../common/Footer";
+import StyleApp from "../StyleApp"
 
 class HomePage extends Component{
     async registerForPushNotificationsAsync() {
@@ -80,7 +80,7 @@ class HomePage extends Component{
         }).then((res)=> {
             this.setState({num:res.data.docs})
         })
-    }
+    };
     onRefresh(){
         this.setState({isFetching:true})
         {this.GetData()}
@@ -101,8 +101,8 @@ class HomePage extends Component{
         {
             return(<Button
                 onPress={() => {Actions.ManagerTraining()}}
-                containerStyle ={styles.buttonStyleBack}
-                style={styles.buttonStyleText}>
+                containerStyle ={StyleApp.buttonStyleBackHome}
+                style={StyleApp.buttonStyleText}>
                 הדרכת מנהלים
             </Button>)
         }
@@ -110,9 +110,11 @@ class HomePage extends Component{
     _renderItem = () => (
         <Applogo/>
 )
+
+
 render() {
     return (
-    <View style={styles.BackStyle}>
+    <View style={StyleApp.BackStyle2}>
 
         <Messeges  id ={this.props.user.id} callback={this.getResponse.bind(this)}/>
         <Sales  callback={this.getResponse2.bind(this)}/>
@@ -129,51 +131,49 @@ render() {
             keyExtractor={(item) => item.toString()}
             renderItem={this._renderItem}
         />
-
-        <Text style={styles.labelStyle2}>שלום {this.props.user.firstname},</Text>
-
-        <View style = {styles.containerStyle}>
+        <Text style={StyleApp.labelStyle}>שלום {this.props.user.firstname},</Text>
+        <View style = {StyleApp.containerStyleHome}>
             <Button
                 onPress={() => Actions.DailyBrif({user: this.props.user})}
-                containerStyle ={styles.buttonStyleBack}
-                style={styles.buttonStyleText}>
+                containerStyle ={StyleApp.buttonStyleBackHome}
+                style={StyleApp.buttonStyleText}>
                 תדריך יומי
             </Button>
             <Button
                 onPress={() =>
                     Actions.pdf({url: "http://192.168.1.34:3000/"+this.state.SalesData.image ,
                         title: "מבצעים"})}
-                containerStyle ={styles.buttonStyleBack}
-                style={styles.buttonStyleText}>
+                containerStyle ={StyleApp.buttonStyleBackHome}
+                style={StyleApp.buttonStyleText}>
                 מבצעים
             </Button>
 
         </View>
-        <View style = {styles.containerStyle}>
+        <View style = {StyleApp.containerStyleHome}>
             <Button
                 onPress={() => Actions.HumRes()}
-                containerStyle ={styles.buttonStyleBack}
-                style={styles.buttonStyleText}>
+                containerStyle ={StyleApp.buttonStyleBackHome}
+                style={StyleApp.buttonStyleText}>
                 עדכוני מש"א
             </Button>
             <Button
                 onPress={() => Actions.Importantinfo()}
-                containerStyle ={styles.buttonStyleBack}
-                style={styles.buttonStyleText}>
+                containerStyle ={StyleApp.buttonStyleBackHome}
+                style={StyleApp.buttonStyleText}>
                 מידע חשוב
             </Button>
 
         </View>
-        <View style = {styles.containerStyle}>
+        <View style = {StyleApp.containerStyleHome}>
             <Button
                 onPress={() => Actions.EmployeeTraining()}
-                containerStyle ={styles.buttonStyleBack}
-                style={styles.buttonStyleText}>
+                containerStyle ={StyleApp.buttonStyleBackHome}
+                style={StyleApp.buttonStyleText}>
                 הדרכת עובדים
             </Button>
             {this.renderManager()}
         </View>
-        <View style={[styles.buttonStyleBack1,{width:400}]}>
+        <View style={[StyleApp.buttonStyleBack1,{width:400}]}>
             <GetDailyBirthdays user={this.props.user}/>
         </View>
 
@@ -183,82 +183,5 @@ render() {
 };
 }
 
-const styles = {
-    BackStyle: {
-        backgroundColor: "#ffc68e",
-        paddingBottom: 560,
-    },
 
-    labelStyle2: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: '#1c000b',
-        textAlign: 'left',
-        marginTop: 10,
-        justifyContent: 'space-between',
-        paddingRight: 15
-    },
-    buttonStyleBack:{
-        flex:1,
-        backgroundColor: '#fff',
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor:'#FF7802',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        alignItems: 'center',
-        width:250,
-
-    },
-    labelStyle: {
-        fontSize: 15,
-        paddingLeft: 20,
-        flex: 1,
-        color: '#000',
-    },
-    buttonStyleText:{
-        alignSelf: 'center',
-        color:'#050002',
-        fontSize: 16,
-        fontWeight: '600',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    containerStyle:{
-        borderBottomWidth: 1,
-        padding: 5,
-        justifyContent: 'flex-start',
-        backgroundColor: '#ffc68e',
-        justifyItems: 'space-between',
-        alignItems: 'space-between',
-        flexDirection: 'row',
-        borderColor: '#ffc68e',
-        margin: 10,
-        marginTop: 20,
-        position: 'relative'
-
-
-    },
-    buttonStyleBack1:{
-        margin:5,
-        height:45,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:250,
-        borderWidth: 1,
-        borderRadius:30,
-        backgroundColor: "#373c84",
-        borderColor:'#FF7802',
-
-    },
-    buttonStyleText1:{
-        alignSelf: 'center',
-        color:'#fff',
-        fontSize: 16,
-        fontWeight: '600',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-};
 export default HomePage;
