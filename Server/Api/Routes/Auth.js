@@ -27,7 +27,7 @@ var smtpTrans = nodemailer.createTransport({
     }
 });
 
-
+/*Service Forget Password*/
 router.post('/forget',jsonParser, async (req, res, next) => {
     var x = await crypto.createHash('md5').update('idanlazar8241@gmail.com' + Math.random(1000)).digest("hex").slice(0, 6);
     HashChange.push(x);
@@ -58,6 +58,7 @@ router.post('/forget',jsonParser, async (req, res, next) => {
 
 
 });
+/*Service Verify Code Forget Password*/
 router.post('/verifycode',jsonParser, async (req, res, next) => {
     if(HashChange.find((element)=> element === req.body.code))
     {
@@ -74,7 +75,7 @@ router.post('/verifycode',jsonParser, async (req, res, next) => {
 
 
 
-
+/*Service Check if the token is alive*/
 router.post('/CheckToken',jsonParser,(req,res,next) => {
     User.findOne({id: req.body.id}).then(user => {
         if (user) {
@@ -95,6 +96,7 @@ router.post('/CheckToken',jsonParser,(req,res,next) => {
         }
     });
 });
+/*Service Login*/
 
     router.post('/login', jsonParser, (req, res, next) => {
 

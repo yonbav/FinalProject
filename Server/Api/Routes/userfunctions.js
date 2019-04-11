@@ -10,7 +10,7 @@ var jsonParser = bodyParser.json();
 app.use(bodyParser.json());
 
 const User = require('../../models/user');
-
+/*Service Add user*/
 router.post('/adduser',jsonParser,(req,res,next) => {
     bcrypt.hash(req.body.password, 10).then(hash => {
        const user = new User({
@@ -38,6 +38,7 @@ router.post('/adduser',jsonParser,(req,res,next) => {
 
 });
 
+/*Service get user by id*/
 router.get('/:userid',(req,res,next) => {
     const id = req.params.userid;
     User.findById(id).select('firstname lastname _id id').exec().then(doc=>{
@@ -54,6 +55,8 @@ router.get('/:userid',(req,res,next) => {
             res.status(500).json({error:err});
         });
 });
+
+/*Service valid token or null*/
 router.post('/token',(req,res,next) => {
 
     User.find({token: req.body.token}).then(doc=>{
@@ -69,6 +72,7 @@ router.post('/token',(req,res,next) => {
         });
 });
 
+/*Service Get all users*/
 router.get('', (req,res,next) => {
     User.find().exec().then(doc=>{
         if(doc) {
@@ -84,6 +88,8 @@ router.get('', (req,res,next) => {
             res.status(500).json({error:err});
         });
 });
+
+/*Service edit user by id*/
 router.patch('/edituser/:userid',(req,res,next) => {
     const id = req.params.userid;
     const updateOpt = {};
@@ -102,6 +108,7 @@ router.patch('/edituser/:userid',(req,res,next) => {
         });
 });
 
+/*Service Change Password*/
 router.patch('/changepassword/:userid', (req,res,next)=> {
     const id = req.params.userid;
         User.findOne({_id: id})
@@ -129,7 +136,7 @@ router.patch('/changepassword/:userid', (req,res,next)=> {
                 })
             });
 });
-
+/*Service Delete user*/
 router.delete('/:userid',(req,res,next) => {
     const id = req.params.userid;
     User.deleteOne({_id:id})
@@ -143,6 +150,8 @@ router.delete('/:userid',(req,res,next) => {
             res.status(500).json({error:err});
         });
 });
+
+/*Service ForgetPassword after code verify*/
 router.patch('/forgetpassword/:userid', (req,res,next)=> {
     const id = req.params.userid;
 

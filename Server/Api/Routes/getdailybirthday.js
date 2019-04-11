@@ -14,6 +14,9 @@ var dd = dateNow.getDate();
 var monthSingleDigit = dateNow.getMonth() + 1,
     mm = monthSingleDigit < 10 ? '0' + monthSingleDigit : monthSingleDigit;
 var formattedDate = dd + '/' + mm + '/';
+
+
+/*Service return all the users that have a Birthday Today*/
 router.get('/',(req,res,next) => {
     User.find({ birthday: { $regex: formattedDate }}).select('firstname lastname branch').exec().then(docs=> {
         res.send(docs)
