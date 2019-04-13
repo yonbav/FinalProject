@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import DailyBriefingView from './DailyBriefingView';
 
 class AddDailyBriefing extends Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class AddDailyBriefing extends Component {
     }
 
     render() {
-        return <div>AddDailyBriefing</div>
+        return <DailyBriefingView Title="Add Daily Briefing"/>
     }
 }
 

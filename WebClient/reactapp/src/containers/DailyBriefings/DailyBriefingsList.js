@@ -15,7 +15,7 @@ class DailyBriefingsList extends Component {
     }
     
     componentDidMount() {
-        document.getElementById("table").scrollIntoView();
+        document.getElementById("dailyBreifingTable").scrollIntoView();
     }
 
     render() {
@@ -48,7 +48,7 @@ class DailyBriefingsList extends Component {
             Cell: props => <button onClick={() => this.deleteDailyBriefing(props.value)} className="btn btn-link">Delete</button>
         }];
 
-        return <div id="table"><ReactTable defaultPageSize={10} className= "react-table-default" data={data} columns={columns} /></div>
+        return <div id="dailyBreifingTable"><ReactTable defaultPageSize={10} className= "react-table-default" data={data} columns={columns} /></div>
     }
 }
 
