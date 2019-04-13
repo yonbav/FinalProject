@@ -8,6 +8,11 @@ class Home extends Component {
         this.state = {}
     }
 
+    
+    componentDidMount() {
+        window.scroll(0,0);
+    }
+
     render() {
 
         return (

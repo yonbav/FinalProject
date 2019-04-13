@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ImprtantMessageView from './ImportantMessageView';
 
 class AddImportantMessage extends Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class AddImportantMessage extends Component {
     }
 
     render() {
-        return <div>AddImportantMessage</div>
+        return <ImprtantMessageView formTitle="Edit Message" />
     }
 }
 

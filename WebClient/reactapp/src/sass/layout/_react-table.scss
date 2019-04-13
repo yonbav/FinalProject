@@ -1,6 +1,7 @@
 .react-table-default {
     margin: 40px;
     .rt-table {
+        table-layout: fixed;
         .rt-thead {
             font-weight: bold;
             border: 1px solid;
@@ -16,6 +17,8 @@
             .rt-tr-group {
                 .rt-tr {
                     .rt-td {
+                        white-space: normal;
+                        word-wrap: break-word;
                         display: flex;
                         justify-content: center;
                         align-items: center; 
