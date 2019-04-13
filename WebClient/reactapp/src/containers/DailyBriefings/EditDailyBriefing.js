@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import DailyBriefingView from './DailyBriefingView';
 
 class EditDailyBriefing extends Component {
@@ -8,9 +8,12 @@ class EditDailyBriefing extends Component {
     }
 
     render() {
+        let dailyBriefing = {
+            image:"My File",
+            title:"11/12/2018"
+        }
         return <DailyBriefingView Title="Edit Daily Briefing"
-        FileName="My File"
-        DailyBriefingDate="11/12/2018"/>
+            briefing={dailyBriefing} />
     }
 }
 

@@ -10,11 +10,11 @@ class DailyBriefingView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            FileName: this.props.FileName,
-            DailyBriefingDate: this.props.DailyBriefingDate
+            briefing: this.props.briefing ? this.props.briefing : {},
         };
-        this.onFileChanged.bind(this);
-        this.handleSubmit.bind(this);
+        
+        this.onFileChanged = this.onFileChanged.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     componentDidMount() {
@@ -27,11 +27,15 @@ class DailyBriefingView extends Component {
         if (!currentFile)
             alert("Failed to upload file");
 
-        this.setState({FileName:currentFile.name}); 
+        let newBriefing = this.state.briefing
+        newBriefing.image = currentFile.name;
+
+        this.setState({briefing:newBriefing}); 
     }
 
     handleSubmit() {
-        alert("Submit\n=======\n File: " + this.state.FileName + "\nDate: " + this.state.DailyBriefingDate)
+        let result = JSON.stringify(this.state.briefing);
+        alert("Submit\n=======\n File: " + result);
     }
 
     render() {
@@ -46,12 +50,14 @@ class DailyBriefingView extends Component {
                             <DayPickerInput id="datePicker"
                                 formatDate={formatDate}
                                 parseDate={parseDate}
-                                value={this.state.DailyBriefingDate}
+                                value={this.state.briefing.title}
                                 placeholder="DD/MM/YYYY"
                                 format="DD/MM/YYYY"
                                 onDayChange={(newDate) => {
+                                    let newBriefing = this.state.briefing
+                                    newBriefing.title =  newDate
                                     this.setState({
-                                        DailyBriefingDate: newDate,
+                                        briefing: newBriefing,
                                     });
                                 }}
                             />
@@ -59,7 +65,7 @@ class DailyBriefingView extends Component {
                     </div>
                     <div className="form-group row">
                         <label className="col-sm-4 col-form-label">File Upload:</label>
-                        <input placeholder={this.state.FileName} className="col-sm-5" disabled/>
+                        <input placeholder={this.state.briefing.image} className="col-sm-5" disabled/>
                         <label className="col-sm-1 file-upload-button input-file-image" style={{padding:"0px"}} htmlFor="fileUpload">
                             <img className="upload-image" alt="upload" src={uploadIcon}/>
                         </label>

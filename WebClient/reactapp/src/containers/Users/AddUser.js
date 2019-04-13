@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import UserView from './UserView';
 
 class AddUser extends Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class AddUser extends Component {
     }
 
     render() {
-        return <div>AddUser</div>
+        return <UserView formTitle="Edit User"/>
     }
 }
 

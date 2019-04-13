@@ -8,10 +8,14 @@ class EditImportantMessage extends Component {
     }
 
     render() {
+        var messageToEdit = {
+            title:"Message 1",
+            content:"message content",
+            date:"11/12/2018"
+        };
+
         return <ImprtantMessageView formTitle="Edit Message" 
-                                    messageTitle="Message 1"
-                                    content="message content"
-                                    date="11/12/2018"/>
+                                    message={messageToEdit}/>
     }
 }
 

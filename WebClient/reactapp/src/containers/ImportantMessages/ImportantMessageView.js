@@ -9,9 +9,7 @@ class ImportantMessageView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            messageTitle: this.props.messageTitle,
-            content: this.props.content,
-            date: this.props.date,
+            message: this.props.message ? this.props.message : {} 
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -26,13 +24,17 @@ class ImportantMessageView extends Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.id;
 
+        let newMessage = this.state.message
+        newMessage[name] = value;
+
         this.setState({
-        [name]: value
+            message: newMessage
         });
     }
 
     handleSubmit() {
-        alert("Submit\n=======\n title: " + this.state.messageTitle + "\ncontent: " + this.state.content + "\nDate: " + this.state.date)
+        var messageResult = JSON.stringify(this.state.message);
+        alert("Submit\n=======\nmessage: " + messageResult)
     }
 
     render() {
@@ -41,12 +43,12 @@ class ImportantMessageView extends Component {
                 <form className="input-form" onSubmit={() => this.handleSubmit()}>                             
                 <div className="form-title">{this.props.formTitle}</div>
                     <div className="form-group row">
-                        <label htmlFor="messageTitle" className="col-sm-3 col-form-label">Title: </label>
-                        <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="messageTitle" value={this.state.messageTitle} placeholder="Enter text"></input>
+                        <label htmlFor="title" className="col-sm-3 col-form-label">Title: </label>
+                        <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="title" value={this.state.message.title} placeholder="Enter text"></input>
                     </div>
                     <div className="form-group row">
                         <label htmlFor="content" className="col-sm-3 col-form-label">Content: </label>
-                        <textarea className="form-control col-sm-8" id="content" onChange={this.handleInputChange} value={this.state.content} placeholder="Enter text" rows="5"></textarea>
+                        <textarea className="form-control col-sm-8" id="content" onChange={this.handleInputChange} value={this.state.message.content} placeholder="Enter text" rows="5"></textarea>
                     </div>   
                     <div className="form-group row">
                         <label htmlFor="date" className="col-sm-3 col-form-label">Date: </label>
@@ -54,12 +56,14 @@ class ImportantMessageView extends Component {
                             <DayPickerInput id="datePicker"
                                 formatDate={formatDate}
                                 parseDate={parseDate}
-                                value={this.state.date}
+                                value={this.state.message.date}
                                 placeholder="DD/MM/YYYY"
                                 format="DD/MM/YYYY"
-                                onDayChange={(newDate) => {
+                                onDayChange={(date) => {
+                                    let newMessage = this.state.message
+                                    newMessage.date =  date
                                     this.setState({
-                                        date: newDate,
+                                        message: newMessage,
                                     });
                                 }}
                             />

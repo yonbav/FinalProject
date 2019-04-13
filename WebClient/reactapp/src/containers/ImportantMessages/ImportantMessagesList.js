@@ -10,9 +10,9 @@ class ImportantMessagesList extends Component {
         this.deleteImportantMessage = this.deleteImportantMessage.bind(this);
     }
 
-    deleteImportantMessage(importaמtMessageId)
+    deleteImportantMessage(importantMessageId)
     {
-        alert("item was deleted " + importaמtMessageId);
+        alert("item was deleted " + importantMessageId);
     }
     
     componentDidMount() {
@@ -44,8 +44,7 @@ class ImportantMessagesList extends Component {
           }, {
             Header: 'Midification Date',
             accessor: 'date',
-            maxWidth: '300',
-            Cell: props => <span className='number'>{props.value}</span>
+            maxWidth: '300'
           }, {
               Header: '',
               accessor: '_id',
