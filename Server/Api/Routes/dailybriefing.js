@@ -20,6 +20,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage:storage});
 var somePushTokens =[];
+
+
+/*Service Add Client to notification list*/
 router.post('/registarnotification',(req,res,next) => {
     const notification = new Notifications({
         _id: new mongoose.Types.ObjectId(),
@@ -45,7 +48,8 @@ router.post('/registarnotification',(req,res,next) => {
 
 });
 
-router.post('/adddailbrief',upload.single('DailyBriefImage'),(req,res,next) => {
+/*Service Add Daily Brifing*/
+router.post('/adddailybrief',upload.single('DailyBriefImage'),(req,res,next) => {
     const dailybriefing = new DailyBriefing({
         _id: new mongoose.Types.ObjectId(),
         title:req.body.title,
@@ -63,7 +67,7 @@ router.post('/adddailbrief',upload.single('DailyBriefImage'),(req,res,next) => {
     });
 });
 
-
+/*Service Get Daily Brifing by id*/
 router.get('/:id', (req,res,next) => {
     DailyBriefing.findOne({title: req.params.id}).exec().then(doc=>{
         if(doc) {
@@ -77,7 +81,7 @@ router.get('/:id', (req,res,next) => {
             res.status(500).json({error:err});
         });
 });
-
+/*Service Get All Daily Brifing*/
 router.get('/', (req,res,next) => {
     DailyBriefing.find().exec().then(doc=>{
         if(doc) {
@@ -93,7 +97,7 @@ router.get('/', (req,res,next) => {
 });
 
 
-
+/*Service return all the unread daily brifing of the specific user*/
 router.post('/unread',(req,res,next) => {
     DailyBriefing.findOne({title:req.body.title , readby: {$ne: req.body.id}}).then(docs=> {
         res.status(200).json({docs});
@@ -101,6 +105,7 @@ router.post('/unread',(req,res,next) => {
         res.status(401).json({error:err});
     });
 });
+/*Service marker read all the unread daily brifing*/
 router.post('/pushread',(req,res,next) => {
     DailyBriefing.updateOne({ title:req.body.title , readby: { $nin: [req.body.id] } }, { $push: { readby: req.body.id}  }).then(docs=> {
         res.status(200).json({docs: docs.nModified});
@@ -110,7 +115,7 @@ router.post('/pushread',(req,res,next) => {
 });
 
 
-
+/*Service Delete daily brifing*/
 router.post('/deletedailybrief',upload.single('DailyBriefImage'),async (req,res,next) => {
     await unlinkAsync(req.body.image);
     DailyBriefing.deleteOne({_id:req.body._id})
@@ -124,7 +129,7 @@ router.post('/deletedailybrief',upload.single('DailyBriefImage'),async (req,res,
             res.status(500).json({error:err});
         });
 });
-
+/*Service edit daily brifing*/
 router.patch('/editdailybrief/:id',(req,res,next) => {
     const id = req.params.id;
     const updateOpt = {};
@@ -142,6 +147,11 @@ router.patch('/editdailybrief/:id',(req,res,next) => {
             res.status(500).json({error:err});
         });
 });
+
+
+
+
+/*Service send notification for all the clients are connected*/
 router.post('/notification', async (req, res, next) => {
 
 // Create a new Expo SDK client

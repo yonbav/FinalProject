@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage:storage});
 
 
-
+/*Service add a pdf*/
 router.post('/addinfo',upload.single('InfoImage'),(req,res,next) => {
     const info = new Info({
         _id: new mongoose.Types.ObjectId(),
@@ -36,7 +36,7 @@ router.post('/addinfo',upload.single('InfoImage'),(req,res,next) => {
     });
 });
 
-
+/*Service get by id*/
 router.get('/:id', (req,res,next) => {
     Info.findOne({title: req.params.id}).exec().then(doc=>{
         if(doc) {
@@ -51,7 +51,7 @@ router.get('/:id', (req,res,next) => {
         });
 });
 
-
+/*Service get all pdf's*/
 router.get('/', (req,res,next) => {
     Info.find().exec().then(doc=>{
         if(doc) {
@@ -66,6 +66,7 @@ router.get('/', (req,res,next) => {
         });
 });
 
+/*Service delete a pdf*/
 router.post('/deleteinfo',upload.single('InfoImage'),async (req,res,next) => {
     await unlinkAsync(req.body.image);
     Info.deleteOne({_id:req.body._id})
@@ -80,7 +81,7 @@ router.post('/deleteinfo',upload.single('InfoImage'),async (req,res,next) => {
         });
 
 });
-
+/*Service edit a pdf by id*/
 router.patch('/editinfo/:id',(req,res,next) => {
     const id = req.params.id;
     const updateOpt = {};

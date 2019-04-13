@@ -12,7 +12,7 @@ var yy = dateNow.getFullYear().toString().substr(2);
 var formattedDate = dd + '/' + mm + '/' +yy;
 
 
-
+/*Service add a message*/
 router.post('/addmessage',(req,res,next) => {
     const message = new IMessage({
         _id: new mongoose.Types.ObjectId(),
@@ -34,7 +34,7 @@ router.post('/addmessage',(req,res,next) => {
     });
 
 
-
+/*Service get all*/
 router.get('', (req,res,next) => {
     IMessage.find().exec().then(doc=>{
         if(doc) {
@@ -49,7 +49,7 @@ router.get('', (req,res,next) => {
         });
 });
 
-
+/*Service return to user how many unread messages he has*/
 router.post('/unreadCount',(req,res,next) => {
     IMessage.find({readby: {$ne: req.body.id}}).countDocuments().then(docs=> {
         res.send({docs});
@@ -57,6 +57,7 @@ router.post('/unreadCount',(req,res,next) => {
         res.status(401).json({error:err});
     });
 });
+/*Service return all the unread messages of the specific user*/
 router.post('/unread',(req,res,next) => {
     IMessage.find({readby: {$ne: req.body.id}}).then(docs=> {
         res.status(200).json(docs);
@@ -64,6 +65,7 @@ router.post('/unread',(req,res,next) => {
         res.status(401).json({error:err});
     });
 });
+/*Service marker read all the unread messages*/
 router.post('/pushread',(req,res,next) => {
     IMessage.updateMany({ readby: { $nin: [req.body.id] } }, { $push: { readby: req.body.id}  }).then(docs=> {
         res.status(200).json({docs: docs.nModified});
@@ -73,7 +75,7 @@ router.post('/pushread',(req,res,next) => {
 });
 
 
-
+/*Service delete a message*/
 router.post('/deletemessage',(req,res,next) => {
     IMessage.deleteOne({_id:req.body._id})
         .then(result=>{
@@ -86,7 +88,7 @@ router.post('/deletemessage',(req,res,next) => {
             res.status(500).json({error:err});
         });
 });
-
+/*Service edit a message by id*/
 router.patch('/editMessage/:id',(req,res,next) => {
     const id = req.params.id;
     const updateOpt = {};

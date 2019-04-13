@@ -4,6 +4,7 @@ var app = express();
 const router = express.Router();
 const Job = require('../../models/jobs');
 
+/*Service Add Job*/
 
 router.post('/addjob',(req,res,next) => {
     const job = new Job({
@@ -22,7 +23,7 @@ router.post('/addjob',(req,res,next) => {
 });
 
 
-
+/*Service Get All Jobs*/
 router.get('', (req,res,next) => {
     Job.find().exec().then(doc=>{
         if(doc) {
@@ -36,6 +37,7 @@ router.get('', (req,res,next) => {
             res.status(500).json({error:err});
         });
 });
+/*Service Delete Job*/
 
 router.post('/deletejob',(req,res,next) => {
     Job.deleteOne({_id:req.body._id})
@@ -49,6 +51,7 @@ router.post('/deletejob',(req,res,next) => {
             res.status(500).json({error:err});
         });
 });
+/*Service Edit Job :id*/
 
 router.patch('/editjob/:id',(req,res,next) => {
     const id = req.params.id;
