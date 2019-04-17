@@ -33,7 +33,7 @@ class UserView extends Component {
     }
 
     handleSubmit() {
-        var jsonResult = JSON.stringi|fy(this.state.user);
+        var jsonResult = JSON.stringify(this.state.user);
         alert("Submit\n=======\nuser: " + jsonResult    );
     }
 
