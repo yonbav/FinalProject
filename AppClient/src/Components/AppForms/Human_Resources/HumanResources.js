@@ -51,7 +51,7 @@ class HumanResources extends Component {
 const styles = {
     BackStyle: {
         flex: 1,
-        backgroundColor: "#ffc68e",
+        backgroundColor: "#F58220",
     },
     image:{
         width: '100%',
