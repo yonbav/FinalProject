@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image,View } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right } from 'native-base';
+import {Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right } from 'native-base';
 export default class MessageFormat extends Component {
     render() {
         return (

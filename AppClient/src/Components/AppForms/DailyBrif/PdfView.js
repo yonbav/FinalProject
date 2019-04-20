@@ -5,10 +5,18 @@ import { CheckBox } from 'react-native-elements'
 import axios from "axios";
 
 export default class PdfView extends React.Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: `${navigation.state.params.title}`,
+        headerTitleStyle : {textAlign: 'center',alignSelf:'center',color:"#fff"},
+        headerStyle:{
+            backgroundColor:'#ffc68d',
+        },
+
+    });
     constructor() {
         super();
         this.state = {
-            checked: false
+            checked: false,
         }
         this.GetData = this.GetData.bind(this);
         this.getResponse = this.getResponse.bind(this)
@@ -18,11 +26,11 @@ export default class PdfView extends React.Component {
             checked: result
         });
     }
-    GetData() {
-        if(this.props.user) {
+    GetData(title,user) {
+        if(user) {
             axios.post('http://192.168.1.34:3000/daily/unread', {
-                title: this.props.title,
-                id: this.props.user.id
+                title: title,
+                id: user.id
             })
                 .then(result => {
                     if (result.data.docs === null) {
@@ -31,11 +39,11 @@ export default class PdfView extends React.Component {
                 })
         }
     }
-    Checkandpush(){
+    Checkandpush(title,user){
         if(this.state.checked === false) {
             axios.post('http://192.168.1.34:3000/daily/pushread', {
-                title: this.props.title,
-                id: this.props.user.id
+                title: title,
+                id: user.id
             })
                 .then(result => {
                     if (result.data.docs === 1) {
@@ -44,33 +52,40 @@ export default class PdfView extends React.Component {
                 })
         }
     }
-    renderCheckBox()
+    renderCheckBox(title,user)
     {
-        if(this.props.user) {
+        if(user) {
             return (<CheckBox
                 center
                 title='אשר קריאה'
                 checkedIcon='dot-circle-o'
                 uncheckedIcon='circle-o'
                 checked={this.state.checked}
-                onPress={() => this.Checkandpush()}
+                onPress={() => this.Checkandpush(title,user)}
             />)
         }
     }
     componentDidMount() {
-        this.GetData();
+        const { navigation } = this.props;
+        const title = navigation.getParam('title');
+        const user = navigation.getParam('user');
+        this.GetData(title,user);
     }
 
     render() {
+        const { navigation } = this.props;
+        const title = navigation.getParam('title');
+        const url = navigation.getParam('url');
+        const user = navigation.getParam('user');
         return (
             <View style={styles.container}>
                 <View style={styles.Pdf}>
                 <PDFReader
-                    source={{ uri: this.props.url }}
+                    source={{ uri: url }}
                 />
                 </View>
                 <View style={styles.Cheack}>
-                    {this.renderCheckBox()}
+                    {this.renderCheckBox(title,user)}
                 </View>
             </View>
         );

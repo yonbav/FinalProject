@@ -1,7 +1,6 @@
 import React ,{Component} from 'react';
 import {ActivityIndicator, Text} from 'react-native';
 import axios from 'axios';
-import Actions from "../../../reducers/reducers";
 
 
 
@@ -75,7 +74,7 @@ class GetDailyBirthdays extends Component{
 const styles = {
     labelStyle: {
         alignSelf: 'center',
-        color:'#fff',
+        color:'#000',
         fontSize: 16,
         fontWeight: '600',
         paddingTop: 10,

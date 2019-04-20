@@ -1,9 +1,7 @@
 import React,{Component} from 'react'
-import {Keyboard, Text, TouchableOpacity, View} from 'react-native';
-import {Actions} from "react-native-router-flux";
-import Header from "../../common/Header";
-import Button from 'react-native-button';
+import {Image, Keyboard, Text, TouchableOpacity, View} from 'react-native';
 import Harassment from "./Harassment";
+import MainHeader from "../../common/MainHeader";
 
 class HumanResources extends Component {
     constructor() {
@@ -25,39 +23,26 @@ class HumanResources extends Component {
     render() {
         return (
             <View style={styles.BackStyle}>
+                <MainHeader/>
                 <Harassment  callback={this.getResponse.bind(this)}/>
+                <View style={{flex:1}}>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('Birthdays')}>
+                    <Image source = {require('../../../Resources/Birthday.jpg')} style={styles.image}/>
 
-                <View>
-                    <Header name="עדכוני משא"/>
-                </View>
+                </TouchableOpacity></View>
+                <View style={{flex:1}}>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('Jobs')}>
+                    <Image source = {require('../../../Resources/Jobs.jpg')} style={styles.image}/>
 
-                <View style = {styles.containerStyle}>
-                    <Button
-                        onPress={() => Actions.Birthdays()}
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        ימי הולדת
-                    </Button>
+                </TouchableOpacity></View>
+                <View style={{flex:1}}>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('pdf',{url: "http://192.168.1.34:3000/"+this.state.harassmentData.image ,
+                    title: "מניעת הטרדה מינית"})}>
+                    <Image source = {require('../../../Resources/reg.jpg')} style={styles.image}/>
+
+                </TouchableOpacity></View>
 
 
-                </View>
-                <View style = {styles.containerStyle}>
-                    <Button
-                        onPress={() => Actions.Jobs()}
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        חבר מביא חבר
-                    </Button>
-                    <Button
-                        onPress={() =>
-                            Actions.pdf({url: "http://192.168.1.34:3000/"+this.state.harassmentData.image ,
-                                title: "מניעת הטרדה מינית"})}
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        תקנון מניעת הטרדה מינית
-                    </Button>
-
-                </View>
             </View>
 
         );
@@ -65,54 +50,15 @@ class HumanResources extends Component {
 }
 const styles = {
     BackStyle: {
-        paddingTop:100,
+        flex: 1,
         backgroundColor: "#ffc68e",
-        paddingBottom: 800
     },
-    buttonStyleBack:{
-        margin:5,
-        height:45,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:200,
-        borderWidth: 1,
-        borderRadius:30,
-        backgroundColor: "#fff",
-        borderColor:'#FF7802',
-
-    },
-    buttonStyleText:{
-        alignSelf: 'center',
-        color:'#050002',
-        fontSize: 16,
-        fontWeight: '600',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    containerStyle:{
-        borderBottomWidth: 1,
-        padding: 5,
-        backgroundColor: '#ffc68e',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        borderColor: '#ffc68e',
-        position: 'relative',
-        margin: 10,
-
-    },
-    containerStyle2:{
-        borderBottomWidth: 1,
-        padding: 5,
-        backgroundColor: '#ffc68e',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-        borderColor: '#ffc68e',
-        position: 'relative',
-        margin: 10,
-        paddingLeft:20,
-        paddingRight: 20
-
+    image:{
+        width: '100%',
+        // Without height undefined it won't work
+        height: undefined,
+        // figure out your image aspect ratio
+        aspectRatio: 135 / 76,
     }
 }
 

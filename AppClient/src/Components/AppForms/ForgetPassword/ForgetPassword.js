@@ -1,11 +1,9 @@
 import React ,{Component} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View,Image} from 'react-native';
 import axios from 'axios/index';
-import Header from "../../common/Header";
 import Card from "../../common/Card";
 import CardSection from "../../common/CardSection";
 import Input from "../../common/Input";
-import {Actions} from "react-native-router-flux/index";
 
 
 
@@ -34,10 +32,9 @@ class ForgetPassword extends Component{
         axios.post('http://192.168.1.34:3000/Auth/forget',{
             mail: this.state.mailinput
         }).then(result => {
-            console.log(result.data.success);
             if(result.data.success === true)
             {
-               Actions.CodeVerify({mail:this.state.mailinput});
+                this.props.navigation.navigate('Code',{mail:this.state.mailinput});
             }
             else{
                 this.setState({
@@ -68,9 +65,6 @@ class ForgetPassword extends Component{
     render() {
             return (
                 <View style={styles.BackStyle}>
-                    <View style={{marginTop: 100}}>
-                        <Header name="שכחתי סיסמה"/>
-                    </View>
 
                     <View style={styles.LoginStyle}>
                         <Card>
@@ -108,7 +102,7 @@ const styles = {
     },
     BackStyle: {
         backgroundColor: "#ffc68e",
-        paddingBottom: 560
+        flex:1
     },
     buttonStyleBack:{
         flex:1,

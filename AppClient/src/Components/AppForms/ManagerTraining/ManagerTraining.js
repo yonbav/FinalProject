@@ -1,8 +1,6 @@
 import React,{Component} from 'react'
 import {View,} from 'react-native';
-import Header from "../../common/Header";
 import Button from 'react-native-button';
-import {Actions} from "react-native-router-flux";
 import RequestPdf from "../RequestPdf";
 
 class ManagerTraining extends Component {
@@ -25,7 +23,7 @@ class ManagerTraining extends Component {
         return -1;
     }
     mixFunction=(text,id)=>{
-        Actions.pdf({url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
+        this.props.navigation.navigate('pdf',{url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
     }
 
     getResponse(result){
@@ -34,9 +32,7 @@ class ManagerTraining extends Component {
     render() {
         return (
             <View style={styles.BackStyle}>
-                <View>
-                    <Header name="הדרכת מנהלים"/>
-                </View>
+
                 <View style = {styles.containerStyle}>
                     <Button
                         containerStyle ={styles.buttonStyleBack}
@@ -75,9 +71,8 @@ class ManagerTraining extends Component {
 }
 const styles = {
     BackStyle: {
-        paddingTop:100,
         backgroundColor: "#ffc68e",
-        paddingBottom: 800
+        flex:1
     },
     buttonStyleBack:{
         margin:5,

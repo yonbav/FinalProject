@@ -1,11 +1,9 @@
 import React ,{Component} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View,Image} from 'react-native';
 import axios from 'axios/index';
-import Header from "../../common/Header";
 import Card from "../../common/Card";
 import CardSection from "../../common/CardSection";
 import Input from "../../common/Input";
-import {Actions} from "react-native-router-flux/index";
 
 
 
@@ -28,18 +26,20 @@ class CodeVerify extends Component{
     }
 
     onPressButton() {
+        const { navigation } = this.props;
+        const mail = navigation.getParam('mail');
         this.setState({
             loading: true});
         axios.post('http://192.168.1.34:3000/Auth/verifycode',{
             code: this.state.codeinput,
-            mail: this.state.mailinput
+            mail: mail
         }).then(result => {
             if(result.data.success !== false)
             {
                 this.setState({
                     loading:false
                 });
-                Actions.ForgetPasswordChange({user: result.data});
+                this.props.navigation.navigate('Change',{user: result.data});
             }
             else{
                 this.setState({
@@ -67,12 +67,10 @@ class CodeVerify extends Component{
     }
 
     render() {
+
             return (
 
                 <View style={styles.BackStyle}>
-                    <View style={{marginTop: 100}}>
-                        <Header name="קוד לשחזור"/>
-                    </View>
                     <View style={styles.LoginStyle}>
                         <Card>
                             <CardSection>
@@ -107,7 +105,7 @@ const styles = {
     },
     BackStyle: {
         backgroundColor: "#ffc68e",
-        paddingBottom: 560
+        flex: 1
     },
     buttonStyleBack:{
         flex:1,

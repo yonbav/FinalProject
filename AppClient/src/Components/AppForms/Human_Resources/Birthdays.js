@@ -3,6 +3,7 @@ import {Text, View , ScrollView,Dimensions,StatusBar} from 'react-native';
 import axios from 'axios';
 import Header from "../../common/Header";
 import { SearchBar } from 'react-native-elements';
+import CardBirthdayFormat from "../../common/CardBirthdayFormat";
 
 const {width, height} = Dimensions.get('window');
 const metrics = {
@@ -44,10 +45,7 @@ export default class Birthdays extends Component{
         if(this.state.search === '') {
             return this.state.data.map((item) => {
                 return (
-                    <View key={item._id} style={styles.buttonStyleBack}>
-                        <Text style={styles.buttonStyleText}>{item.firstname} {item.birthday}
-                        </Text>
-                    </View>
+                    <CardBirthdayFormat key={item._id} name={item.firstname} other={item.birthday}/>
                 );
 
             });
@@ -56,14 +54,10 @@ export default class Birthdays extends Component{
         {
             const newData = this.state.data.filter(item=>
                 item.firstname.includes(this.state.search)
-
             );
             return newData.map((item) => {
                 return (
-                    <View key={item._id} style={styles.buttonStyleBack}>
-                        <Text style={styles.buttonStyleText}>{item.firstname}  {item.birthday}
-                        </Text>
-                    </View>
+                    <CardBirthdayFormat key={item._id} name={item.firstname} other={item.birthday}/>
                 );
 
             });
@@ -73,12 +67,8 @@ export default class Birthdays extends Component{
 
     render() {
         return (
-                <ScrollView>
-
+            <ScrollView style={{flex:1}}>
             <View style={styles.BackStyle}>
-                <View>
-                    <Header name="ימי הולדת"/>
-                </View>
                 <SearchBar
                     placeholder="כתוב כאן.."
                     onChangeText={this.updateSearch}
@@ -95,9 +85,8 @@ export default class Birthdays extends Component{
 };
 const styles = {
     BackStyle: {
-        paddingTop:100,
         backgroundColor: "#ffc68e",
-        paddingBottom: 800,
+        flex:1
     },
     buttonStyleBack:{
         margin:5,

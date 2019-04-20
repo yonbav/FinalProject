@@ -6,13 +6,13 @@ import CardSection from "../common/CardSection"
 import Input from "../common/Input"
 import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert,BackHandler} from 'react-native';
 import Applogo from "../common/Applogo";
-import deviceStorage from '../../Services/deviceStorage'
-import {Actions} from "react-native-router-flux";
 
 
 class LoginForm extends Component{
 
-
+    constructor() {
+        super();
+    }
 
     onIdChanged(text){
         this.props.idChanged(text);
@@ -23,20 +23,20 @@ class LoginForm extends Component{
     }
 
     onPressButton() {
-        this.props.loginuser(this.props.id,this.props.password);
+        this.props.loginuser(this.props.id,this.props.password,this.props.navigation);
     }
     renderButton()
     {
         if(this.props.loading)
         {
-                return  <View style={styles.buttonStyleBack}>
-                    <ActivityIndicator size="large" color="#000" />
-                </View>
+            return  <View style={styles.buttonStyleBack}>
+                <ActivityIndicator size="large" color="#fff" />
+            </View>
         }
         else {
             return <TouchableOpacity style={styles.buttonStyleBack} onPress={this.onPressButton.bind(this)}>
-                    <Text style={styles.buttonStyleText}> התחברות </Text>
-                </TouchableOpacity>
+                <Text style={styles.buttonStyleText}> התחברות </Text>
+            </TouchableOpacity>
 
         }
     }
@@ -65,40 +65,40 @@ class LoginForm extends Component{
         return (
             <View style={styles.BackStyle}>
                 <View style={{paddingTop:50}}>
-                <Applogo/>
+                    <Applogo/>
                 </View>
 
                 <View style={styles.LoginStyle}>
-                <Card>
-                    <CardSection>
-                        <Input
-                            label=<Image source = {require('../../Resources/user.png')}/>
-                        placeholder="ת.ז"
+                    <Card>
+                        <CardSection>
+                            <Input
+                                label=<Image source = {require('../../Resources/user.png')}/>
+                            placeholder="ת.ז"
                             onChangeText={this.onIdChanged.bind(this)}
                             value={this.props.id}
-                        />
-                    </CardSection>
-                    <CardSection>
-                        <Input
-                            secureTextEntry
-                            label=<Image source = {require('../../Resources/lock.png')}/>
+                            />
+                        </CardSection>
+                        <CardSection>
+                            <Input
+                                secureTextEntry
+                                label=<Image source = {require('../../Resources/lock.png')}/>
                             placeholder="סיסמא"
                             onChangeText={this.onPasswordChanged.bind(this)}
                             value={this.props.password}
-                        />
-                    </CardSection>
-                    {this.renderError()}
-                    <View style={styles.containerStyle}>
-                    {this.renderButton()}
-                        {this.renderErrorConnection()}
-                    </View>
-                    <TouchableOpacity style={{alignItems: 'center',alignSelf:'center'}} onPress={() => Actions.ForgetPassword()}>
-                        <Text style={{color: '#4941ff'}}> שכחתי סיסמה </Text>
-                    </TouchableOpacity>
+                            />
+                        </CardSection>
+                        {this.renderError()}
+                        <View style={styles.containerStyle}>
+                            {this.renderButton()}
+                            {this.renderErrorConnection()}
+                        </View>
+                        <TouchableOpacity style={{alignItems: 'center',alignSelf:'center'}} onPress={() => {this.props.navigation.navigate('ForgetPassword')}}>
+                            <Text style={{color: '#4941ff'}}> שכחתי סיסמה </Text>
+                        </TouchableOpacity>
 
 
-                </Card>
-            </View>
+                    </Card>
+                </View>
             </View>
         );
     }

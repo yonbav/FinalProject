@@ -1,6 +1,7 @@
 import React ,{Component} from 'react';
 import {Image, Text, View} from 'react-native';
 import IconBadge from 'react-native-icon-badge';
+import IconF from "react-native-vector-icons/Feather";
 
 
 
@@ -11,7 +12,7 @@ class Mail extends Component{
             <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'center',}}>
                 <IconBadge
                     MainElement={
-                        <Image source = {require('../../../Resources/Mail.png')} />
+                        <IconF name="mail"  size={40}/>
                     }
                     BadgeElement={
                         <Text style={{color:'#FFFFFF'}}>{this.props.num}</Text>
@@ -32,7 +33,6 @@ const styles = {
     MailStyle: {
         alignItems:'flex-end',
         alignSelf: 'flex-end',
-        paddingTop: 20,
     }
 }
 export default Mail;

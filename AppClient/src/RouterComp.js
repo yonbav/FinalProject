@@ -10,11 +10,9 @@ import PdfView from "./Components/AppForms/DailyBrif/PdfView";
 import importantinfo from "./Components/AppForms/important-info/importantinfo";
 import HumanResources from "./Components/AppForms/Human_Resources/HumanResources";
 import Birthdays from "./Components/AppForms/Human_Resources/Birthdays";
-import {Actions} from "react-native-router-flux";
 import MessagesForm from "./Components/AppForms/Messages/MessagesForm";
 import EmployeeTraining from "./Components/AppForms/EmployeeTraining/EmployeeTraining";
 import ManagerTraining from "./Components/AppForms/ManagerTraining/ManagerTraining";
-import deviceStorage from './Services/deviceStorage'
 import Jobs from "./Components/AppForms/Human_Resources/Jobs";
 import ForgetPassword from "./Components/AppForms/ForgetPassword/ForgetPassword";
 import CodeVerify from "./Components/AppForms/ForgetPassword/CodeVerify";

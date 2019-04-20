@@ -1,6 +1,5 @@
 import {ID_CHANGED, LOGIN_FAILED, LOGIN_SUCCESS,LOGIN_USER,CONECTTION_FAILED} from "./types";
 import  {PASSWORD_CHANGED} from "./types";
-import {Actions} from "react-native-router-flux";
 import axios from 'axios'
 import deviceStorage from '../../Services/deviceStorage'
 export const idChanged = (text) =>{
@@ -15,23 +14,22 @@ export const passwordChanged = (text) =>{
         payload: text
     };
 };
-export const loginuser = (id,password) => {
+export const loginuser = (id,password,navigation ) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
         axios.post("http://192.168.1.34:3000/Auth/login",{
-                id: id,
-                password: password,
-                authorization: '1'
+            id: id,
+            password: password,
+            authorization: '1'
         })
-    .then((res)=> {
-        res = res.data;
-        if(res.success === true)
+            .then((res)=> {
+                res = res.data;
+                if(res.success === true)
                 {
                     deviceStorage.saveKey("id_token", res.user.token);
-
                     dispatch({type:LOGIN_SUCCESS,payload: res.user});
-                    Actions.main({type: 'reset',user:res.user});
+                    navigation.navigate("SignedIn",{user:res.user})
                 }
                 else
                 {

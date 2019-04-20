@@ -1,8 +1,7 @@
 import React,{Component} from 'react'
 import {Keyboard, Text, TouchableOpacity, View} from 'react-native';
-import {Actions} from "react-native-router-flux";
-import Header from "../../common/Header";
 import RequestPdf from "../RequestPdf";
+import MainHeader from "../../common/MainHeader";
 
 class importantinfo extends Component {
     constructor() {
@@ -27,7 +26,8 @@ class importantinfo extends Component {
         this.state.Data.push(result);
     }
     mixFunction=(text,id)=>{
-        Actions.pdf({url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
+        this.props.navigation.navigate('pdf',
+            {url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
     }
 
     renderButtons() {
@@ -50,13 +50,11 @@ class importantinfo extends Component {
     render() {
         return (
             <View style={styles.BackStyle}>
+                <MainHeader/>
                 <RequestPdf title ="Branches" callback={this.getResponse.bind(this)}/>
                 <RequestPdf title ="Mate" callback={this.getResponse.bind(this)}/>
                 <RequestPdf title ="Kav" callback={this.getResponse.bind(this)}/>
 
-                <View>
-                    <Header name="מידע חשוב"/>
-                </View>
                 {this.renderButtons()}
 
             </View>
@@ -84,9 +82,8 @@ const initialArr =[
 ];
 const styles = {
     BackStyle: {
-        paddingTop:100,
+        flex:1,
         backgroundColor: "#ffc68e",
-        paddingBottom: 800
     },
     buttonStyleBack:{
         margin:5,

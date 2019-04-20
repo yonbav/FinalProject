@@ -1,13 +1,14 @@
 import React from 'react';
 import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import {createStore,applyMiddleware} from 'redux';
 import reducers from './src/reducers/reducers'
 import {YellowBox} from 'react-native';
 import  ReduxThunk from 'redux-thunk';
-import RouterComp from "./src/RouterComp";
-import { Font, AppLoading } from "expo";
+import { Font } from "expo";
 import deviceStorage from './src/Services/deviceStorage'
+import { createRootNavigator } from "./router";
+import {LOGIN_SUCCESS} from "./src/Components/actions/types";
 
 YellowBox.ignoreWarnings([
   'Remote debugger',
@@ -20,7 +21,8 @@ export default class App extends React.Component {
       data: null,
       loading: false,
       user: null,
-      error: null
+      error: null,
+      signedIn: false
     };
     this.loadJWT = deviceStorage.loadJWT.bind(this);
     this.loadJWT();
@@ -38,19 +40,26 @@ export default class App extends React.Component {
     this.loadJWT();
   };
   render() {
+    const Layout = createRootNavigator(this.state.signedIn);
     if (this.state.loading) {
-
-        return (
-            <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
-              <RouterComp data={this.state.data} user ={this.state.user}/>
-            </Provider>
-        );
+      const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+      if(this.state.user){
+        store.dispatch({
+          type:LOGIN_SUCCESS,
+          payload: this.state.user
+        })
+      }
+      return (
+          <Provider store={store}>
+            <Layout data={this.state.data} user ={this.state.user}/>
+          </Provider>
+      );
     }
     else{
       if(this.state.error){
         return <View style={styles.loading}>
           <TouchableOpacity onPress={() => {this.mixFunction()}}>
-              <Text>{this.state.error}</Text>
+            <Text>{this.state.error}</Text>
           </TouchableOpacity>
         </View>
       }
@@ -77,3 +86,5 @@ const styles = StyleSheet.create({
     paddingTop: 650
   }
 });
+
+

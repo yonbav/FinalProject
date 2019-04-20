@@ -1,9 +1,8 @@
 import React,{Component} from 'react'
 import {Linking, TouchableOpacity, View} from 'react-native';
-import Header from "../../common/Header";
 import Button from 'react-native-button';
 import RequestPdf from "../RequestPdf";
-import {Actions} from "react-native-router-flux";
+import MainHeader from "../../common/MainHeader";
 
 class EmployeeTraining extends Component {
 
@@ -25,7 +24,7 @@ class EmployeeTraining extends Component {
         return -1;
     }
     mixFunction=(text,id)=>{
-        Actions.pdf({url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
+        this.props.navigation.navigate('pdf',{url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
     }
 
     getResponse(result){
@@ -35,9 +34,7 @@ class EmployeeTraining extends Component {
     render() {
         return (
             <View style={styles.BackStyle}>
-                <View>
-                    <Header name="הדרכת עובדים"/>
-                </View>
+                <MainHeader/>
 
                 <View style = {styles.containerStyle}>
                     <Button
@@ -55,7 +52,7 @@ class EmployeeTraining extends Component {
                     </Button>
                     <RequestPdf title ="Trainingfornewemployees" callback={this.getResponse.bind(this)}/>
                     <Button
-                        onPress={() => this.mixFunction("חוברת הדרכה",
+                        onPress={() => this.mixFunction("חוברת הדרכה על הקופה",
                             this.findWithAttr(this.state.Data,'title',"Trainingfornewemployees"))}                        containerStyle ={styles.buttonStyleBack}
                         style={styles.buttonStyleText}>
                         חוברת הדרכה על הקופה
@@ -83,9 +80,8 @@ class EmployeeTraining extends Component {
 }
 const styles = {
     BackStyle: {
-        paddingTop:100,
+        flex:1,
         backgroundColor: "#ffc68e",
-        paddingBottom: 800
     },
     buttonStyleBack:{
         margin:5,

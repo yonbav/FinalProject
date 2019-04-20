@@ -3,9 +3,7 @@ import Card from "../../common/Card"
 import CardSection from "../../common/CardSection"
 import Input from "../../common/Input"
 import {Text, View, TouchableOpacity, Image, ActivityIndicator, Alert, Keyboard} from 'react-native';
-import {Actions} from "react-native-router-flux/index";
 import axios from 'axios/index';
-import Header from "../../common/Header";
 
 
 
@@ -36,14 +34,15 @@ class ForgetPasswordChange extends Component{
         })
     }
     onPressButton(){
+        const { navigation } = this.props;
+        const user = navigation.getParam('user');
         if (this.state.password1 === this.state.password2){
-            axios.patch('http://192.168.1.34:3000/user/forgetpassword/' + this.props.user._id, {
+            axios.patch('http://192.168.1.34:3000/user/forgetpassword/' + user._id, {
                 Newpassword: this.state.password1,
             }).then((res)=>  {
                 if(res.data.success === true)
                 {
-                    Actions.pop();
-                    Actions.Login();
+                    this.props.navigation.navigate('LoginForm')
                     this.setState({
                         equal: ""})}
                 else{
@@ -62,11 +61,9 @@ class ForgetPasswordChange extends Component{
 
 
     render() {
+
         return (
             <View style={styles.BackStyle}>
-                <View style={{marginTop: 100}}>
-                    <Header name="שינוי סיסמה:"/>
-                </View>
                 <View style={styles.LoginStyle}>
                     <Card>
                         <CardSection>
@@ -116,7 +113,7 @@ const styles = {
     },
     BackStyle: {
         backgroundColor: "#ffc68e",
-        paddingBottom: 560
+        flex: 1
     },
     buttonStyleBack:{
         flex:1,

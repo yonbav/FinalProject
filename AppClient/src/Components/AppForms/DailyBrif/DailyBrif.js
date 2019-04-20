@@ -1,8 +1,10 @@
 import React,{Component} from 'react'
-import {Keyboard, Text, TouchableOpacity, View} from 'react-native';
-import {Actions} from "react-native-router-flux";
-import Header from "../../common/Header";
+import {ActivityIndicator, Keyboard, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import axios from "axios";
+import {connect} from "react-redux";
+import MainHeader from "../../common/MainHeader";
+import MessageFormat2 from "../Messages/MessageFormat2";
+import MessageFormat3 from "../Messages/MessageFormat3";
 
 class DailyBrif extends Component {
 
@@ -35,25 +37,14 @@ class DailyBrif extends Component {
         return this.state.data.map((item) => {
             if(item ===this.state.data[0]) {
                 return (
-                    <View key={item._id} style={styles.containerStyle}>
-
-                        <TouchableOpacity key={item._id} style={[styles.buttonStyleBack,{width:350}]} onPress={() =>
-                            Actions.pdf({url: "http://192.168.1.34:3000/"+item.image ,
-                            title: item.title , user: this.props.user})}>
-                            <Text style={styles.buttonStyleText}> {item.title}</Text>
-                        </TouchableOpacity>
-                    </View>
+                        <MessageFormat2 key={item._id} url={"http://192.168.1.34:3000/"+item.image} title= {item.title}  user={this.props.user}
+                                        navigation={this.props.navigation}/>
                 );
             }
             else{
                 return (
-                    <View key={item._id} style={styles.containerStyle}>
-                        <TouchableOpacity key={item._id} style={[styles.buttonStyleBack,{width:250}]} onPress={() =>
-                            Actions.pdf({url: "http://192.168.1.34:3000/"+item.image ,
-                                title: item.title , user: this.props.user})}>
-                            <Text style={styles.buttonStyleText}> {item.title}</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <MessageFormat3 key={item._id} url={"http://192.168.1.34:3000/"+item.image} title= {item.title}  user={this.props.user}
+                                    navigation={this.props.navigation}/>
                 );
             }
 
@@ -62,68 +53,41 @@ class DailyBrif extends Component {
     }
 
     render() {
-        return (
-            <View style={styles.BackStyle}>
-                <View>
-                <Header name="תדריך יומי"/>
-                </View>
-                {this.renderButtons()}
-            </View>
+        if(this.state.data.length !== 0) {
+            return (
+                <ScrollView style={styles.BackStyle}>
+                    <MainHeader/>
+                    {this.renderButtons()}
 
-        );
+                </ScrollView>
+
+            );
+        }
+        else{
+            return (
+            <View style={styles.BackStyle}>
+                <MainHeader/>
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color="#000"/></View>
+            </View>);
+        }
     }
 }
 const styles = {
     BackStyle: {
-        paddingTop:100,
+        flex:1,
         backgroundColor: "#ffc68e",
-        paddingBottom: 800
     },
-    buttonStyleBack:{
-        margin:5,
-        height:45,
-        flexDirection: 'row',
-        justifyContent: 'center',
+    loading:{
         alignItems: 'center',
-        width:250,
-        borderWidth: 1,
-        borderRadius:30,
-        backgroundColor: "#fff",
-        borderColor:'#FF7802',
-
-    },
-    buttonStyleText:{
         alignSelf: 'center',
-        color:'#050002',
-        fontSize: 16,
-        fontWeight: '600',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    containerStyle:{
-        borderBottomWidth: 1,
-        padding: 5,
-        backgroundColor: '#ffc68e',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        borderColor: '#ffc68e',
-        position: 'relative',
-        margin: 10,
-
-    },
-    containerStyle2:{
-        borderBottomWidth: 1,
-        padding: 5,
-        backgroundColor: '#ffc68e',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-        borderColor: '#ffc68e',
-        position: 'relative',
-        margin: 10,
-        paddingLeft:20,
-        paddingRight: 20
-
+        paddingTop: 500
     }
 }
 
-export default DailyBrif;
+const mapStateToProps =  state =>{
+    return {
+        user: state.auth.user
+    };
+};
+export default connect(mapStateToProps)(DailyBrif);

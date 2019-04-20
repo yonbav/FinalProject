@@ -2,7 +2,6 @@
 import React,{Component} from 'react'
 import { Text, View, ScrollView} from 'react-native';
 import axios from "axios";
-import {Actions} from "react-native-router-flux";
 import MessageFormat from "./MessageFormat";
 
 class UnreadMessages extends Component {

@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import { Text, View} from 'react-native';
 import Header from "../../common/Header";
 import axios from "axios";
+import CardJobFormat from "../../common/CardJobFormat";
 
 class Jobs extends Component {
     constructor() {
@@ -33,10 +34,8 @@ class Jobs extends Component {
     renderButtons() {
         return this.state.data.map((item) => {
                 return (
-                    <View key={item._id} style={styles.buttonStyleBack}>
-                        <Text style={styles.buttonStyleText}>{item.title} {item.number}
-                        </Text>
-                    </View>
+                    <CardJobFormat key={item._id} title={item.title} num={item.number}/>
+
                 );
             });
 
@@ -45,12 +44,17 @@ class Jobs extends Component {
     render() {
         return (
             <View style={styles.BackStyle}>
-
                 <View>
-                    <Header name="חבר מביא חבר"/>
+                    <Text style={{fontSize:30,color:'#ff923d',alignSelf: 'center'}}>החברים שלך שווים כסף!</Text>
+                    <Text style={{fontSize:20,color:'#ff923d',alignSelf: 'flex-start'}}>המשרות החמות של השבוע</Text>
                 </View>
                 {this.renderButtons()}
+                <View>
+                    <Text style={{fontSize:12,color:'#000',alignSelf: 'flex-start',paddingRight:10}}>- המשרות מיועדות לנשים וגברים כאחד</Text>
+                    <Text style={{fontSize:12,color:'#000',alignSelf: 'flex-start',paddingRight:10}}>- קו"ח למשרות אלו ניתן להעביר ישירות למייל rozf@kravitz.co.il או להעביר ישירות לרוז הבונוסים ישולמו דרך תלוש השכר לאחר 3 חודשי עבודה</Text>
+                    <Text style={{fontSize:12,color:'#000',alignSelf: 'flex-start',paddingRight:10}}>- למידע נוסף בנוגע לנוהל חבר מביא חבר ניתן לפנות לנטלי ואסיף.</Text>
 
+                </View>
             </View>
 
         );
@@ -58,53 +62,8 @@ class Jobs extends Component {
 }
 const styles = {
     BackStyle: {
-        paddingTop:100,
         backgroundColor: "#ffc68e",
-        paddingBottom: 800,
-    },
-    buttonStyleBack:{
-        margin:5,
-        height:45,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:400,
-        borderWidth: 1,
-        backgroundColor: "#fff",
-        borderColor:'#FF7802',
-
-    },
-    buttonStyleText:{
-        alignSelf: 'center',
-        color:'#050002',
-        fontSize: 16,
-        fontWeight: '600',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    containerStyle:{
-        borderBottomWidth: 1,
-        padding: 5,
-        backgroundColor: '#ffc68e',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        borderColor: '#ffc68e',
-        position: 'relative',
-        margin: 10,
-
-    },
-    containerStyle2:{
-        borderBottomWidth: 1,
-        padding: 5,
-        backgroundColor: '#ffc68e',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-        borderColor: '#ffc68e',
-        position: 'relative',
-        margin: 10,
-        paddingLeft:20,
-        paddingRight: 20
-
+        flex:1
     }
 };
 
