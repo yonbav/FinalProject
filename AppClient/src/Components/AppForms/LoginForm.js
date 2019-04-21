@@ -6,6 +6,8 @@ import CardSection from "../common/CardSection"
 import Input from "../common/Input"
 import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert,BackHandler} from 'react-native';
 import Applogo from "../common/Applogo";
+import Mail from "./HomePage/Mail";
+import {Header} from "react-native-elements";
 
 
 class LoginForm extends Component{
@@ -64,9 +66,16 @@ class LoginForm extends Component{
     render() {
         return (
             <View style={styles.BackStyle}>
-                <View style={{paddingTop:50}}>
-                    <Applogo/>
-                </View>
+                <Header
+                    statusBarProps={{ barStyle: 'light-content' }}
+                    barStyle="light-content" // or directly
+                    centerComponent={<Image style={{width: 150, height: 50}} source = {require('../../Resources/Logo.png')}/>}
+                    containerStyle={{
+                        backgroundColor: '#F58220',
+                        justifyContent: 'space-around',
+                        height: 100
+                    }}
+                />
 
                 <View style={styles.LoginStyle}>
                     <Card>
@@ -118,11 +127,11 @@ const mapStateToProps =  state =>{
 };
 const styles = {
     LoginStyle: {
-        paddingTop: 80,
+        paddingTop: 50,
     },
     BackStyle: {
         backgroundColor: "#ffc68e",
-        paddingBottom: 450
+        flex:1
     },
     buttonStyleBack:{
         flex:1,

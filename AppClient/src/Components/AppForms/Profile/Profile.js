@@ -15,9 +15,9 @@ class Profile extends Component {
     renderImage(){
         if (this.props.user.gender === "male")
         {
-            return <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
+            return <Image style={styles.avatar} source={require('../../../Resources/Profile.png')}/>
         }
-        return <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar3.png'}}/>
+        return <Image style={styles.avatar} source={require('../../../Resources/Profile2.png')}/>
 
     }
     changePassword(navigation)

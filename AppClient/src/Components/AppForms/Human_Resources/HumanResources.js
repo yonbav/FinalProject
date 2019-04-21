@@ -2,6 +2,10 @@ import React,{Component} from 'react'
 import {Image, Keyboard, Text, TouchableOpacity, View} from 'react-native';
 import Harassment from "./Harassment";
 import MainHeader from "../../common/MainHeader";
+import MessageFormat2 from "../Messages/MessageFormat2";
+import HaressmentFormat from "./HaressmentFormat";
+import BirthdayFormat from "./BirthdayFormat";
+import JobsFormat from "./JobsFormat";
 
 class HumanResources extends Component {
     constructor() {
@@ -25,23 +29,10 @@ class HumanResources extends Component {
             <View style={styles.BackStyle}>
                 <MainHeader/>
                 <Harassment  callback={this.getResponse.bind(this)}/>
-                <View style={{flex:1}}>
-                <TouchableOpacity onPress={()=>this.props.navigation.navigate('Birthdays')}>
-                    <Image source = {require('../../../Resources/Birthday.jpg')} style={styles.image}/>
-
-                </TouchableOpacity></View>
-                <View style={{flex:1}}>
-                <TouchableOpacity onPress={()=>this.props.navigation.navigate('Jobs')}>
-                    <Image source = {require('../../../Resources/Jobs.jpg')} style={styles.image}/>
-
-                </TouchableOpacity></View>
-                <View style={{flex:1}}>
-                <TouchableOpacity onPress={()=>this.props.navigation.navigate('pdf',{url: "http://192.168.1.34:3000/"+this.state.harassmentData.image ,
-                    title: "מניעת הטרדה מינית"})}>
-                    <Image source = {require('../../../Resources/reg.jpg')} style={styles.image}/>
-
-                </TouchableOpacity></View>
-
+                <BirthdayFormat   title="ימי הולדת" navigation={this.props.navigation}/>
+                <JobsFormat   title="חבר מביא חבר" navigation={this.props.navigation}/>
+                <HaressmentFormat  url={"http://192.168.1.34:3000/"+this.state.harassmentData.image} title="תקנון מניעת הטרדה מינית"  user={this.props.user}
+                                    navigation={this.props.navigation}/>
 
             </View>
 
@@ -51,7 +42,7 @@ class HumanResources extends Component {
 const styles = {
     BackStyle: {
         flex: 1,
-        backgroundColor: "#F58220",
+        backgroundColor: "#ffc68e",
     },
     image:{
         width: '100%',

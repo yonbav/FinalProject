@@ -68,9 +68,7 @@ class UnreadMessages extends Component {
     }
 }
 const styles = {
-    BackStyle: {
-        paddingTop:20,
-    },
+
     MessageStyleBack:{
         margin:5,
         height:45,

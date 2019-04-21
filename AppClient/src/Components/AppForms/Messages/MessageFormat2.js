@@ -18,7 +18,7 @@ export default class MessageFormat2 extends Component {
                         </Left>
                     </CardItem>
                     <CardItem cardBody>
-                        <Image source = {require('../../../Resources/newsbrief.jpg')} style={{height: 110, width: 20, flex: 1}}/>
+                        <Image source = {require('../../../Resources/newsbrief.jpg')} resizeMode="stretch" style={{height: 110, width: 20, flex: 1}}/>
                     </CardItem>
 
                 </Card>

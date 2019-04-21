@@ -23,10 +23,9 @@ export default class example extends Component {
         const id = navigation.getParam('id');
         const messages = navigation.getParam('messages');
         return (
-            <View style={[styles.container, {paddingTop: 20}]}>
+            <View style={[styles.container, {paddingTop: 5}]}>
                 <ScrollableTabView
                     tabBarActiveTextColor="#53ac49"
-                    style={{marginTop: 30}}
                     renderTabBar={() => <DefaultTabBar backgroundColor='ffc68e' />}
                     initialPage={this.getindex(messages)}
                 >
@@ -44,7 +43,6 @@ export default class example extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        marginTop: 20,
         flex: 1,
         backgroundColor: '#ffc68e',
     },

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ImprtantMessageView from './ImportantMessageView';
 
 class EditImportantMessage extends Component {
     constructor(props) {
@@ -7,7 +8,14 @@ class EditImportantMessage extends Component {
     }
 
     render() {
-        return <div>EditImportantMessage {this.props.match.params.MessageId}</div>
+        var messageToEdit = {
+            title:"Message 1",
+            content:"message content",
+            date:"11/12/2018"
+        };
+
+        return <ImprtantMessageView formTitle="Edit Message" 
+                                    message={messageToEdit}/>
     }
 }
 

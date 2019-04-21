@@ -1,8 +1,12 @@
 import React,{Component} from 'react'
-import {Linking, TouchableOpacity, View} from 'react-native';
+import {Image, Linking, Text, TouchableOpacity, View} from 'react-native';
 import Button from 'react-native-button';
 import RequestPdf from "../RequestPdf";
 import MainHeader from "../../common/MainHeader";
+import VideoFormat from "./VideoFormat";
+import TestFormat from "./TestFormat";
+
+import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
 
 class EmployeeTraining extends Component {
 
@@ -34,46 +38,29 @@ class EmployeeTraining extends Component {
     render() {
         return (
             <View style={styles.BackStyle}>
+                <RequestPdf title ="Instruction" callback={this.getResponse.bind(this)}/>
+                <RequestPdf title ="Trainingfornewemployees" callback={this.getResponse.bind(this)}/>
+                <RequestPdf title ="CheckListNewEmploee" callback={this.getResponse.bind(this)}/>
                 <MainHeader/>
+               <VideoFormat name="סרטון עובד חדש"/>
+                    <TouchableOpacity   onPress={() => this.mixFunction("חוברת קליטה לעובד חדש",
+                        this.findWithAttr(this.state.Data,'title',"Instruction"))}>
+                        <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/Book.jpg")} style={{height: 50, width: 50}}/>
+                                    <Body><Text style={styles.title}>חוברת קליטה לעובד חדש</Text></Body>
+                        </Left></CardItem></Card></TouchableOpacity>
+                <TouchableOpacity  onPress={() => this.mixFunction("חוברת הדרכה על הקופה", this.findWithAttr(this.state.Data,'title',"Trainingfornewemployees"))}    >
+                    <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/Book.jpg")} style={{height: 50, width: 50}}/>
+                                <Body><Text style={styles.title}>חוברת הדרכה על הקופה</Text></Body>
+                            </Left></CardItem></Card></TouchableOpacity>
 
-                <View style = {styles.containerStyle}>
-                    <Button
-                        onPress={() => { Linking.openURL('https://google.com')}}
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        לינק לסרטון עובד חדש
-                    </Button>
-                </View>
-                <View style = {styles.containerStyle}>
-                    <Button
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        חוברת קליטה לעובד חדש
-                    </Button>
-                    <RequestPdf title ="Trainingfornewemployees" callback={this.getResponse.bind(this)}/>
-                    <Button
-                        onPress={() => this.mixFunction("חוברת הדרכה על הקופה",
-                            this.findWithAttr(this.state.Data,'title',"Trainingfornewemployees"))}                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        חוברת הדרכה על הקופה
-                    </Button>
 
-                </View>
-                <View style = {styles.containerStyle}>
-                    <Button
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        לינק למבדק ידע עובד חדש
-                    </Button>
-                    <RequestPdf title ="CheckListNewEmploee" callback={this.getResponse.bind(this)}/>
-                    <Button
-                        onPress={() => this.mixFunction("צ'ק ליסט קליטה",
-                            this.findWithAttr(this.state.Data,'title',"CheckListNewEmploee"))}
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        צ'ק ליסט קליטה לעובד חדש
-                    </Button>
-                </View>
+                <TestFormat name="מבדק ידע עובד חדש"/>
+
+                    <TouchableOpacity   onPress={() => this.mixFunction("צ'ק ליסט קליטה לעובד חדש", this.findWithAttr(this.state.Data,'title',"CheckListNewEmploee"))} >
+                        <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/list.png")} style={{height: 50, width: 50}}/>
+                            <Body><Text style={styles.title}> צ'ק ליסט קליטה לעובד חדש</Text></Body>
+                        </Left></CardItem></Card></TouchableOpacity>
+
             </View>
         );
     }
@@ -83,51 +70,10 @@ const styles = {
         flex:1,
         backgroundColor: "#ffc68e",
     },
-    buttonStyleBack:{
-        margin:5,
-        height:45,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:200,
-        borderWidth: 1,
-        borderRadius:30,
-        backgroundColor: "#fff",
-        borderColor:'#FF7802',
-
-    },
-    buttonStyleText:{
-        alignSelf: 'center',
-        color:'#050002',
-        fontSize: 16,
-        fontWeight: '600',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    containerStyle:{
-        borderBottomWidth: 1,
-        padding: 5,
-        backgroundColor: '#ffc68e',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        borderColor: '#ffc68e',
-        position: 'relative',
-        margin: 10,
-
-    },
-    containerStyle2:{
-        borderBottomWidth: 1,
-        padding: 5,
-        backgroundColor: '#ffc68e',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-        borderColor: '#ffc68e',
-        position: 'relative',
-        margin: 10,
-        paddingLeft:20,
-        paddingRight: 20
-
+    title:{
+        alignSelf: 'center',alignContent: 'center',fontWeight: 'bold',fontSize:15
     }
+
 }
 
 export default EmployeeTraining;

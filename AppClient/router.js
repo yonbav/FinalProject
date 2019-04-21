@@ -88,6 +88,11 @@ export const HomeP = createStackNavigator({
     messages: {
         screen: MessagesForm,
         navigationOptions: {
+            title: 'הודעות חשובות',
+            headerTitleStyle : {textAlign: 'center',alignSelf:'center',color:"#fff",},
+            headerStyle:{
+                backgroundColor:'#ffc68d',
+            },
         },
     },
     Manager: {
