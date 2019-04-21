@@ -54,7 +54,7 @@ class AllMessages extends Component {
 
     render() {
         return (
-            <ScrollView style={{flex:1}}>
+            <ScrollView style={[styles.BackStyle,{flex:1}]}>
                 <View style={styles.BackStyle}>
                     {this.renderButtons()}
                 </View>

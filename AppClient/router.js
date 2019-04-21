@@ -34,7 +34,7 @@ import ManagerTraining from "./src/Components/AppForms/ManagerTraining/ManagerTr
 import ForgetPassword from "./src/Components/AppForms/ForgetPassword/ForgetPassword";
 import CodeVerify from "./src/Components/AppForms/ForgetPassword/CodeVerify";
 import ForgetPasswordChange from "./src/Components/AppForms/ForgetPassword/ForgetPasswordChange";
-
+import Minhal from "./src/Components/AppForms/EmployeeTraining/Minhal"
 
 
 
@@ -183,6 +183,16 @@ export const Info = createStackNavigator({
         screen: importantinfo,
         navigationOptions: {
             header: null,
+        },
+    },
+    Minhal: {
+        screen: Minhal,
+        navigationOptions: {
+            title: 'תיקיית מנהלים',
+            headerTitleStyle : {textAlign: 'center',alignSelf:'center',color:"#fff",},
+            headerStyle:{
+                backgroundColor:'#ffc68d',
+            },
         },
     },
     pdf: {

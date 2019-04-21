@@ -47,6 +47,7 @@ class importantinfo extends Component {
                     <View key={item.id} >
                     <TouchableOpacity onPress={() => this.mixFunction(item.text,
                                           this.findWithAttr(this.state.Data,'title',item.title))}>
+
                     <Card>
                         <CardItem>
                             <Left>
@@ -77,6 +78,7 @@ class importantinfo extends Component {
                 <RequestPdf title ="Kav" callback={this.getResponse.bind(this)}/>
 
                 {this.renderButtons()}
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate('Minhal')}>
                 <Card>
                     <CardItem>
                             <Body>
@@ -84,6 +86,7 @@ class importantinfo extends Component {
                             </Body>
                     </CardItem>
                 </Card>
+                </TouchableOpacity>
             </View>
 
         );
