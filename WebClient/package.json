@@ -1,9 +1,9 @@
 {
 	"scripts": {
-		"prestart": "npm install && cd server && npm install && cd ../reactapp && yarn install && cd ..",
+		"prestart": "npm install && cd ./server/ && npm install && cd ../reactapp && yarn install && cd ..",
 		"start": "concurrently --kill-others \"npm:server_start\" \"npm:reactapp_start\"",
-		"server_start": "cd server && npm start",
-		"reactapp_start": "cd reactapp && yarn start"
+		"server_start": "cd ./server/ && npm start",
+		"reactapp_start": "cd ./reactapp/ && yarn start"
 	},
 	"devDependencies": {
 		"concurrently": "^4.1.0"

@@ -62,6 +62,7 @@ class UserView extends Component {
                         <label htmlFor="birthday" className="col-sm-3 col-form-label">Birthday: </label>
                         <div id="birthday" style={{ padding:"0px"}} className="col-sm-8">
                             <DayPickerInput id="datePicker"
+                                className="form-date-picker"
                                 formatDate={formatDate}
                                 parseDate={parseDate}
                                 value={this.state.user.birthday}
@@ -80,7 +81,7 @@ class UserView extends Component {
                     <div className="form-group row">
                         <label htmlFor="authorization" className="col-sm-3 col-form-label">authorization: </label>
                         <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="authorization" value={this.state.user.authorization} placeholder="Enter authorization"></input>
-                    </div>   
+                    </div> 
                     <div className="form-group row">
                         <label htmlFor="gender" className="col-sm-3 col-form-label">Gender: </label>
                         <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="gender" value={this.state.user.gender} placeholder="Enter gender"></input>

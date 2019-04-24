@@ -54,6 +54,7 @@ class ImportantMessageView extends Component {
                         <label htmlFor="date" className="col-sm-3 col-form-label">Date: </label>
                         <div style={{ padding:"0px"}} className="col-sm-8">
                             <DayPickerInput id="datePicker"
+                                className="form-date-picker"
                                 formatDate={formatDate}
                                 parseDate={parseDate}
                                 value={this.state.message.date}

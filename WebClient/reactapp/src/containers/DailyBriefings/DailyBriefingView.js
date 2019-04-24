@@ -4,7 +4,7 @@ import {
     formatDate,
     parseDate,
 } from 'react-day-picker/moment';
-import uploadIcon from './upload-icon.png'
+import uploadIcon from '../../images/upload-icon.png';
 
 class DailyBriefingView extends Component {
     constructor(props) {
@@ -25,7 +25,10 @@ class DailyBriefingView extends Component {
         var currentFile = event.target.files[0];
 
         if (!currentFile)
+        {
             alert("Failed to upload file");
+            return;
+        }
 
         let newBriefing = this.state.briefing
         newBriefing.image = currentFile.name;
@@ -48,6 +51,7 @@ class DailyBriefingView extends Component {
                         <label htmlFor="datePicker" className="col-sm-4 col-form-label">Date: </label>
                         <div style={{ padding:"0px"}} className="col-sm-6">
                             <DayPickerInput id="datePicker"
+                                className="form-date-picker"
                                 formatDate={formatDate}
                                 parseDate={parseDate}
                                 value={this.state.briefing.title}
@@ -65,7 +69,7 @@ class DailyBriefingView extends Component {
                     </div>
                     <div className="form-group row">
                         <label className="col-sm-4 col-form-label">File Upload:</label>
-                        <input placeholder={this.state.briefing.image} className="col-sm-5" disabled/>
+                        <input placeholder={this.state.briefing.image ? this.state.briefing.image : "choose file"} className="col-sm-5" disabled/>
                         <label className="col-sm-1 file-upload-button input-file-image" style={{padding:"0px"}} htmlFor="fileUpload">
                             <img className="upload-image" alt="upload" src={uploadIcon}/>
                         </label>

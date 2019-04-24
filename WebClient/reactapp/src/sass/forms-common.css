@@ -45,3 +45,6 @@
 .submit-button {
     min-width: 200px;
 }
+.form-date-picker {
+    text-align: right;
+}
