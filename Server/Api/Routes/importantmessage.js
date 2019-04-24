@@ -25,7 +25,7 @@ router.post('/addmessage',(req,res,next) => {
         createdtime:formattedDate,
     });
         message.save().then(result =>{
-            axios.post('http://192.168.1.34:3000/daily/notification', {
+            axios.post('http://192.168.43.209:3000/daily/notification', {
                 title: "קרביץ עובדים",
                 message: 'הודעה חדשה עלתה נא להכנס'
             }) .then( ()=> {
