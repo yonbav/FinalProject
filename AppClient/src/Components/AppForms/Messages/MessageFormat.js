@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
-import { Image,View } from 'react-native';
+import {Image, Linking, TouchableOpacity, View} from 'react-native';
 import {Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right } from 'native-base';
 export default class MessageFormat extends Component {
+    renderlink(){
+        if(this.props.link !== ""){
+            return(
+                <TouchableOpacity onPress={()=> Linking.openURL(this.props.link)}>
+                    <CardItem>
+                        <Text style={{alignSelf: 'center',color:'#2a2dff',alignContent: 'center',fontWeight: 'bold',fontSize:15}}>{this.props.link}</Text>
+                    </CardItem>
+                </TouchableOpacity>
+            );
+        }
+    }
     render() {
         return (
 
@@ -27,6 +38,7 @@ export default class MessageFormat extends Component {
                             </Text>
                             </Body>
                         </CardItem>
+                        {this.renderlink()}
                         <CardItem>
                             <Left>
                                 <Text note>{this.props.Date}</Text>

@@ -20,9 +20,9 @@ router.post('/addmessage',(req,res,next) => {
         _id: new mongoose.Types.ObjectId(),
         title:req.body.title,
         contect:req.body.contect,
+        link:req.body.link,
         readby:[],
         createdtime:formattedDate,
-        createdAt: Date.now()
     });
         message.save().then(result =>{
             axios.post('http://192.168.1.34:3000/daily/notification', {
@@ -33,9 +33,6 @@ router.post('/addmessage',(req,res,next) => {
                     message: 'Created Imessage successfully',
                     createdMessage: result
                 })
-                    .catch(()=> {
-                    console.log(error);
-                });
             })
         }).catch(err=> {
             res.status(401).json({error:err});
@@ -75,14 +72,12 @@ router.post('/unread',(req,res,next) => {
         res.status(401).json({error:err});
     });
 });
-/*Service marker read all the unread messages*/
 router.post('/pushread',(req,res,next) => {
-    IMessage.updateMany({ readby: { $nin: [req.body.id] } }, { $push: { readby: req.body.id}  }).then(docs=> {
+    IMessage.updateOne({ _id:req.body._id , readby: { $nin: [req.body.id] } }, { $push: { readby: req.body.id}  }).then(docs=> {
         res.status(200).json({docs: docs.nModified});
-    }).catch(err=> {
-        res.status(401).json({error:err});
-    });
+    })
 });
+
 
 
 /*Service delete a message*/

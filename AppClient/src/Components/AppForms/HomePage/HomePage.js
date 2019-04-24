@@ -86,14 +86,24 @@ class HomePage extends Component{
         this.setState({isFetching:false})
 
     }
+
+    componentWillUnmount() {
+        this.willFocusSubscription.remove();
+    }
     componentDidMount() {
         Keyboard.dismiss();
         this.registerForPushNotificationsAsync();
+        this.GetData();
+        this.willFocusSubscription = this.props.navigation.addListener(
+            'willFocus',
+            () => {
+                this.GetData();
+            }
+        );
 
     }
     mixFunction=()=>{
-        this.props.navigation.navigate('messages',{id: this.props.user.id,messages: this.state.num})
-        this.getResponse(0);
+        this.props.navigation.navigate('messages',{id: this.props.user.id,messages: this.state.num ,onNavigateBack: () => this.GetData()})
     }
     renderManager(){
         if(this.props.user.authorization > 2)

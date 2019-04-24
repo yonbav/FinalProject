@@ -41,10 +41,21 @@ class Profile extends Component {
     };
 
     EmploeeType(){
-        if(this.props.user.authorization === '1' || this.props.user.authorization === '2')
-            return <Text style={styles.description}>עובד</Text>;
+        if(this.props.user.authorization === '1' || this.props.user.authorization === '2'){
+            if (this.props.user.gender === "male"){
+                return <Text style={styles.description}>עובד</Text>;
+            }
+            else{
+                return <Text style={styles.description}>עובדת</Text>;
+            }
+        }
         else if(this.props.user.authorization === '3' || this.props.user.authorization === '4')
-            return <Text style={styles.description}>מנהל</Text>;
+            if (this.props.user.gender === "male"){
+                return <Text style={styles.description}>מנהל</Text>;
+            }
+            else{
+                return <Text style={styles.description}>מנהלת</Text>;
+            }
         else
             return <Text style={styles.description}>ראש מטה</Text>
 

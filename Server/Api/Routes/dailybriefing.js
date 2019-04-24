@@ -55,7 +55,7 @@ router.post('/adddailybrief',upload.single('DailyBriefImage'),(req,res,next) => 
         _id: new mongoose.Types.ObjectId(),
         title:req.body.title,
         readby:[],
-        image: "uploads/"+req.file.filename
+        image: "uploads/"+req.file.filename,
     });
 
     dailybriefing.save().then(result =>{
@@ -69,9 +69,7 @@ router.post('/adddailybrief',upload.single('DailyBriefImage'),(req,res,next) => 
                     createdMessage: result
                 })
             })
-            .catch(()=> {
-                console.log(error);
-            });
+
 
     }).catch(err=> {
         res.status(401).json({error:err});

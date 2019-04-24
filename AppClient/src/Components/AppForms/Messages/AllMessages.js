@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Text, View, ScrollView} from 'react-native';
+import {Text, View, ScrollView, ActivityIndicator} from 'react-native';
 import axios from "axios";
 import MessageFormat from "./MessageFormat";
 
@@ -9,7 +9,7 @@ class AllMessages extends Component {
         super();
         this.state = {
             data: [],
-
+            loading: false
         };
         this.GetData = this.GetData.bind(this);
         this.renderButtons = this.renderButtons.bind(this);
@@ -20,7 +20,8 @@ class AllMessages extends Component {
         axios.get('http://192.168.1.34:3000/Message/')
             .then(result => {
                 this.setState({
-                    data: result.data
+                    data: result.data,
+                    loading: true
                 });
 
 
@@ -42,7 +43,7 @@ class AllMessages extends Component {
             {
                 return this.state.data.map((item) => {
                     return (
-                        <MessageFormat key={item._id} title={item.title} contect={item.contect}
+                        <MessageFormat link={item.link} key={item._id} title={item.title} contect={item.contect}
                                        Date={item.createdtime}/>
                     );
 
@@ -53,16 +54,23 @@ class AllMessages extends Component {
     }
 
     render() {
+        if(this.state.loading === true) {
         return (
             <ScrollView style={[styles.BackStyle,{flex:1}]}>
                 <View style={styles.BackStyle}>
                     {this.renderButtons()}
                 </View>
-            </ScrollView>
-
-        );
+            </ScrollView>)
+        }
+    else{
+            return (<View>
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color="#000"/></View>
+            </View>);
+        }
     }
-}
+};
+
 const styles = {
 
     MessageStyleBack:{
@@ -86,6 +94,11 @@ const styles = {
         margin: 5,
 
     },
+    loading:{
+        alignItems: 'center',
+        alignSelf: 'center',
+        paddingTop: 500
+    }
 
 }
 

@@ -1,8 +1,8 @@
 
 import React,{Component} from 'react'
-import { Text, View, ScrollView} from 'react-native';
+import {Text, View, ScrollView, ActivityIndicator} from 'react-native';
 import axios from "axios";
-import MessageFormat from "./MessageFormat";
+import MessageFormat1 from "./MessageFormat1";
 
 class UnreadMessages extends Component {
 
@@ -10,6 +10,7 @@ class UnreadMessages extends Component {
         super();
         this.state = {
             data: [],
+            loading: false
 
         };
         this.GetData = this.GetData.bind(this);
@@ -21,18 +22,14 @@ class UnreadMessages extends Component {
             id: this.props.id
         }).then(result => {
                 this.setState({
-                    data: result.data
+                    data: result.data,
+                    loading: true
                 });
 
-                this.update();
+
 
             })
 
-    }
-    update(){
-        axios.post("http://192.168.1.34:3000/Message/pushread",{
-            id: this.props.id
-        })
     }
     componentDidMount() {
         this.GetData();
@@ -49,7 +46,7 @@ class UnreadMessages extends Component {
         }
         return this.state.data.map((item) => {
             return (
-                <MessageFormat key={item._id} title={item.title} contect={item.contect} Date={item.createdtime}/>
+                <MessageFormat1 key={item._id} link={item.link} id1={item._id} id={this.props.id} title={item.title} contect={item.contect} Date={item.createdtime}/>
             );
 
         });
@@ -57,14 +54,22 @@ class UnreadMessages extends Component {
     }
 
     render() {
-        return (
-            <ScrollView style={[styles.BackStyle,{flex:1}]}>
-            <View style={styles.BackStyle}>
-                {this.renderButtons()}
-            </View>
-            </ScrollView>
+        if(this.state.loading === true) {
+            return (
+                <ScrollView style={[styles.BackStyle, {flex: 1}]}>
+                    <View style={styles.BackStyle}>
+                        {this.renderButtons()}
+                    </View>
+                </ScrollView>
 
-        );
+            );
+        }
+        else{
+            return (<View>
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color="#000"/></View>
+            </View>);
+        }
     }
 }
 const styles = {
@@ -90,7 +95,11 @@ const styles = {
         margin: 5,
 
     },
-
+    loading:{
+        alignItems: 'center',
+        alignSelf: 'center',
+        paddingTop: 500
+    }
 }
 
 export default UnreadMessages;

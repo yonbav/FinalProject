@@ -67,7 +67,7 @@ export default class Birthdays extends Component{
 
     render() {
         return (
-            <ScrollView style={{flex:1}}>
+            <ScrollView style={{flex:1, backgroundColor: "#ffc68e",}}>
             <View style={styles.BackStyle}>
                 <SearchBar
                     placeholder="כתוב כאן.."
