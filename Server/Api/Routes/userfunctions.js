@@ -137,18 +137,18 @@ router.patch('/changepassword/:userid', (req,res,next)=> {
             });
 });
 /*Service Delete user*/
-router.delete('/:userid',(req,res,next) => {
-    const id = req.params.userid;
-    User.deleteOne({_id:id})
-        .exec().then(result=>{
-        res.status(200).json({
-            message:'User deleted'
-        });
-    })
+router.post('/deleteuser',(req,res,next) => {
+    User.deleteOne({_id:req.body._id})
+        .then(result=>{
+            res.status(200).json({
+                message:'User deleted'
+            });
+        })
         .catch(err=> {
             console.log(err);
             res.status(500).json({error:err});
         });
+
 });
 
 /*Service ForgetPassword after code verify*/
