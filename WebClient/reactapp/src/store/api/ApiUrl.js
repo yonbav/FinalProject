@@ -3,7 +3,7 @@ import {Constants} from '../../Common';
 export default {
 
     // login
-    LOGIN: `${Constants.SERVER_URL}/Login`,
+    LOGIN: `${Constants.SERVER_URL}/Auth/Login`,
     
     // business day
     GET_BUSINESS_DAY: `${Constants.SERVER_URL}/BusinessDate`,

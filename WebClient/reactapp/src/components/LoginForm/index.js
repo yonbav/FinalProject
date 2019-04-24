@@ -40,11 +40,12 @@ class LoginForm extends Component {
         }
         this.setState({loader: true})
         login({
-            Username: this.state.userName,
-            Password: this.state.password
+            id: this.state.userName,
+            password: this.state.password,
+            authorization: '5',
         }).then(data => {
             this.setState({loader: false})
-            if(data.ErrorCode === 0){
+            if(data.success == true){
                 this.props.showMessage({ 
                     type: 'success',
                     msg: 'Login success.'

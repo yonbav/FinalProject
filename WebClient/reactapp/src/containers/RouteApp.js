@@ -51,7 +51,6 @@ class RouterApp extends React.Component {
         }
 
         setInterval(()=>{
-            this.props.getAllClient();
         }, 10000);
 
         this.props.getVersion();
