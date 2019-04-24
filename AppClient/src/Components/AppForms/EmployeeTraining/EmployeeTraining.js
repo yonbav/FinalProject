@@ -44,11 +44,11 @@ class EmployeeTraining extends Component {
                 <MainHeader/>
                <VideoFormat name="סרטון עובד חדש"/>
                     <TouchableOpacity   onPress={() => this.mixFunction("חוברת קליטה לעובד חדש",
-                        this.findWithAttr(this.state.Data,'title',"Instruction"))}>
+                        this.findWithAttr(this.state.Data,'title',"Trainingfornewemployees"))}>
                         <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/Book.jpg")} style={{height: 50, width: 50}}/>
                                     <Body><Text style={styles.title}>חוברת קליטה לעובד חדש</Text></Body>
                         </Left></CardItem></Card></TouchableOpacity>
-                <TouchableOpacity  onPress={() => this.mixFunction("חוברת הדרכה על הקופה", this.findWithAttr(this.state.Data,'title',"Trainingfornewemployees"))}    >
+                <TouchableOpacity  onPress={() => this.mixFunction("חוברת הדרכה על הקופה", this.findWithAttr(this.state.Data,'title',"Instruction"))}    >
                     <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/Book.jpg")} style={{height: 50, width: 50}}/>
                                 <Body><Text style={styles.title}>חוברת הדרכה על הקופה</Text></Body>
                             </Left></CardItem></Card></TouchableOpacity>

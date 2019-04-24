@@ -24,6 +24,7 @@ router.post('/addinfo',upload.single('InfoImage'),(req,res,next) => {
     const info = new Info({
         _id: new mongoose.Types.ObjectId(),
         title:req.body.title,
+        displayName:req.body.displayName,
         image: "Information/"+req.file.filename
     });
     info.save().then(result =>{
