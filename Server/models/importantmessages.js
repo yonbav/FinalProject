@@ -6,8 +6,8 @@ const importantmessageSchema = mongoose.Schema({
     title:{type:String},
     contect:{type:String},
     readby:[String],
+    link:{type:String},
     createdtime:{type:String},
-    expireAt:{type: Date, default: Date.now}
 });
 
 module.exports = mongoose.model('ImportantMessage',importantmessageSchema);
