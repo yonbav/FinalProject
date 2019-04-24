@@ -4,6 +4,7 @@ var app = express();
 const router = express.Router();
 const DailyBriefing = require('../../models/dailybriefing');
 const Notifications = require('../../models/Notifications.');
+const axios = require('axios');
 
 const multer = require('multer');
 const fs = require('fs');
@@ -58,10 +59,20 @@ router.post('/adddailybrief',upload.single('DailyBriefImage'),(req,res,next) => 
     });
 
     dailybriefing.save().then(result =>{
-        res.status(201).json({
-            message:'Created DailyBriefing successfully',
-            createdMessage: result
+        axios.post('http://192.168.1.34:3000/daily/notification', {
+            title: "קרביץ עובדים",
+            message: 'תדריך יומי עלה נא להכנס'
         })
+            .then( ()=> {
+                res.status(201).json({
+                    message:'Created DailyBriefing successfully',
+                    createdMessage: result
+                })
+            })
+            .catch(()=> {
+                console.log(error);
+            });
+
     }).catch(err=> {
         res.status(401).json({error:err});
     });

@@ -1,9 +1,6 @@
 import React ,{Component} from 'react';
-import Button from 'react-native-button';
 import axios from "axios";
 import {Text,View,FlatList} from 'react-native';
-import {Actions} from "react-native-router-flux";
-import AwesomeButton from "react-native-really-awesome-button";
 
 
 

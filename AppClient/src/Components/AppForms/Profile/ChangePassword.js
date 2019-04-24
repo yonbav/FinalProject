@@ -3,10 +3,8 @@ import Card from "../../common/Card"
 import CardSection from "../../common/CardSection"
 import Input from "../../common/Input"
 import {Text, View, TouchableOpacity, Image, ActivityIndicator, Alert, Keyboard} from 'react-native';
-import Applogo from "../../common/Applogo";
 import {connect} from "react-redux";
 import {loginuser} from "../../actions/actions";
-import {Actions} from "react-native-router-flux";
 import axios from 'axios';
 import Header from "../../common/Header";
 
@@ -54,8 +52,7 @@ class ChangePassword extends Component{
             }).then((res)=>  {
                 if(res.data.success === true)
                 {
-                    Actions.pop();
-                    Actions.Profile();
+                    this.props.navigation.goBack();
                     this.setState({
                     equal: ""})}
                 else{

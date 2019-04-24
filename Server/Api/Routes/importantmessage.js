@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 var app = express();
 const router = express.Router();
 const IMessage = require('../../models/importantmessages');
+const axios = require('axios');
+
 var dateNow = new Date();
 var dd = dateNow.getDate();
 var monthSingleDigit = dateNow.getMonth() + 1,
@@ -23,9 +25,17 @@ router.post('/addmessage',(req,res,next) => {
         createdAt: Date.now()
     });
         message.save().then(result =>{
-            res.status(201).json({
-                message:'Created Imessage successfully',
-                createdMessage: result
+            axios.post('http://192.168.1.34:3000/daily/notification', {
+                title: "קרביץ עובדים",
+                message: 'הודעה חדשה עלתה נא להכנס'
+            }) .then( ()=> {
+                res.status(201).json({
+                    message: 'Created Imessage successfully',
+                    createdMessage: result
+                })
+                    .catch(()=> {
+                    console.log(error);
+                });
             })
         }).catch(err=> {
             res.status(401).json({error:err});

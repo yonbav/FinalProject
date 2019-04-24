@@ -22,13 +22,8 @@ class AllMessages extends Component {
                 this.setState({
                     data: result.data
                 });
-                if(result.data.length === 0){
-                    return (<View style = {[styles.MessageStyleBack,{justifyContent: 'center'}]}>
-                        <Text style={[styles.MessageStyleText,{alignSelf: 'center'},{fontWeight: 'bold'}]}>
-                            אין הודעות
-                        </Text>
-                    </View>)
-                }
+
+
             })
 
     }
@@ -36,19 +31,30 @@ class AllMessages extends Component {
         this.GetData();
     }
     renderButtons() {
+        if (this.state.data.length === 0) {
+            return (<View style={[styles.MessageStyleBack, {justifyContent: 'center'}]}>
+                <Text style={[styles.MessageStyleText, {alignSelf: 'center'}, {fontWeight: 'bold'}]}>
+                    אין הודעות
+                </Text>
+            </View>)
+        }
+        else
+            {
+                return this.state.data.map((item) => {
+                    return (
+                        <MessageFormat key={item._id} title={item.title} contect={item.contect}
+                                       Date={item.createdtime}/>
+                    );
 
-        return this.state.data.map((item) => {
-            return (
-                <MessageFormat key={item._id} title={item.title} contect={item.contect} Date={item.createdtime}/>
-            );
+                });
+            }
 
-        });
 
     }
 
     render() {
         return (
-            <ScrollView style={{flex:1}}>
+            <ScrollView style={[styles.BackStyle,{flex:1}]}>
                 <View style={styles.BackStyle}>
                     {this.renderButtons()}
                 </View>
@@ -58,9 +64,7 @@ class AllMessages extends Component {
     }
 }
 const styles = {
-    BackStyle: {
-        paddingTop:20,
-    },
+
     MessageStyleBack:{
         margin:5,
         height:45,

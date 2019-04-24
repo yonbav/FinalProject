@@ -2,7 +2,6 @@
 import React,{Component} from 'react'
 import { Text, View, ScrollView} from 'react-native';
 import axios from "axios";
-import {Actions} from "react-native-router-flux";
 import MessageFormat from "./MessageFormat";
 
 class UnreadMessages extends Component {
@@ -59,7 +58,7 @@ class UnreadMessages extends Component {
 
     render() {
         return (
-            <ScrollView style={{flex:1}}>
+            <ScrollView style={[styles.BackStyle,{flex:1}]}>
             <View style={styles.BackStyle}>
                 {this.renderButtons()}
             </View>
@@ -69,9 +68,7 @@ class UnreadMessages extends Component {
     }
 }
 const styles = {
-    BackStyle: {
-        paddingTop:20,
-    },
+
     MessageStyleBack:{
         margin:5,
         height:45,

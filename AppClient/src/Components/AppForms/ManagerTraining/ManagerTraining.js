@@ -1,9 +1,8 @@
 import React,{Component} from 'react'
-import {View,} from 'react-native';
-import Header from "../../common/Header";
+import {Text, TouchableOpacity, View,} from 'react-native';
 import Button from 'react-native-button';
-import {Actions} from "react-native-router-flux";
 import RequestPdf from "../RequestPdf";
+import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
 
 class ManagerTraining extends Component {
 
@@ -25,7 +24,8 @@ class ManagerTraining extends Component {
         return -1;
     }
     mixFunction=(text,id)=>{
-        Actions.pdf({url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
+
+        this.props.navigation.navigate('pdf',{url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
     }
 
     getResponse(result){
@@ -34,40 +34,32 @@ class ManagerTraining extends Component {
     render() {
         return (
             <View style={styles.BackStyle}>
-                <View>
-                    <Header name="הדרכת מנהלים"/>
-                </View>
-                <View style = {styles.containerStyle}>
-                    <Button
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        צ'ק ליסט יום יומי של מנהל הסניף
-                    </Button>
-                </View>
-                <View style = {styles.containerStyle}>
-                    <RequestPdf title ="CheckListPriority" callback={this.getResponse.bind(this)}/>
-                    <Button
-                        onPress={() => this.mixFunction("צ'ק ליסט פריורטי",
-                            this.findWithAttr(this.state.Data,'title',"CheckListPriority"))}
-                    containerStyle ={styles.buttonStyleBack}
-                    style={styles.buttonStyleText}>
-                    צ'ק ליסט פריוריטי
-                </Button>
-                </View>
-                <View style = {styles.containerStyle}>
-                <Button
-                    containerStyle ={styles.buttonStyleBack}
-                    style={styles.buttonStyleText}>
-                    צ'ק ליסט חניכת מנהל חדש
-                </Button>
-                </View>
-                <View style = {styles.containerStyle}>
-                    <Button
-                        containerStyle ={styles.buttonStyleBack}
-                        style={styles.buttonStyleText}>
-                        חוברת הדרכה פריורטי
-                    </Button>
-                </View>
+                <RequestPdf title ="CheckListPriority" callback={this.getResponse.bind(this)}/>
+                <RequestPdf title ="CheckListnewManager" callback={this.getResponse.bind(this)}/>
+                <RequestPdf title ="CheckListDailyManager" callback={this.getResponse.bind(this)}/>
+                <RequestPdf title ="PriorityTraining" callback={this.getResponse.bind(this)}/>
+
+                <TouchableOpacity onPress={() => this.mixFunction("צ'ק ליסט יום יומי של מנהל הסניף",
+                    this.findWithAttr(this.state.Data,'title',"CheckListDailyManager"))} >
+                    <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/list.png")} style={{height: 50, width: 50}}/>
+                        <Body><Text style={styles.title}>צ'ק ליסט יום יומי של מנהל הסניף</Text></Body>
+                    </Left></CardItem></Card></TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this.mixFunction("צ'ק ליסט פריורטי",
+                    this.findWithAttr(this.state.Data,'title',"CheckListPriority"))} >
+                    <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/list.png")} style={{height: 50, width: 50}}/>
+                        <Body><Text style={styles.title}>צ'ק ליסט פריוריטי</Text></Body>
+                    </Left></CardItem></Card></TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this.mixFunction(" צ'ק ליסט חניכת מנהל חדש",
+                    this.findWithAttr(this.state.Data,'title',"CheckListnewManager"))} >
+                    <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/list.png")} style={{height: 50, width: 50}}/>
+                        <Body><Text style={styles.title}> צ'ק ליסט חניכת מנהל חדש</Text></Body>
+                    </Left></CardItem></Card></TouchableOpacity>
+                <TouchableOpacity  onPress={() => this.mixFunction("חוברת הדרכה פריורטי", this.findWithAttr(this.state.Data,'title',"PriorityTraining"))}    >
+                    <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/Book.jpg")} style={{height: 50, width: 50}}/>
+                        <Body><Text style={styles.title}>חוברת הדרכה פריורטי</Text></Body>
+                    </Left></CardItem></Card></TouchableOpacity>
             </View>
 
         );
@@ -75,9 +67,8 @@ class ManagerTraining extends Component {
 }
 const styles = {
     BackStyle: {
-        paddingTop:100,
         backgroundColor: "#ffc68e",
-        paddingBottom: 800
+        flex:1
     },
     buttonStyleBack:{
         margin:5,

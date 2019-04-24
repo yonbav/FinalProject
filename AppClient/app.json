@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/Kra.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F26921"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

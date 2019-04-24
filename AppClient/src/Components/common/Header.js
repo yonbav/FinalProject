@@ -9,7 +9,7 @@ const Header = (props) => {
         <View>
         <View style={viewStyle}>
             <Text style = {textStyle}> {props.name}{'  '}
-                <Image style={styles.ImageStyle} source = {require('../../Resources/Logo.jpg')}/>
+                <Image style={styles.ImageStyle} source = {require('../../Resources/Logo.png')}/>
             </Text>
 
         </View>

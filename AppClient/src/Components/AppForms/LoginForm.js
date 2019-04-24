@@ -6,13 +6,15 @@ import CardSection from "../common/CardSection"
 import Input from "../common/Input"
 import {Text,View , TouchableOpacity, Image, ActivityIndicator,Alert,BackHandler} from 'react-native';
 import Applogo from "../common/Applogo";
-import deviceStorage from '../../Services/deviceStorage'
-import {Actions} from "react-native-router-flux";
+import Mail from "./HomePage/Mail";
+import {Header} from "react-native-elements";
 
 
 class LoginForm extends Component{
 
-
+    constructor() {
+        super();
+    }
 
     onIdChanged(text){
         this.props.idChanged(text);
@@ -23,20 +25,20 @@ class LoginForm extends Component{
     }
 
     onPressButton() {
-        this.props.loginuser(this.props.id,this.props.password);
+        this.props.loginuser(this.props.id,this.props.password,this.props.navigation);
     }
     renderButton()
     {
         if(this.props.loading)
         {
-                return  <View style={styles.buttonStyleBack}>
-                    <ActivityIndicator size="large" color="#000" />
-                </View>
+            return  <View style={styles.buttonStyleBack}>
+                <ActivityIndicator size="large" color="#fff" />
+            </View>
         }
         else {
             return <TouchableOpacity style={styles.buttonStyleBack} onPress={this.onPressButton.bind(this)}>
-                    <Text style={styles.buttonStyleText}> התחברות </Text>
-                </TouchableOpacity>
+                <Text style={styles.buttonStyleText}> התחברות </Text>
+            </TouchableOpacity>
 
         }
     }
@@ -64,41 +66,48 @@ class LoginForm extends Component{
     render() {
         return (
             <View style={styles.BackStyle}>
-                <View style={{paddingTop:50}}>
-                <Applogo/>
-                </View>
+                <Header
+                    statusBarProps={{ barStyle: 'light-content' }}
+                    barStyle="light-content" // or directly
+                    centerComponent={<Image style={{width: 150, height: 50}} source = {require('../../Resources/Logo.png')}/>}
+                    containerStyle={{
+                        backgroundColor: '#F58220',
+                        justifyContent: 'space-around',
+                        height: 100
+                    }}
+                />
 
                 <View style={styles.LoginStyle}>
-                <Card>
-                    <CardSection>
-                        <Input
-                            label=<Image source = {require('../../Resources/user.png')}/>
-                        placeholder="ת.ז"
+                    <Card>
+                        <CardSection>
+                            <Input
+                                label=<Image source = {require('../../Resources/user.png')}/>
+                            placeholder="ת.ז"
                             onChangeText={this.onIdChanged.bind(this)}
                             value={this.props.id}
-                        />
-                    </CardSection>
-                    <CardSection>
-                        <Input
-                            secureTextEntry
-                            label=<Image source = {require('../../Resources/lock.png')}/>
+                            />
+                        </CardSection>
+                        <CardSection>
+                            <Input
+                                secureTextEntry
+                                label=<Image source = {require('../../Resources/lock.png')}/>
                             placeholder="סיסמא"
                             onChangeText={this.onPasswordChanged.bind(this)}
                             value={this.props.password}
-                        />
-                    </CardSection>
-                    {this.renderError()}
-                    <View style={styles.containerStyle}>
-                    {this.renderButton()}
-                        {this.renderErrorConnection()}
-                    </View>
-                    <TouchableOpacity style={{alignItems: 'center',alignSelf:'center'}} onPress={() => Actions.ForgetPassword()}>
-                        <Text style={{color: '#4941ff'}}> שכחתי סיסמה </Text>
-                    </TouchableOpacity>
+                            />
+                        </CardSection>
+                        {this.renderError()}
+                        <View style={styles.containerStyle}>
+                            {this.renderButton()}
+                            {this.renderErrorConnection()}
+                        </View>
+                        <TouchableOpacity style={{alignItems: 'center',alignSelf:'center'}} onPress={() => {this.props.navigation.navigate('ForgetPassword')}}>
+                            <Text style={{color: '#4941ff'}}> שכחתי סיסמה </Text>
+                        </TouchableOpacity>
 
 
-                </Card>
-            </View>
+                    </Card>
+                </View>
             </View>
         );
     }
@@ -118,11 +127,11 @@ const mapStateToProps =  state =>{
 };
 const styles = {
     LoginStyle: {
-        paddingTop: 80,
+        paddingTop: 50,
     },
     BackStyle: {
         backgroundColor: "#ffc68e",
-        paddingBottom: 450
+        flex:1
     },
     buttonStyleBack:{
         flex:1,

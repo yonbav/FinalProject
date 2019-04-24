@@ -30,6 +30,7 @@ const importantmessagefunc = require("./Api/Routes/importantmessage");
 const dailybriefingfunc = require("./Api/Routes/dailybriefing");
 const jobsfunc = require("./Api/Routes/jobs");
 const infofunc = require("./Api/Routes/importantinformation");
+const minhalfunc = require("./Api/Routes/Minhal");
 
 app.use('/uploads', express.static(path.join('uploads')));
 app.use('/Information', express.static(path.join('Information')));
@@ -42,6 +43,7 @@ app.use("/Message",importantmessagefunc);
 app.use("/daily",dailybriefingfunc);
 app.use("/jobs",jobsfunc);
 app.use("/info",infofunc);
+app.use("/minhal",minhalfunc);
 
 
 var ip = require("ip");

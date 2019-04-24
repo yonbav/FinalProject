@@ -6,25 +6,21 @@ import {
     Image,
     TouchableOpacity, Keyboard
 } from 'react-native';
-import {Actions} from "react-native-router-flux";
 import axios from "axios";
-import deviceStorage from '../../../Services/deviceStorage'
-
 import Footer from "../../common/Footer";
-
+import {connect} from "react-redux";
+import deviceStorage from "../../../Services/deviceStorage";
 class Profile extends Component {
-    componentDidMount() {
-        Keyboard.dismiss();
-    }
+
     renderImage(){
         if (this.props.user.gender === "male")
         {
-            return <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
+            return <Image style={styles.avatar} source={require('../../../Resources/Profile.png')}/>
         }
-        return <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar3.png'}}/>
+        return <Image style={styles.avatar} source={require('../../../Resources/Profile2.png')}/>
 
     }
-    changePassword()
+    changePassword(navigation)
     {
         axios.post("http://192.168.1.34:3000/Auth/CheckToken",{
             id: this.props.user.id,
@@ -33,26 +29,17 @@ class Profile extends Component {
             .then((res)=> {
                 res = res.data;
                 if (res.success === true) {
-                    Actions.ChangePassword();
+                    navigation.navigate('ChangePassword')
                 }
-                else{Actions.auth();}
+                else{this.onSignOut(this.props.navigation)}
             })
 
     }
-    logout()
-    {
-        axios.post("http://192.168.1.34:3000/Auth/logout",{
-            id: this.props.user.id,
-            token: this.props.user.token,
-        })
-            .then( (res) => {
-                res = res.data;
-                if (res.success === true) {
-                    Actions.auth({type: 'reset'});
-                }
-            })
+    onSignOut = async (navigation) => {
+        await deviceStorage.deleteJWT();
+        navigation.navigate({routeName:"SignedOut"})
+    };
 
-    }
     EmploeeType(){
         if(this.props.user.authorization === '1' || this.props.user.authorization === '2')
             return <Text style={styles.description}>עובד</Text>;
@@ -65,31 +52,31 @@ class Profile extends Component {
     render() {
         return (
             <View style={{flex:1}}>
-            <View style={{flex:15}}>
-                <View style={styles.header}></View>
-                {this.renderImage()}
-                <View style={styles.body}>
-                    <View style={styles.bodyContent}>
-                        <Text style={styles.name}>{this.props.user.firstname} {this.props.user.lastname}</Text>
-                        <Text style={styles.info}>{this.props.user.birthday}</Text>
-                        <Text style={styles.description}>
-                        {this.EmploeeType()}{"\n"}
-                            {this.props.user.phone_number}{"\n"}
-                            {this.props.user.branch}
+                <View style={{flex:15}}>
+                    <View style={styles.header}></View>
+                    {this.renderImage()}
+                    <View style={styles.body}>
+                        <View style={styles.bodyContent}>
+                            <Text style={styles.name}>{this.props.user.firstname} {this.props.user.lastname}</Text>
+                            <Text style={styles.info}>{this.props.user.birthday}</Text>
+                            <Text style={styles.description}>
+                                {this.EmploeeType()}{"\n"}
+                                {this.props.user.phone_number}{"\n"}
+                                {this.props.user.branch}
 
-                        </Text>
+                            </Text>
 
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.changePassword()}
-                        >
-                            <Text>שינוי סיסמה</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.logout()}>
-                            <Text>התנתקות</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonContainer} onPress={() => this.changePassword(this.props.navigation)}
+                            >
+                                <Text>שינוי סיסמה</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onSignOut(this.props.navigation)}>
+                                <Text>התנתקות</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
 
-            </View>
+                </View>
                 <Footer des = "במקרה שפרטיך שונו אנא לפנות למייל " mail="kravitz@gmail.com"/>
             </View>
 
@@ -97,7 +84,11 @@ class Profile extends Component {
         );
     }
 }
-
+const mapStateToProps =  state =>{
+    return {
+        user: state.auth.user
+    };
+};
 
 const styles = StyleSheet.create({
     header:{
@@ -153,4 +144,4 @@ const styles = StyleSheet.create({
     },
 
 });
-export default Profile;
+export default connect(mapStateToProps)(Profile);

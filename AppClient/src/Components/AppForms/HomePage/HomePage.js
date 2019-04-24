@@ -1,16 +1,15 @@
 import React,{Component} from 'react'
 import {Text,View,Image,Keyboard, TouchableOpacity,FlatList} from "react-native";
-import Applogo from "../../common/Applogo";
-import Button from 'react-native-button';
-import {Actions} from "react-native-router-flux";
-import GetDailyBirthdays from "./GetDailyBirthdays";
 import Messeges from "../Messages/Messeges";
 import Sales from "./Sales";
-import UsernameClick from "./UsernameClick";
 import Mail from "./Mail";
 import axios from "axios";
 import { Permissions, Notifications } from 'expo';
-import StyleApp from "../StyleApp"
+import {connect} from "react-redux";
+import {Header} from "react-native-elements"
+import SalesFormat from "./SalesFormat";
+import DailyBirthdayFormat from "./DailyBirthdayFormat";
+import ManagerFormat from "./ManagerFormat";
 
 class HomePage extends Component{
     async registerForPushNotificationsAsync() {
@@ -93,37 +92,43 @@ class HomePage extends Component{
 
     }
     mixFunction=()=>{
-        Actions.Messages({id: this.props.user.id,messages: this.state.num});
+        this.props.navigation.navigate('messages',{id: this.props.user.id,messages: this.state.num})
         this.getResponse(0);
     }
     renderManager(){
         if(this.props.user.authorization > 2)
         {
-            return(<Button
-                onPress={() => {Actions.ManagerTraining()}}
-                containerStyle ={StyleApp.buttonStyleBackHome}
-                style={StyleApp.buttonStyleText}>
-                הדרכת מנהלים
-            </Button>)
+            return( <ManagerFormat name="הדרכת מנהלים" navigation={this.props.navigation}/>)
         }
     }
     _renderItem = () => (
-        <Applogo/>
+        <View>
+            <Text style={styles.labelStyle}>שלום {this.props.user.firstname},</Text>
+            <SalesFormat url={this.state.SalesData.image} title="מבצעים" navigation={this.props.navigation}/>
+            {this.renderManager()}
+                <DailyBirthdayFormat  user={this.props.user}/>
+        </View>
+
 )
 
 
 render() {
     return (
-    <View style={StyleApp.BackStyle2}>
+    <View style={styles.BackStyle}>
 
+        <Header
+            statusBarProps={{ barStyle: 'light-content' }}
+            barStyle="light-content" // or directly
+            centerComponent={<Image style={{width: 150, height: 50}} source = {require('../../../Resources/Logo.png')}/>}
+            rightComponent={ <TouchableOpacity onPress={()=> {this.mixFunction()}}><Mail num={this.state.num}/></TouchableOpacity>}
+            containerStyle={{
+                backgroundColor: '#F58220',
+                justifyContent: 'space-around',
+                height: 100
+            }}
+        />
         <Messeges  id ={this.props.user.id} callback={this.getResponse.bind(this)}/>
         <Sales  callback={this.getResponse2.bind(this)}/>
-            <View style={{flexDirection: 'row',justifyContent: 'space-between',padding: 5}}>
-                <UsernameClick user={this.props.user}/>
-                <TouchableOpacity onPress={()=>this.mixFunction()}>
-                <Mail num={this.state.num}/>
-                </TouchableOpacity>
-            </View>
         <FlatList
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}
@@ -131,52 +136,6 @@ render() {
             keyExtractor={(item) => item.toString()}
             renderItem={this._renderItem}
         />
-        <Text style={StyleApp.labelStyle}>שלום {this.props.user.firstname},</Text>
-        <View style = {StyleApp.containerStyleHome}>
-            <Button
-                onPress={() => Actions.DailyBrif({user: this.props.user})}
-                containerStyle ={StyleApp.buttonStyleBackHome}
-                style={StyleApp.buttonStyleText}>
-                תדריך יומי
-            </Button>
-            <Button
-                onPress={() =>
-                    Actions.pdf({url: "http://192.168.1.34:3000/"+this.state.SalesData.image ,
-                        title: "מבצעים"})}
-                containerStyle ={StyleApp.buttonStyleBackHome}
-                style={StyleApp.buttonStyleText}>
-                מבצעים
-            </Button>
-
-        </View>
-        <View style = {StyleApp.containerStyleHome}>
-            <Button
-                onPress={() => Actions.HumRes()}
-                containerStyle ={StyleApp.buttonStyleBackHome}
-                style={StyleApp.buttonStyleText}>
-                עדכוני מש"א
-            </Button>
-            <Button
-                onPress={() => Actions.Importantinfo()}
-                containerStyle ={StyleApp.buttonStyleBackHome}
-                style={StyleApp.buttonStyleText}>
-                מידע חשוב
-            </Button>
-
-        </View>
-        <View style = {StyleApp.containerStyleHome}>
-            <Button
-                onPress={() => Actions.EmployeeTraining()}
-                containerStyle ={StyleApp.buttonStyleBackHome}
-                style={StyleApp.buttonStyleText}>
-                הדרכת עובדים
-            </Button>
-            {this.renderManager()}
-        </View>
-        <View style={[StyleApp.buttonStyleBack1,{width:400}]}>
-            <GetDailyBirthdays user={this.props.user}/>
-        </View>
-
     </View>
 
     );
@@ -184,4 +143,24 @@ render() {
 }
 
 
-export default HomePage;
+const mapStateToProps =  state =>{
+    return {
+        user: state.auth.user
+    };
+};
+const styles = {
+    BackStyle:{
+        backgroundColor: "#ffc68e",
+        flex:1
+    },
+    labelStyle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: '#1c000b',
+        alignSelf:'flex-start',
+        marginTop: 5,
+        justifyContent: 'space-between',
+        paddingRight: 15
+    },
+}
+export default connect(mapStateToProps)(HomePage);
