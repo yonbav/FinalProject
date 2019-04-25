@@ -3,6 +3,9 @@ var express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
+const moment = require('moment');
+const DailyBriefing = require('./models/dailybriefing');
+const Messages = require('./models/importantmessages');
 
 app.use(bodyParser.json());
 const User = require('./models/user');
@@ -46,6 +49,29 @@ app.use("/jobs",jobsfunc);
 app.use("/info",infofunc);
 app.use("/minhal",minhalfunc);
 
+
+setInterval(function () {
+
+    var startdate = moment();
+    startdate = startdate.subtract(15, "days");
+    DailyBriefing.find({createdAt:{$lt:startdate}}).then(
+        (docs,err)=> {
+            docs.forEach((doc) => doc.delete())
+        }
+    )
+
+},5000);
+setInterval(function () {
+
+    var startdate = moment();
+    startdate = startdate.subtract(3, "days");
+    Messages.find({createdAt:{$lt:startdate}}).then(
+        (docs,err)=> {
+            docs.forEach((doc) => doc.delete())
+        }
+    )
+
+},5000);
 
 var ip = require("ip");
 console.dir ( ip.address() );

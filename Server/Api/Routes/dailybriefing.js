@@ -56,10 +56,11 @@ router.post('/adddailybrief',upload.single('DailyBriefImage'),(req,res,next) => 
         title:req.body.title,
         readby:[],
         image: "uploads/"+req.file.filename,
+        createdAt: new Date(req.body.date)
     });
 
     dailybriefing.save().then(result =>{
-        axios.post('http://192.168.43.209:3000/daily/notification', {
+        axios.post('http://192.168.1.34:3000/daily/notification', {
             title: "קרביץ עובדים",
             message: 'תדריך יומי עלה נא להכנס'
         })
@@ -92,9 +93,9 @@ router.get('/:id', (req,res,next) => {
 });
 /*Service Get All Daily Brifing*/
 router.get('/', (req,res,next) => {
-    DailyBriefing.find().exec().then(doc=>{
+    DailyBriefing.find().sort( { createdAt: -1 } ).limit(7).exec().then(doc=>{
         if(doc) {
-            res.status(200).json(doc.reverse());
+            res.status(200).json(doc);
         }else{
             res.status(404).json({message : 'No valid found for DailyBriefing'});
         }
