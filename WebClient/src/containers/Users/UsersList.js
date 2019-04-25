@@ -2,27 +2,21 @@ import React, {Component} from 'react';
 import ReactTable from 'react-table';
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getAllUsers, deleteUsers } from '../../store/api/User'
+import { getAllUsers, deleteUser} from '../../store/actions'
 
 class UsersList extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.deleteUser = this.deleteUser.bind(this);
     }
 
-    deleteUser(userId)
-    {
-        alert("item was deleted " + userId);
+    componentWillMount() {
+      this.props.getAllUsers();
     }
-    
+
     componentDidMount() {
         document.getElementById("usersTable").scrollIntoView();
     }
-
-    getAllUsers() {
-
-    }    
 
     render() {        
         const columns = [{
@@ -62,19 +56,22 @@ class UsersList extends Component {
             Header: '',
             accessor: '_id',
             maxWidth: '100',
-            Cell: props => <button onClick={() => this.deleteUser(props.value)} className="btn btn-link">Delete</button>
+            Cell: props => <button onClick={() => this.props.deleteUser(props.value)} className="btn btn-link">Delete</button>
         }];
 
         return <div id="usersTable"><ReactTable defaultPageSize={10} className="react-table-default" data={this.props.allUsersList} columns={columns} /></div>
     }
 }
 
-const mapStateToProps = ({users}) => {
-  const {allUsersList} = users
+const mapStateToProps = (state, ownProps) => {
+  const {allUsersList} = state.users
   return {allUsersList}
 };
 
-export default withRouter(connect(mapStateToProps), {
-  getAllUsers,
-  deleteUsers
-}) (UsersList);
+const mapDispatchToProps  = (dispatch) => {
+  return {
+    getAllUsers: () => { dispatch(getAllUsers()) }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsersList);

@@ -82,8 +82,8 @@ class RouterApp extends React.Component {
                             <Route exact path="/" component={Home}/>
                         </Switch>
                         <Switch>
-                            <Route exact path="/Users" render={() => <UsersList/>}/>
-                            <Route exact path="/Users/UsersList" render={() => <UsersList/>}/>
+                            <Route exact path="/Users" component={UsersList}/>
+                            <Route exact path="/Users/UsersList" component={UsersList}/>
                             <Route exact path="/Users/AddUser" component={AddUser}/>
                             <Route exact path="/Users/EditUser/:UserId" component={EditUser}/>
                             <Route exact path="/Users/LoadUsersExcel" component={LoadUsersExcel}/>

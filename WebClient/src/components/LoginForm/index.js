@@ -50,9 +50,7 @@ class LoginForm extends Component {
                     type: 'success',
                     msg: 'Login success.'
                 })
-                this.props.loginSuccess({
-                    loggedUser: data.user
-                })
+                this.props.loginSuccess(data.user)
                 this.props.toggleLoginForm();
             }else{
                 this.props.showMessage({ 

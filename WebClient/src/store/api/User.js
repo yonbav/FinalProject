@@ -18,7 +18,7 @@ export const addUser = async (params) => {
 }
 
 export const getAllUsers = async () => {
-    return await axios.get(`${API_URL.GET_ALL_USER}`, {headers:headers})
+    return await axios.get(`${API_URL.GET_ALL_USERS}`, {headers:headers})
     .then(res => res.data)
     .catch(error => {throw error.response.data})
 }

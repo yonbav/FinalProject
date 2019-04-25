@@ -14,6 +14,6 @@ export default {
     // Delete a user
     DELETE_USER: `${Constants.SERVER_URL}/user/deleteUser`,
     // Get all users
-    GET_ALL_USER: `${Constants.SERVER_URL}/user`,
+    GET_ALL_USERS: `${Constants.SERVER_URL}/user`,
 }
 
