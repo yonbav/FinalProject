@@ -8,6 +8,7 @@ const importantmessageSchema = mongoose.Schema({
     readby:[String],
     link:{type:String},
     createdtime:{type:String},
+    createdAt:{type:Date}
 });
 
 module.exports = mongoose.model('ImportantMessage',importantmessageSchema);

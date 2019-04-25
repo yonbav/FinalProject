@@ -6,5 +6,6 @@ const dailybriefingSchema = mongoose.Schema({
     title:{type:String},
     readby:[String],
     image: {type:String},
+    createdAt:{type:Date}
 });
 module.exports = mongoose.model('dailybriefing',dailybriefingSchema);
