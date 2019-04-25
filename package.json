@@ -1,0 +1,20 @@
+{
+  "name": "final_project",
+  "version": "1.0.0",
+  "description": "kravitz final project",
+  "scripts": {
+    "startServer": "cd ./Server && npm start&",
+    "startweb": "npm run startServer && cd ./WebClient && npm start",
+    "poststartweb": "pkill -f nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yonbav/FinalProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yonbav/FinalProject/issues"
+  },
+  "homepage": "https://github.com/yonbav/FinalProject#readme"
+}
