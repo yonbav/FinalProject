@@ -45,13 +45,13 @@ class LoginForm extends Component {
             authorization: '5',
         }).then(data => {
             this.setState({loader: false})
-            if(data.success == true){
+            if(data.success === true){
                 this.props.showMessage({ 
                     type: 'success',
                     msg: 'Login success.'
                 })
                 this.props.loginSuccess({
-                    token: data.Token
+                    loggedUser: data.user
                 })
                 this.props.toggleLoginForm();
             }else{

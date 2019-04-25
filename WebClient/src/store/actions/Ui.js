@@ -6,8 +6,6 @@ import {
     SHOW_INDICATOR,
     HIDE_INDICATOR,
     TOGGLE_LOGIN_FORM,
-    TOGGLE_BSDATE_FORM,
-    TOGGLE_POSCONFIG_FORM,
 } from '../actionTypes';
 
 export const showFullLoader = (data) => {
@@ -51,19 +49,6 @@ export const hideIndicator = () => {
 export const toggleLoginForm = () => {
     return {
         type: TOGGLE_LOGIN_FORM,
-    };
-};
-
-export const toggleBSDateForm = () => {
-    return {
-        type: TOGGLE_BSDATE_FORM,
-    };
-};
-
-export const toggleDlg = (data) => {
-    return {
-        type: TOGGLE_POSCONFIG_FORM,
-        payload: data
     };
 };
 

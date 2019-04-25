@@ -11,8 +11,6 @@ import {
     hideMessage,
     showFullLoader,
     hideFullLoader,
-    getAllClient,
-    getVersion,
 } from '../store/actions';
 
 import Home from './Home';
@@ -45,15 +43,15 @@ class RouterApp extends React.Component {
     }
 
     componentDidMount(){
-        if (!this.props.clientsData){
-            this.props.showFullLoader('Loading data...');
-            this.props.getAllClient();
-        }
+        // if (!this.props.clientsData){
+        //     this.props.showFullLoader('Loading data...');
+        //     this.props.getAllClient();
+        // }
 
-        setInterval(()=>{
-        }, 10000);
+        // setInterval(()=>{
+        // }, 10000);
 
-        this.props.getVersion();
+        // this.props.getVersion();
     }
 
     componentDidUpdate () {
@@ -84,8 +82,8 @@ class RouterApp extends React.Component {
                             <Route exact path="/" component={Home}/>
                         </Switch>
                         <Switch>
-                            <Route exact path="/Users" component={UsersList}/>
-                            <Route exact path="/Users/UsersList" component={UsersList}/>
+                            <Route exact path="/Users" render={() => <UsersList/>}/>
+                            <Route exact path="/Users/UsersList" render={() => <UsersList/>}/>
                             <Route exact path="/Users/AddUser" component={AddUser}/>
                             <Route exact path="/Users/EditUser/:UserId" component={EditUser}/>
                             <Route exact path="/Users/LoadUsersExcel" component={LoadUsersExcel}/>
@@ -114,16 +112,12 @@ class RouterApp extends React.Component {
 }
 
 
-const mapStateToProps = ({ui, user, monitor}) => {
-    const { authUser } = user;
-    const { message} = ui;
-    const { clientsData} = monitor;
-    return {authUser, message, clientsData}
+const mapStateToProps = (state) => {
+    const { message} = state.ui;
+    return {message}
 };
 export default withRouter(connect(mapStateToProps, {
     hideMessage,
     showFullLoader,
     hideFullLoader,
-    getAllClient,
-    getVersion
 })(RouterApp));

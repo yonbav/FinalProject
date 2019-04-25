@@ -15,7 +15,7 @@ class Header extends Component {
 
     loginClick()
     {
-        if (!this.props.authUser){
+        if (!this.props.loggedUser){
             this.props.toggleLoginForm()
         }
     }
@@ -29,7 +29,7 @@ class Header extends Component {
     render() {
         let headerButtons;
 
-        if (!this.props.authUser)
+        if (!this.props.loggedUser)
         {
             headerButtons = <div><button className="btn btn-warning btn-sm mr-3" onClick={this.loginClick}>Login</button></div>
         }
@@ -53,7 +53,7 @@ class Header extends Component {
         return ( 
             <div id="header" className="d-flex px-2 text-white">
                 <div className="mr-auto">
-                    <h5 className="mb-0 mt-2">{!this.props.authUser ? 'Welcome To Kravitz Manager' : 'Hello, Michal'}</h5>
+                    <h5 className="mb-0 mt-2">{!this.props.loggedUser ? 'Welcome To Kravitz Manager' : 'Hello, ' + this.props.loggedUser.firstname }</h5>
                     <div>
                         <small style={{margin:'20px'}} className="font-italic">version {this.props.version}</small>
                         <small className="font-italic">{this.props.storeName}</small>
@@ -65,10 +65,9 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = ({status, user }) => {
-    const {version, storeName} = status;
-    const {authUser} = user;
-    return {version, authUser, storeName};
+const mapStateToProps = ({ users }) => {
+    const {loggedUser} = users;
+    return {loggedUser};
 };
 export default withRouter(connect(mapStateToProps, {
     logoutSuccess,

@@ -6,8 +6,6 @@ import {
     SHOW_INDICATOR,
     HIDE_INDICATOR,
     TOGGLE_LOGIN_FORM,
-    TOGGLE_BSDATE_FORM,
-    TOGGLE_POSCONFIG_FORM,
 } from '../actionTypes';
 
 const INIT_STATE = {
@@ -95,21 +93,6 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 isOpenLoginForm: !state.isOpenLoginForm,
-            }
-        }
-
-        case TOGGLE_BSDATE_FORM: {
-            return {
-                ...state,
-                isOpenBSDateForm: !state.isOpenBSDateForm,
-            }
-        }
-
-        case TOGGLE_POSCONFIG_FORM: {
-            return {
-                ...state,
-                isOpenDlg: !state.isOpenDlg,
-                dlgContent: action.payload
             }
         }
 
