@@ -1,4 +1,4 @@
-import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
+import { all, call, fork, put, takeEvery, take } from 'redux-saga/effects';
 
 import {
     ADD_USER,
@@ -10,18 +10,17 @@ import {
 import {
     showFullLoader,
     hideFullLoader,
-    showIndicator,
-    hideIndicator,
     showMessage,
-    hideMessage,
-    getAllUsersSuccess
+    getAllUsersSuccess,
+    deleteUserSuccess,
+    editUserSuccess
 } from '../actions';
 
 import {
     getAllUsers,
     addUser,
-    deleteUsers,
-    editUsers
+    deleteUser,
+    editUser
 } from '../api'
 
 function* getAllUsersSaga() {
@@ -30,7 +29,7 @@ function* getAllUsersSaga() {
         const response = yield call(getAllUsers);
         yield put(getAllUsersSuccess(response.user));
     } catch (error) {
-        console.log('getAllUsersSaga', error);
+        console.log('[getAllUsersSaga]', error);
         yield put(showMessage({
             type: 'error',
             msg: "Server Error. Failed to get all users.",
@@ -40,20 +39,78 @@ function* getAllUsersSaga() {
     }
 }
 
+function* deleteUserSage(userId) {
+    try {
+        yield put(showFullLoader())
+        const response = yield call(deleteUser, {_id: userId}); 
+        console.log("delete user respone: ", response);
+        yield put(deleteUserSuccess(userId))
+    }
+    catch (error) {
+        console.log('[deleteUsersSaga]', error);
+        yield put(showMessage({
+            type: 'error',
+            msg: "Server Error. Failed to delete the user.",
+        }));
+    }
+    finally {
+        yield put(hideFullLoader())
+    }
+}
+
+function* addUserSaga() {
+    try {
+        yield put(showFullLoader())
+        const response = yield call(addUser); 
+        yield put(deleteUserSuccess(response.data))
+    }
+    catch (error){
+        console.log('[addUsersSaga]', error)
+
+        yield put(showMessage({
+            type: 'error',
+            msg: "Server Error. Failed to add the user.",
+        }));
+    }
+    finally {
+        yield put(hideFullLoader())
+    }
+}
+
+function* editUserSage() {
+    try {
+        yield put(showFullLoader())
+        const response = yield call(editUser);
+        yield put(editUserSuccess(response.data))
+    }
+    catch (error){
+        console.log('[editUsersSaga]', error)
+
+        yield put(showMessage({
+            type: 'error',
+            msg: "Server Error. Failed to edit the user.",
+        }));
+    }
+    finally {
+        yield put(hideFullLoader())
+    }
+}
+
 export function* getAllUsersDetect() {
     yield takeEvery(GET_ALL_USERS, getAllUsersSaga);
 }
 
 export function* addUsersDetect() {
-    yield takeEvery(ADD_USER, getAllUsersSaga);
+    yield takeEvery(ADD_USER, addUserSaga);
 }
 
 export function* editUsersDetect() {
-    yield takeEvery(DELETE_USER, getAllUsersSaga);
+    yield takeEvery(EDIT_USER, editUserSage);
 }
 
 export function* deleteUsersDetect() {
-    yield takeEvery(EDIT_USER, getAllUsersSaga);
+    const action = yield take(DELETE_USER)
+    yield takeEvery(DELETE_USER, deleteUserSage, action.userId);
 }
 
 

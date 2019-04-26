@@ -23,13 +23,13 @@ export const getAllUsers = async () => {
     .catch(error => {throw error.response.data})
 }
 
-export const deleteUsers = async (params) => {
+export const deleteUser = async (params) => {
     return await axios.post(`${API_URL.DELETE_USER}`, params, {headers:headers})
     .then(res => res.data)
     .catch(error => {throw error.response.data})
 }
 
-export const editUsers = async (params) => {
+export const editUser = async (params) => {
     return await axios.patch(`${API_URL.EDIT_USER}`, params, {headers:headers})
     .then(res => res.data)
     .catch(error => {throw error.response.data})

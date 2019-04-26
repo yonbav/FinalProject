@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactTable from 'react-table';
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getAllUsers, deleteUser} from '../../store/actions'
 
@@ -8,6 +8,8 @@ class UsersList extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+
+        this.deleteUser = this.deleteUser.bind(this);
     }
 
     componentWillMount() {
@@ -16,6 +18,10 @@ class UsersList extends Component {
 
     componentDidMount() {
         document.getElementById("usersTable").scrollIntoView();
+    }
+
+    deleteUser(userId) {
+      this.props.deleteUserById(userId);
     }
 
     render() {        
@@ -56,7 +62,7 @@ class UsersList extends Component {
             Header: '',
             accessor: '_id',
             maxWidth: '100',
-            Cell: props => <button onClick={() => this.props.deleteUser(props.value)} className="btn btn-link">Delete</button>
+            Cell: props => <button onClick={() => this.deleteUser(props.value)} className="btn btn-link">Delete</button>
         }];
 
         return <div id="usersTable"><ReactTable defaultPageSize={10} className="react-table-default" data={this.props.allUsersList} columns={columns} /></div>
@@ -70,7 +76,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps  = (dispatch) => {
   return {
-    getAllUsers: () => { dispatch(getAllUsers()) }
+    getAllUsers: () => { dispatch(getAllUsers()) },
+    deleteUserById: (userId) => {dispatch(deleteUser(userId))}
   }
 }
 

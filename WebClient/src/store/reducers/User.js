@@ -36,8 +36,10 @@ export default (state = initState, action) => {
                 ...state,
             };
         case DELETE_USER_SUCCESS:
+            let newUsersList = state.allUsersList.filter(user => user._id !== action.userId)
             return {
                 ...state,
+                allUsersList: newUsersList
             };
 
         case EDIT_USER_SUCCESS:
