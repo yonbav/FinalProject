@@ -1,15 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import uploadIcon from '../../images/upload-icon.png';
+import XLSX from 'xlsx';
+import { showMessage, showFullLoader, hideFullLoader, addUser } from '../../store/actions';
+import { connect } from 'react-redux';
 
 class LoadUsersExcel extends Component {
     constructor(props) {
         super(props);
-        this.state = {usersExcelFile:{}};
+        this.state = {};
 
         this.onFileChanged = this.onFileChanged.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
+
     componentDidMount() {
         document.getElementById("loadUsersExcel").scrollIntoView();
     }
@@ -17,35 +20,89 @@ class LoadUsersExcel extends Component {
     onFileChanged(event) {
         var currentFile = event.target.files[0];
 
-        if (!currentFile)
-        {
+        if (!currentFile) {
             alert("Failed to upload file");
             return;
         }
 
-        this.setState({usersExcelFile:currentFile}); 
+        this.setState({ usersExcelFile: currentFile });
     }
 
-    handleSubmit() {
-        let result = JSON.stringify(this.state.usersExcelFile.name);
-        alert("Submit\n=======\n File: " + result);
+    handleSubmit(e) {
+        e.preventDefault();
+
+        if (!this.state.usersExcelFile) {
+            this.props.showNewMessage({
+                type: 'error',
+                msg: 'Please select file.'
+            });
+            return
+        }
+
+        const reader = new FileReader();
+        const rABS = !!reader.readAsBinaryString;
+        reader.onload = (e) => {
+            try {
+                this.props.showLoader();
+                var newUsersList = this.convertResultToJson(e.target.result, rABS);
+                newUsersList.forEach((newUser) => {
+                    this.props.addnewUser(newUser);
+                })
+                this.props.showNewMessage({
+                    type: 'success',
+                    msg: 'Excel file was successfully uploaded.'
+                })
+            }
+            catch (error) {
+                this.props.showNewMessage({
+                    type: 'error',
+                    msg: 'Failed to upload the excel file.'
+                });
+            }
+            finally {
+                this.props.hideLoader();
+            }
+        };
+        if (rABS) reader.readAsBinaryString(this.state.usersExcelFile); else reader.readAsArrayBuffer(this.state.usersExcelFile);
+    }
+
+    convertResultToJson(result, rABS) {
+        const bstr = result;
+        const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array' });
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        const rawData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+        let jsonData = []
+
+        const headers = rawData[0];
+
+        for (let i = 1; i < rawData.length; i++) {
+            let newObject = {};
+            for (let j = 0; j < headers.length; j++) {
+                newObject[headers[j]] = rawData[i][j];
+            }
+            jsonData = [...jsonData, newObject]
+        }
+
+        return jsonData;
     }
 
     render() {
         return (
-            <div id='loadUsersExcel' 
-                 className="form-backgorund">
-                <form  className="input-form" onSubmit={() => this.handleSubmit()}>                
-                    <div className="form-title">{this.props.Title}</div>                    
+            <div id='loadUsersExcel'
+                className="form-backgorund">
+                <form className="input-form" onSubmit={(e) => this.handleSubmit(e)}>
+                    <div className="form-title">{this.props.Title}</div>
                     <div className="form-group row">
                         <label className="col-sm-4 col-form-label">Upload user's excel: </label>
-                        <input placeholder={this.state.usersExcelFile ? this.state.usersExcelFile.name : "choose file"} className="col-sm-5" disabled/>
-                        <label className="col-sm-1 file-upload-button input-file-image" style={{padding:"0px"}} htmlFor="fileUpload">
-                            <img className="upload-image" alt="upload" src={uploadIcon}/>
+                        <input placeholder={this.state.usersExcelFile ? this.state.usersExcelFile.name : "choose file"} className="col-sm-5" disabled />
+                        <label className="col-sm-1 file-upload-button input-file-image" style={{ padding: "0px" }} htmlFor="fileUpload">
+                            <img className="upload-image" alt="upload" src={uploadIcon} />
                         </label>
-                        <input type="file" onChange={(e) => this.onFileChanged(e)} className="col-sm-0 input-file-not-visible" id="fileUpload"/>
-                    </div>   
-                    <div className="submit-button-div">                 
+                        <input type="file" accept={".xlsx, .xlsb, .xlsm, .xls, .xml, .csv"} onChange={(e) => this.onFileChanged(e)} className="col-sm-0 input-file-not-visible" id="fileUpload" />
+                    </div>
+                    <div className="submit-button-div">
                         <button type="submit" className="submit-button btn btn-primary">Submit</button>
                     </div>
                 </form>
@@ -53,4 +110,13 @@ class LoadUsersExcel extends Component {
     }
 }
 
-export default LoadUsersExcel
+const mapDispatchToProps = (dispatch) => {
+    return {
+        showLoader: () => { dispatch(showFullLoader()) },
+        hideLoader: () => { dispatch(hideFullLoader()) },
+        addnewUser: (newUser) => { dispatch(addUser(newUser)) },
+        showNewMessage: (message) => { dispatch(showMessage(message)) }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(LoadUsersExcel);
