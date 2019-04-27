@@ -85,19 +85,19 @@ class RouterApp extends React.Component {
                             <Route exact path="/Users" component={UsersList}/>
                             <Route exact path="/Users/UsersList" component={UsersList}/>
                             <Route exact path="/Users/AddUser" component={AddUser}/>
-                            <Route exact path="/Users/EditUser/:UserId" component={EditUser}/>
+                            <Route exact path="/Users/EditUser/:id" component={EditUser}/>
                             <Route exact path="/Users/LoadUsersExcel" component={LoadUsersExcel}/>
                         </Switch>
                         <Switch>
                             <Route exact path="/DailyBriefings" component={DailyBriefingsList}/>
                             <Route exact path="/DailyBriefings/AddDailyBriefing" component={AddDailyBriefing}/>
-                            <Route exact path="/DailyBriefings/EditDailyBriefing/:BriefingId" component={EditDailyBriefing}/>
+                            <Route exact path="/DailyBriefings/EditDailyBriefing/:id" component={EditDailyBriefing}/>
                             <Route exact path="/DailyBriefings/DailyBriefingsList" component={DailyBriefingsList}/>
                         </Switch>
                         <Switch>
                             <Route exact path="/ImportantMessages" component={ImportantMessagesList}/>
                             <Route exact path="/ImportantMessages/AddImportantMessage" component={AddImportantMessage}/>
-                            <Route exact path="/ImportantMessages/EditImportantMessage/:MessageId" component={EditImportantMessage}/>
+                            <Route exact path="/ImportantMessages/EditImportantMessage/:id" component={EditImportantMessage}/>
                             <Route exact path="/ImportantMessages/ImportantMessagesList" component={ImportantMessagesList}/>
                         </Switch>
                     </main>

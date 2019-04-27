@@ -1,4 +1,5 @@
 import { all, call, fork, put, takeEvery, take } from 'redux-saga/effects';
+import { convertJsonToPatchString } from '../../Utils/JsonUtils'
 
 import {
     ADD_USER,
@@ -13,7 +14,8 @@ import {
     showMessage,
     getAllUsersSuccess,
     deleteUserSuccess,
-    editUserSuccess
+    editUserSuccess,
+    addUserSuccess
 } from '../actions';
 
 import {
@@ -39,12 +41,16 @@ function* getAllUsersSaga() {
     }
 }
 
-function* deleteUserSage(userId) {
+function* deleteUserSaga(userId) {
     try {
         yield put(showFullLoader())
         const response = yield call(deleteUser, {_id: userId}); 
         console.log("delete user respone: ", response);
         yield put(deleteUserSuccess(userId))
+        yield put(showMessage({
+            type: 'success',
+            msg: "user was successfully deleted",
+        }));
     }
     catch (error) {
         console.log('[deleteUsersSaga]', error);
@@ -58,11 +64,16 @@ function* deleteUserSage(userId) {
     }
 }
 
-function* addUserSaga() {
+function* addUserSaga(newUser) {
     try {
         yield put(showFullLoader())
-        const response = yield call(addUser); 
-        yield put(deleteUserSuccess(response.data))
+        const response = yield call(addUser, newUser); 
+        yield put(addUserSuccess(response.data))
+        console.log("add user respone: ", response);
+        yield put(showMessage({
+            type: 'success',
+            msg: "user was successfully added",
+        }));
     }
     catch (error){
         console.log('[addUsersSaga]', error)
@@ -77,11 +88,17 @@ function* addUserSaga() {
     }
 }
 
-function* editUserSage() {
+function* editUserSaga(editedUser) {
     try {
         yield put(showFullLoader())
-        const response = yield call(editUser);
+        let userString = convertJsonToPatchString(editedUser)
+        const response = yield call(editUser, editedUser._id, userString);
+        console.log("edit user respone: ", response);
         yield put(editUserSuccess(response.data))
+        yield put(showMessage({
+            type: 'success',
+            msg: "user was successfully edited",
+        }));
     }
     catch (error){
         console.log('[editUsersSaga]', error)
@@ -101,16 +118,18 @@ export function* getAllUsersDetect() {
 }
 
 export function* addUsersDetect() {
-    yield takeEvery(ADD_USER, addUserSaga);
+    const action = yield take(ADD_USER)
+    yield takeEvery(ADD_USER, addUserSaga, action.newUser);
 }
 
 export function* editUsersDetect() {
-    yield takeEvery(EDIT_USER, editUserSage);
+    const action = yield take(EDIT_USER)
+    yield takeEvery(EDIT_USER, editUserSaga, action.editedUser);
 }
 
 export function* deleteUsersDetect() {
     const action = yield take(DELETE_USER)
-    yield takeEvery(DELETE_USER, deleteUserSage, action.userId);
+    yield takeEvery(DELETE_USER, deleteUserSaga, action.userId);
 }
 
 

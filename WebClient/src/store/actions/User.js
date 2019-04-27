@@ -41,25 +41,25 @@ export const deleteUserSuccess = (userId) => {
 
 // Add user
 
-export const addUser = (addedUser) => {
+export const addUser = (newUser) => {
     return {
         type: ADD_USER, 
-        addedUser,
+        newUser,
     };
 };
-export const addUserSuccess = (addedUser) => {
+export const addUserSuccess = (newUser) => {
+    
     return {
         type: ADD_USER_SUCCESS, 
-        addedUser,
+        newUser,
     };
 };
 
 // Edit user
 
-export const editUser = (userId, editedUser) => {
+export const editUser = (editedUser) => {
     return {
         type: EDIT_USER, 
-        userId,
         editedUser,
     };
 };

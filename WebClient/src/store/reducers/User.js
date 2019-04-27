@@ -8,19 +8,17 @@ import {
 } from '../actionTypes';
 
 import localStore from 'store'
+import {isJsonValid} from '../../Utils/JsonUtils'
 
 const initState = {
-    user: {
-        loggedUser: localStore.get('logged_user'),
-        allUsersList: []
-    }
+    loggedUser: isJsonValid(localStore.get('logged_user')) ? JSON.parse(localStore.get('logged_user')) : {},
+    allUsersList: []
 };
-
 
 export default (state = initState, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
-            localStore.set('logged_user', action.user);
+            localStore.set('logged_user', JSON.stringify(action.user));
             return {
                 ...state,
                 loggedUser: action.user
@@ -34,17 +32,18 @@ export default (state = initState, action) => {
         case ADD_USER_SUCCESS:
             return {
                 ...state,
+                allUsersList: [...state.allUsersList, action.newUser]
             };
         case DELETE_USER_SUCCESS:
-            let newUsersList = state.allUsersList.filter(user => user._id !== action.userId)
             return {
                 ...state,
-                allUsersList: newUsersList
+                allUsersList: state.allUsersList.filter(user => user._id !== action.userId)
             };
 
         case EDIT_USER_SUCCESS:
             return {
                 ...state,
+                allUsersList: state.allUsersList.map(curUser => curUser._id === action.userId ? action.editedUser : curUser)
             };
 
         case GET_ALL_USERS_SUCCESS:

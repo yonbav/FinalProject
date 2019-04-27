@@ -1,29 +1,42 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import UserView from './UserView';
+import { connect } from 'react-redux';
+import { editUser, getAllUsers } from '../../store/actions/User';
 
 class EditUser extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+
+        this.editUser = this.editUser.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.getAllUsers();
+    }
+    
+    editUser(editedUser) {
+        this.props.editUser(editedUser)
     }
 
     render() {
-        var userToEdit = {
-            _id: "5c778444498c1447cc232eec",
-            firstname: "רונאל",
-            lastname: "שם טוב",
-            id: "2",
-            password: "1234567890",
-            birthday: "30/03/2011",
-            authorization: "1",
-            gender: "male",
-            phone_number: "050-333-3333",
-            branch: "ראשון לציון",
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNzc4NDI5NDk4YzE0NDdjYzIzMmVlYiIsImlhdCI6MTU1NDk5OTAwN30.eyzwDNkp6Wlkz9WApiwA7iRGYJX3W6UBIX5yIC1QjSc"
-        }
+        let userToEdit = this.props.allUsersList.find(usr => usr._id === this.props.match.params.id);
         return <UserView formTitle="Edit User"
-                        user={userToEdit}/>
+            user={userToEdit}
+            submitAction={this.editUser} />
     }
 }
 
-export default EditUser;
+const mapStateToProps = (state, ownProps) => {
+    const { allUsersList } = state.users
+    return { allUsersList }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        editUser: (userId, editedUser) => { dispatch(editUser(userId, editedUser)) },
+        getAllUsers: () => { dispatch(getAllUsers()) },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditUser);

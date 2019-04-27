@@ -29,8 +29,8 @@ export const deleteUser = async (params) => {
     .catch(error => {throw error.response.data})
 }
 
-export const editUser = async (params) => {
-    return await axios.patch(`${API_URL.EDIT_USER}`, params, {headers:headers})
+export const editUser = async (id, params) => {
+    return await axios.patch(`${API_URL.EDIT_USER}/${id}`, params, {headers:headers})
     .then(res => res.data)
     .catch(error => {throw error.response.data})
 }
