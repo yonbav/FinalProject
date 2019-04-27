@@ -3,8 +3,6 @@ import {
     HIDE_MESSAGE,
     ON_SHOW_FULLLOADER,
     ON_HIDE_FULLLOADER,
-    SHOW_INDICATOR,
-    HIDE_INDICATOR,
     TOGGLE_LOGIN_FORM,
 } from '../actionTypes';
 
@@ -31,18 +29,6 @@ export const showMessage = (message) => {
 export const hideMessage = () => {
     return {
         type: HIDE_MESSAGE,
-    };
-};
-
-export const showIndicator = () => {
-    return {
-        type: SHOW_INDICATOR,
-    };
-};
-
-export const hideIndicator = () => {
-    return {
-        type: HIDE_INDICATOR,
     };
 };
 

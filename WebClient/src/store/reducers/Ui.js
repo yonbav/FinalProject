@@ -3,8 +3,6 @@ import {
     ON_HIDE_FULLLOADER,
     SHOW_MESSAGE,
     HIDE_MESSAGE,
-    SHOW_INDICATOR,
-    HIDE_INDICATOR,
     TOGGLE_LOGIN_FORM,
 } from '../actionTypes';
 
@@ -72,20 +70,6 @@ export default (state = INIT_STATE, action) => {
                     flag: false,
                     text: null,
                 }
-            }
-        }
-
-        case SHOW_INDICATOR: {
-            return {
-                ...state,
-                loader: state.loader + 1,
-            }
-        }
-
-        case HIDE_INDICATOR: {
-            return {
-                ...state,
-                loader: state.loader - 1,
             }
         }
 

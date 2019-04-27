@@ -3,8 +3,6 @@ export const ON_SHOW_FULLLOADER = 'on_show_full_loader';
 export const ON_HIDE_FULLLOADER = 'on_hide_full_loader';
 export const SHOW_MESSAGE = 'show_message';
 export const HIDE_MESSAGE = 'hide_message';
-export const SHOW_INDICATOR = 'show_indicator';
-export const HIDE_INDICATOR = 'hide_indicator';
 export const TOGGLE_LOGIN_FORM = 'toggle_login_form';
 
 // user
