@@ -47,8 +47,7 @@ class ImportantInfoView extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        let result = JSON.stringify(this.state.info);
-        alert("Submit\n=======\n File: " + result);
+        this.props.submitAction(this.state.info);
     }
 
     render() {

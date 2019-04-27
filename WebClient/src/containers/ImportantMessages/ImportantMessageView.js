@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import {
-    formatDate,
-    parseDate,
-} from 'react-day-picker/moment';
 
 class ImportantMessageView extends Component {
     constructor(props) {
@@ -32,48 +27,28 @@ class ImportantMessageView extends Component {
         });
     }
 
-    handleSubmit() {
-        var messageResult = JSON.stringify(this.state.message);
-        alert("Submit\n=======\nmessage: " + messageResult)
+    handleSubmit(e) {
+        e.preventDefault()
+        this.props.submitAction(this.state.message);
     }
 
     render() {
         return (
             <div id='ImportantMessageForm' className="form-backgorund">
-                <form className="input-form" onSubmit={() => this.handleSubmit()}>                             
+                <form className="input-form" onSubmit={(e) => this.handleSubmit(e)}>                             
                 <div className="form-title">{this.props.formTitle}</div>
                     <div className="form-group row">
                         <label htmlFor="title" className="col-sm-3 col-form-label">Title: </label>
                         <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="title" value={this.state.message.title} placeholder="Enter text"></input>
                     </div>
                     <div className="form-group row">
-                        <label htmlFor="title" className="col-sm-3 col-form-label">Link: </label>
-                        <input type="link" className="form-control col-sm-8" onChange={this.handleInputChange} id="title" value={this.state.message.link} placeholder="Enter text"></input>
+                        <label htmlFor="link" className="col-sm-3 col-form-label">Link: </label>
+                        <input type="link" className="form-control col-sm-8" onChange={this.handleInputChange} id="link" value={this.state.message.link} placeholder="Enter link"></input>
                     </div>
                     <div className="form-group row">
-                        <label htmlFor="content" className="col-sm-3 col-form-label">Content: </label>
-                        <textarea className="form-control col-sm-8" id="content" onChange={this.handleInputChange} value={this.state.message.contect} placeholder="Enter text" rows="5"></textarea>
+                        <label htmlFor="contect" className="col-sm-3 col-form-label">Content: </label>
+                        <textarea className="form-control col-sm-8" id="contect" onChange={this.handleInputChange} value={this.state.message.contect} placeholder="Enter text" rows="5"></textarea>
                     </div>   
-                    <div className="form-group row">
-                        <label htmlFor="date" className="col-sm-3 col-form-label">Date: </label>
-                        <div style={{ padding:"0px"}} className="col-sm-8">
-                            <DayPickerInput id="datePicker"
-                                className="form-date-picker"
-                                formatDate={formatDate}
-                                parseDate={parseDate}
-                                value={this.state.message.createdtime}
-                                placeholder="DD/MM/YYYY"
-                                format="DD/MM/YYYY"
-                                onDayChange={(createdtime) => {
-                                    let newMessage = this.state.message
-                                    newMessage.createdtime =  createdtime
-                                    this.setState({
-                                        message: newMessage,
-                                    });
-                                }}
-                            />
-                        </div>
-                    </div>
                     <div className="submit-button-div">                 
                         <button type="submit" className="submit-button btn btn-primary">Submit</button>
                     </div>

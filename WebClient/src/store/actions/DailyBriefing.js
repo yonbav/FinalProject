@@ -11,48 +11,48 @@ import {
 
 // Delete daily briefing
 
-export const deleteDailyBriefing = (DailyBriefingId) => {
+export const deleteDailyBriefing = (briefingId) => {
     return {
         type: DELETE_DAILY_BRIEFING,
-        DailyBriefingId,
+        briefingId,
     };
 }
-export const deleteDailyBriefingSuccess = (DailyBriefingId) => {
+export const deleteDailyBriefingSuccess = (briefingId) => {
     return {
         type: DELETE_DAILY_BRIEFING_SUCCESS,
-        DailyBriefingId,
+        briefingId,
     };
 };
 
 // Add daily briefing
 
-export const addDailyBriefing = (newDailyBriefing) => {
+export const addDailyBriefing = (newBriefing) => {
     return {
         type: ADD_DAILY_BRIEFING, 
-        newDailyBriefing,
+        newBriefing,
     };
 };
-export const addDailyBriefingSuccess = (newDailyBriefing) => {
+export const addDailyBriefingSuccess = (newBriefing) => {
     
     return {
         type: ADD_DAILY_BRIEFING_SUCCESS, 
-        newDailyBriefing,
+        newBriefing,
     };
 };
 
 // Edit daily briefing
 
-export const editDailyBriefing = (editedDailyBriefing) => {
+export const editDailyBriefing = (editedBriefing) => {
     return {
         type: EDIT_DAILY_BRIEFING, 
-        editedDailyBriefing,
+        editedBriefing,
     };
 };
 
-export const editDailyBriefingSuccess = (editedDailyBriefing) => {
+export const editDailyBriefingSuccess = (editedBriefing) => {
     return {
         type: EDIT_DAILY_BRIEFING_SUCCESS,
-        editedDailyBriefing,
+        editedBriefing,
     };
 };
 

@@ -119,17 +119,17 @@ export function* getAllImportantMessagesDetect() {
 
 export function* addImportantMessagesDetect() {
     const action = yield take(ADD_IMPORTANT_MESSAGE)
-    yield takeEvery(ADD_IMPORTANT_MESSAGE, addImportantMessageSaga, action.newImportantMessage);
+    yield takeEvery(ADD_IMPORTANT_MESSAGE, addImportantMessageSaga, action.newMessage);
 }
 
 export function* editImportantMessagesDetect() {
     const action = yield take(EDIT_IMPORTANT_MESSAGE)
-    yield takeEvery(EDIT_IMPORTANT_MESSAGE, editImportantMessageSaga, action.editedImportantMessage);
+    yield takeEvery(EDIT_IMPORTANT_MESSAGE, editImportantMessageSaga, action.editedMessage);
 }
 
 export function* deleteImportantMessagesDetect() {
     const action = yield take(DELETE_IMPORTANT_MESSAGE)
-    yield takeEvery(DELETE_IMPORTANT_MESSAGE, deleteImportantMessageSaga, action.ImportantMessageId);
+    yield takeEvery(DELETE_IMPORTANT_MESSAGE, deleteImportantMessageSaga, action.messageId);
 }
 
 export default function* rootSaga() {

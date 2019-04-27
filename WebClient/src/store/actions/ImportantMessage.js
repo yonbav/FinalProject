@@ -23,7 +23,7 @@ export const addImportantMessageSuccess = (newMessage) => {
         type: ADD_IMPORTANT_MESSAGE_SUCCESS, 
         newMessage,
     };
-};
+}; 
 
 // Edit important message
 

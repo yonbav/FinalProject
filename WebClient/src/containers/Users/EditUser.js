@@ -14,7 +14,7 @@ class EditUser extends Component {
     componentWillMount() {
         this.props.getAllUsers();
     }
-    
+
     editUser(editedUser) {
         this.props.editUser(editedUser)
     }

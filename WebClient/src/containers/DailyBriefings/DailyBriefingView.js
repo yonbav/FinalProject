@@ -36,16 +36,16 @@ class DailyBriefingView extends Component {
         this.setState({briefing:newBriefing}); 
     }
 
-    handleSubmit() {
-        let result = JSON.stringify(this.state.briefing);
-        alert("Submit\n=======\n File: " + result);
+    handleSubmit(e) {
+        e.preventDefault()
+        this.props.submitAction(this.state.briefing);
     }
 
     render() {
         return (
             <div id='dailyBreifingForm' 
                  className="form-backgorund">
-                <form  className="input-form" onSubmit={() => this.handleSubmit()}>                
+                <form  className="input-form" onSubmit={(e) => this.handleSubmit(e)}>                
                     <div className="form-title">{this.props.Title}</div>
                     <div className="form-group row">
                         <label htmlFor="datePicker" className="col-sm-4 col-form-label">Date: </label>

@@ -66,7 +66,7 @@ export function* getAllImportantInfoDetect() {
 
 export function* editImportantInfoDetect() {
     const action = yield take(EDIT_IMPORTANT_INFO)
-    yield takeEvery(EDIT_IMPORTANT_INFO, editImportantInfoSaga, action.editedImportantInfo);
+    yield takeEvery(EDIT_IMPORTANT_INFO, editImportantInfoSaga, action.editedInfo);
 }
 
 export default function* rootSaga() {

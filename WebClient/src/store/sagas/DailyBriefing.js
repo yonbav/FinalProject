@@ -44,7 +44,7 @@ function* getAllDailyBriefingsSaga() {
 function* deleteDailyBriefingSaga(DailyBriefingId) {
     try {
         yield put(showFullLoader())
-        const response = yield call(deleteDailyBriefing, {_id: DailyBriefingId}); 
+        const response = yield call(deleteDailyBriefing, {_id: DailyBriefingId, image:""}); 
         console.log("delete DailyBriefing respone: ", response);
         yield put(deleteDailyBriefingSuccess(DailyBriefingId))
         yield put(showMessage({
@@ -119,17 +119,17 @@ export function* getAllDailyBriefingsDetect() {
 
 export function* addDailyBriefingsDetect() {
     const action = yield take(ADD_DAILY_BRIEFING)
-    yield takeEvery(ADD_DAILY_BRIEFING, addDailyBriefingSaga, action.newDailyBriefing);
+    yield takeEvery(ADD_DAILY_BRIEFING, addDailyBriefingSaga, action.newBriefing);
 }
 
 export function* editDailyBriefingsDetect() {
     const action = yield take(EDIT_DAILY_BRIEFING)
-    yield takeEvery(EDIT_DAILY_BRIEFING, editDailyBriefingSaga, action.editedDailyBriefing);
+    yield takeEvery(EDIT_DAILY_BRIEFING, editDailyBriefingSaga, action.editedBriefing);
 }
 
 export function* deleteDailyBriefingsDetect() {
     const action = yield take(DELETE_DAILY_BRIEFING)
-    yield takeEvery(DELETE_DAILY_BRIEFING, deleteDailyBriefingSaga, action.DailyBriefingId);
+    yield takeEvery(DELETE_DAILY_BRIEFING, deleteDailyBriefingSaga, action.briefingId);
 }
 
 export default function* rootSaga() {
