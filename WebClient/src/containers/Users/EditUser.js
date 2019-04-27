@@ -20,7 +20,7 @@ class EditUser extends Component {
     }
 
     render() {
-        let userToEdit = this.props.allUsersList.find(usr => usr._id === this.props.match.params.id);
+        let userToEdit = this.props.allUsersList ? this.props.allUsersList.find(usr => usr._id === this.props.match.params.id) : {};
         return <UserView formTitle="Edit User"
             user={userToEdit}
             submitAction={this.editUser} />

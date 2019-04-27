@@ -19,7 +19,7 @@ class EditDailyBriefing extends Component {
     }
 
     render() {
-        let dailyBriefing = this.props.dailyBriefingsList.find(brief => brief._id === this.props.match.params.id)
+        let dailyBriefing = this.props.dailyBriefingsList ? this.props.dailyBriefingsList.find(brief => brief._id === this.props.match.params.id) : {};
         return <DailyBriefingView Title="Edit Daily Briefing"
             briefing={dailyBriefing}
             submitAction={this.editDailyBriefing} />
