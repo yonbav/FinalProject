@@ -29,7 +29,7 @@ function* getAllDailyBriefingsSaga() {
     try {
         yield put(showFullLoader())
         const response = yield call(getAllDailyBriefings);
-        yield put(getAllDailyBriefingsSuccess(response.DailyBriefing));
+        yield put(getAllDailyBriefingsSuccess(response));
     } catch (error) {
         console.log('[getAllDailyBriefingsSaga]', error);
         yield put(showMessage({

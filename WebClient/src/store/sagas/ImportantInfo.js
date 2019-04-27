@@ -23,7 +23,7 @@ function* getAllImportantInfoSaga() {
     try {
         yield put(showFullLoader())
         const response = yield call(getAllImportantInfo);
-        yield put(getAllImportantInfoSuccess(response.ImportantInfo));
+        yield put(getAllImportantInfoSuccess(response));
     } catch (error) {
         console.log('[getAllImportantInfoSaga]', error);
         yield put(showMessage({

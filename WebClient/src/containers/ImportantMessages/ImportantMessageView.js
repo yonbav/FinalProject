@@ -47,8 +47,12 @@ class ImportantMessageView extends Component {
                         <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="title" value={this.state.message.title} placeholder="Enter text"></input>
                     </div>
                     <div className="form-group row">
+                        <label htmlFor="title" className="col-sm-3 col-form-label">Link: </label>
+                        <input type="link" className="form-control col-sm-8" onChange={this.handleInputChange} id="title" value={this.state.message.link} placeholder="Enter text"></input>
+                    </div>
+                    <div className="form-group row">
                         <label htmlFor="content" className="col-sm-3 col-form-label">Content: </label>
-                        <textarea className="form-control col-sm-8" id="content" onChange={this.handleInputChange} value={this.state.message.content} placeholder="Enter text" rows="5"></textarea>
+                        <textarea className="form-control col-sm-8" id="content" onChange={this.handleInputChange} value={this.state.message.contect} placeholder="Enter text" rows="5"></textarea>
                     </div>   
                     <div className="form-group row">
                         <label htmlFor="date" className="col-sm-3 col-form-label">Date: </label>
@@ -57,12 +61,12 @@ class ImportantMessageView extends Component {
                                 className="form-date-picker"
                                 formatDate={formatDate}
                                 parseDate={parseDate}
-                                value={this.state.message.date}
+                                value={this.state.message.createdtime}
                                 placeholder="DD/MM/YYYY"
                                 format="DD/MM/YYYY"
-                                onDayChange={(date) => {
+                                onDayChange={(createdtime) => {
                                     let newMessage = this.state.message
-                                    newMessage.date =  date
+                                    newMessage.createdtime =  createdtime
                                     this.setState({
                                         message: newMessage,
                                     });

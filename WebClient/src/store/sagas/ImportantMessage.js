@@ -29,7 +29,7 @@ function* getAllImportantMessagesSaga() {
     try {
         yield put(showFullLoader())
         const response = yield call(getAllImportantMessages);
-        yield put(getAllImportantMessagesSuccess(response.ImportantMessage));
+        yield put(getAllImportantMessagesSuccess(response));
     } catch (error) {
         console.log('[getAllImportantMessagesSaga]', error);
         yield put(showMessage({

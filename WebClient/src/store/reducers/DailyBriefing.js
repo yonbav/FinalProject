@@ -13,24 +13,24 @@ export default (state = initState, action) => {
         case ADD_DAILY_BRIEFING_SUCCESS:
             return {
                 ...state,
-                dailyBriefingsList: [...state.dailyBriefingsList, action.newInfo]
+                dailyBriefingsList: [...state.dailyBriefingsList, action.newBriefing]
             };
         case DELETE_DAILY_BRIEFING_SUCCESS:
             return {
                 ...state,
-                dailyBriefingsList: state.dailyBriefingsList.filter(info => info._id !== action.infoId)
+                dailyBriefingsList: state.dailyBriefingsList.filter(briefing => briefing._id !== action.briefingId)
             };
 
         case EDIT_DAILY_BRIEFING_SUCCESS:
             return {
                 ...state,
-                dailyBriefingsList: state.dailyBriefingsList.map(info => info._id === action.editedInfo._id ? action.editedInfo : info)
+                dailyBriefingsList: state.dailyBriefingsList.map(briefing => briefing._id === action.editedBriefing._id ? action.editedBriefing : briefing)
             };
 
         case GET_ALL_DAILY_BRIEFINGS_SUCCESS:
             return {
                 ...state,
-                dailyBriefingsList: action.allbriefings
+                dailyBriefingsList: action.allDailyBriefings
             };
         default:
             return state;

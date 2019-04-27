@@ -17,7 +17,7 @@ export default (state = initState, action) => {
         case GET_ALL_IMPORTANT_INFO_SUCCESS:
             return {
                 ...state,
-                importantInfoList: action.allInfoList
+                importantInfoList: action.allInfo
             };
         default:
             return state;

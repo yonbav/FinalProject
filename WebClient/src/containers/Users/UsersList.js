@@ -77,7 +77,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: () => { dispatch(getAllUsers()) },
-    deleteUserById: (userId) => { dispatch(deleteUser(userId)) }
+    deleteUserById: (userId) => { dispatch(deleteUser(userId)) },
   }
 }
 
