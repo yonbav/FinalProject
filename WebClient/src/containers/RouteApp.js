@@ -28,6 +28,8 @@ import AddDailyBriefing from './DailyBriefings/AddDailyBriefing';
 import EditDailyBriefing from './DailyBriefings/EditDailyBriefing';
 import DailyBriefingsList from './DailyBriefings/DailyBriefingsList';
 
+import ImportantInfoList from './ImportantInfo/ImportantInfoList';
+import EditImportantInfo from './ImportantInfo/EditImportantInfo';
 
 class RouterApp extends React.Component {
 
@@ -99,6 +101,11 @@ class RouterApp extends React.Component {
                             <Route exact path="/ImportantMessages/AddImportantMessage" component={AddImportantMessage}/>
                             <Route exact path="/ImportantMessages/EditImportantMessage/:id" component={EditImportantMessage}/>
                             <Route exact path="/ImportantMessages/ImportantMessagesList" component={ImportantMessagesList}/>
+                        </Switch>
+                        <Switch>
+                            <Route exact path="/ImportantInfo" component={ImportantInfoList}/>
+                            <Route exact path="/ImportantInfo/ImportantInfoList" component={ImportantInfoList}/>
+                            <Route exact path="/ImportantInfo/EditImportantInfo/:id" component={EditImportantInfo}/>
                         </Switch>
                     </main>
                     {message && message.isShowMsg && message.data.type === 'error' && NotificationManager.error (message.data.msg, 'Error')}
