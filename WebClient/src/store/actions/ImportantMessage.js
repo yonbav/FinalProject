@@ -1,87 +1,73 @@
 import {    
-    ADD_USER,
-    ADD_USER_SUCCESS,
-    EDIT_USER,
-    EDIT_USER_SUCCESS,
-    GET_ALL_USERS,
-    GET_ALL_USERS_SUCCESS,
-    DELETE_USER,
-    DELETE_USER_SUCCESS,
+    ADD_IMPORTANT_MESSAGE,
+    ADD_IMPORTANT_MESSAGE_SUCCESS,
+    EDIT_IMPORTANT_MESSAGE,
+    EDIT_IMPORTANT_MESSAGE_SUCCESS,
+    GET_ALL_IMPORTANT_MESSAGES,
+    GET_ALL_IMPORTANT_MESSAGES_SUCCESS,
+    DELETE_IMPORTANT_MESSAGE,
+    DELETE_IMPORTANT_MESSAGE_SUCCESS,
 } from '../actionTypes';
 
-export const loginSuccess = (user) => {
+// Add important message
+
+export const addImportantMessage = (newMessage) => {
     return {
-        type: LOGIN_SUCCESS, 
-        user,
+        type: ADD_IMPORTANT_MESSAGE, 
+        newMessage,
     };
 };
-
-export const logoutSuccess = () => {
-    return {
-        type: LOGOUT_SUCCESS, 
-    };
-};
-
-// Delete user
-
-export const deleteUser = (userId) => {
-    return {
-        type: DELETE_USER,
-        userId,
-    };
-}
-export const deleteUserSuccess = (userId) => {
-    return {
-        type: DELETE_USER_SUCCESS,
-        userId,
-    };
-};
-
-// Add user
-
-export const addUser = (newUser) => {
-    return {
-        type: ADD_USER, 
-        newUser,
-    };
-};
-export const addUserSuccess = (newUser) => {
+export const addImportantMessageSuccess = (newMessage) => {
     
     return {
-        type: ADD_USER_SUCCESS, 
-        newUser,
+        type: ADD_IMPORTANT_MESSAGE_SUCCESS, 
+        newMessage,
     };
 };
 
-// Edit user
+// Edit important message
 
-export const editUser = (editedUser) => {
+export const editImportantMessage = (editedMessage) => {
     return {
-        type: EDIT_USER, 
-        editedUser,
+        type: EDIT_IMPORTANT_MESSAGE, 
+        editedMessage,
     };
 };
 
-export const editUserSuccess = (userId, editedUser) => {
+export const editImportantMessageSuccess = (editedMessage) => {
     return {
-        type: EDIT_USER_SUCCESS, 
-        userId,
-        editedUser,
+        type: EDIT_IMPORTANT_MESSAGE_SUCCESS, 
+        editedMessage,
     };
 };
 
-// Get all users
+// Get all ImportantMessages
 
-export const getAllUsers = () => {
+export const getAllImportantMessages = () => {
     return {
-        type: GET_ALL_USERS
+        type: GET_ALL_IMPORTANT_MESSAGES
     };
 };
 
-export const getAllUsersSuccess = (allUsers) => {
+export const getAllImportantMessagesSuccess = (allMessages) => {
     return {
-        type: GET_ALL_USERS_SUCCESS, 
-        allUsers,
+        type: GET_ALL_IMPORTANT_MESSAGES_SUCCESS, 
+        allMessages,
+    };
+};
+
+// Delete important message
+
+export const deleteImportantMessage = (messageId) => {
+    return {
+        type: DELETE_IMPORTANT_MESSAGE,
+        messageId,
+    };
+}
+export const deleteImportantMessageSuccess = (messageId) => {
+    return {
+        type: DELETE_IMPORTANT_MESSAGE_SUCCESS,
+        messageId,
     };
 };
 

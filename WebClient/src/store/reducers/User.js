@@ -43,7 +43,7 @@ export default (state = initState, action) => {
         case EDIT_USER_SUCCESS:
             return {
                 ...state,
-                allUsersList: state.allUsersList.map(curUser => curUser._id === action.userId ? action.editedUser : curUser)
+                allUsersList: state.allUsersList.map(curUser => curUser._id === action.editedUser._id ? action.editedUser : curUser)
             };
 
         case GET_ALL_USERS_SUCCESS:

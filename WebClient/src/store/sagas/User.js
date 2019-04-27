@@ -68,7 +68,7 @@ function* addUserSaga(newUser) {
     try {
         yield put(showFullLoader())
         const response = yield call(addUser, newUser); 
-        yield put(addUserSuccess(response.data))
+        yield put(addUserSuccess(newUser))
         console.log("add user respone: ", response);
         yield put(showMessage({
             type: 'success',
@@ -94,7 +94,7 @@ function* editUserSaga(editedUser) {
         let userString = convertJsonToPatchString(editedUser)
         const response = yield call(editUser, editedUser._id, userString);
         console.log("edit user respone: ", response);
-        yield put(editUserSuccess(response.data))
+        yield put(editUserSuccess(editedUser))
         yield put(showMessage({
             type: 'success',
             msg: "user was successfully edited",
@@ -131,7 +131,6 @@ export function* deleteUsersDetect() {
     const action = yield take(DELETE_USER)
     yield takeEvery(DELETE_USER, deleteUserSaga, action.userId);
 }
-
 
 export default function* rootSaga() {
     yield all([

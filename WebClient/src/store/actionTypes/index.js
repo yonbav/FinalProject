@@ -41,8 +41,8 @@ export const EDIT_IMPORTANT_MESSAGE = 'edit_important_message';
 export const ADD_DAILY_BRIEFING_SUCCESS = 'add_daily_briefing_success';
 export const ADD_DAILY_BRIEFING = 'add_daily_briefing';
 
-export const GET_ALL_DAILY_BRIEFING_SUCCESS = 'get_all_daily_briefing_success';
-export const GET_ALL_DAILY_BRIEFING = 'get_all_daily_briefing';
+export const GET_ALL_DAILY_BRIEFINGS_SUCCESS = 'get_all_daily_briefings_success';
+export const GET_ALL_DAILY_BRIEFINGS = 'get_all_daily_briefings';
 
 export const DELETE_DAILY_BRIEFING_SUCCESS = 'delete_daily_briefing_success';
 export const DELETE_DAILY_BRIEFING = 'delete_daily_briefing';

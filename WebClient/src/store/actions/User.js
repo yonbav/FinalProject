@@ -64,10 +64,9 @@ export const editUser = (editedUser) => {
     };
 };
 
-export const editUserSuccess = (userId, editedUser) => {
+export const editUserSuccess = (editedUser) => {
     return {
-        type: EDIT_USER_SUCCESS, 
-        userId,
+        type: EDIT_USER_SUCCESS,
         editedUser,
     };
 };
