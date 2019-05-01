@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Left, Body, Right } from 'native-base';
-import {ActivityIndicator, Linking, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Alert, AsyncStorage, Linking, TouchableOpacity, View} from "react-native";
 import axios from "axios";
 
 export default class VideoFormat extends Component {
@@ -14,12 +14,20 @@ export default class VideoFormat extends Component {
     componentDidMount() {
         this.GetData();
     }
-    GetData(){
-        axios.get('http://192.168.1.34:3000/Link/NewVideo')
+    async GetData(){
+        const value = await AsyncStorage.getItem('id_token');
+        axios.get('http://192.168.1.34:3000/Link/NewVideo',{ headers: { token: value} })
             .then(result => {
-                this.setState({
-                    url: result.data.url
-                });
+                if(result.data.success === false){
+                    Alert.alert(
+                        'הודעת אבטחה',
+                        'אין הרשאות נא פנה לנציג',
+                    )
+                }else {
+                    this.setState({
+                        url: result.data.url
+                    });
+                }
             })
     }
 

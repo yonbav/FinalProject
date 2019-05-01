@@ -103,7 +103,7 @@ class HomePage extends Component{
 
     }
     mixFunction=()=>{
-        this.props.navigation.navigate('messages',{id: this.props.user.id,messages: this.state.num ,onNavigateBack: () => this.GetData()})
+        this.props.navigation.navigate('messages',{id: this.props.user.id,messages: this.state.num})
     }
     renderManager(){
         if(this.props.user.authorization > 2)

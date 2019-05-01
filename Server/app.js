@@ -71,7 +71,8 @@ setInterval(function () {
         }
     )
 
-},5000);
+},5000
+);
 
 var ip = require("ip");
 console.dir ( ip.address() );

@@ -11,18 +11,12 @@ import HomePage from "./src/Components/AppForms/HomePage/HomePage";
 import Profile from "./src/Components/AppForms/Profile/Profile";
 import createSwitchNavigator from "react-navigation/src/navigators/createSwitchNavigator";
 import createStackNavigator from "react-navigation/src/navigators/createStackNavigator";
-import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconF from "react-native-vector-icons/Feather";
 import IconM from "react-native-vector-icons/MaterialCommunityIcons";
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-
-
-import axios from "axios";
-import deviceStorage from "./src/Services/deviceStorage";
 import DailyBrif from "./src/Components/AppForms/DailyBrif/DailyBrif";
 import PdfView from "./src/Components/AppForms/DailyBrif/PdfView";
-import {connect} from "react-redux";
 import HumanResources from "./src/Components/AppForms/Human_Resources/HumanResources";
 import Birthdays from "./src/Components/AppForms/Human_Resources/Birthdays";
 import Jobs from "./src/Components/AppForms/Human_Resources/Jobs";
@@ -123,6 +117,11 @@ export const Pro = createStackNavigator({
     ChangePassword: {
         screen: ChangePassword,
         navigationOptions: {
+            title: 'שנה סיסמה',
+            headerTitleStyle : {textAlign: 'center',alignSelf:'center',color:"#fff",},
+            headerStyle:{
+                backgroundColor:'#ffc68d',
+            },
         },
     }
 }, {

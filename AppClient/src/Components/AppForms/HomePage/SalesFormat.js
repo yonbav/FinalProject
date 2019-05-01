@@ -4,7 +4,6 @@ import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Left, Body
 
 export default class SalesFormat extends Component {
     render() {
-
         return (
 
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('pdf',

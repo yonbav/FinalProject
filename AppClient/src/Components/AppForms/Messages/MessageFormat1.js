@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Image, Linking, TouchableOpacity, View} from 'react-native';
+import {Alert, AsyncStorage, Image, Linking, TouchableOpacity, View} from 'react-native';
 import {Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right } from 'native-base';
 import {CheckBox} from "react-native-elements";
 import axios from "axios";
@@ -23,18 +23,25 @@ export default class MessageFormat1 extends Component {
             );
         }
     }
-    Checkandpush(){
-            axios.post('http://192.168.1.34:3000/Message/pushread', {
-                id: this.props.id,
-                _id: this.props.id1
+    async Checkandpush() {
+        const value = await AsyncStorage.getItem('id_token');
+        axios.post('http://192.168.1.34:3000/Message/pushread', {
+            id: this.props.id,
+            _id: this.props.id1
+        },{ headers: { token: value} })
+            .then(result => {
+                if (result.data.docs === 1) {
+                    this.setState({
+                        checked: true
+                    })
+                }
+                else if(result.data.success === false){
+                    Alert.alert(
+                        'הודעת אבטחה',
+                        'אין הרשאות נא פנה לנציג',
+                    )
+                }
             })
-                .then(result => {
-                    if (result.data.docs === 1) {
-                       this.setState({
-                           checked: true
-                       })
-                    }
-                })
 
     }
 

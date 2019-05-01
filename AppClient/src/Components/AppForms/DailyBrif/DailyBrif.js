@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {ActivityIndicator, Keyboard, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Alert, AsyncStorage, Keyboard, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import axios from "axios";
 import {connect} from "react-redux";
 import MainHeader from "../../common/MainHeader";
@@ -12,19 +12,31 @@ class DailyBrif extends Component {
         super();
         this.state = {
             data: [],
-
+            loading: false
         };
         this.GetData = this.GetData.bind(this);
         this.renderButtons = this.renderButtons.bind(this);
 
     }
 
-    GetData() {
-        axios.get('http://192.168.1.34:3000/daily/')
+    async GetData() {
+        const value = await AsyncStorage.getItem('id_token');
+        axios.get('http://192.168.1.34:3000/daily/',{ headers: { token: value} })
             .then(result => {
-                this.setState({
-                    data: result.data
-                });
+                if(result.data.success === false){
+                    this.setState({
+                        loading: true
+                    });
+                    Alert.alert(
+                        'הודעת אבטחה',
+                        'אין הרשאות נא פנה לנציג',
+                    )
+                }else{
+                    this.setState({
+                        data: result.data,
+                        loading: true
+                    });
+                }
             })
 
     }
@@ -53,7 +65,7 @@ class DailyBrif extends Component {
     }
 
     render() {
-        if(this.state.data.length !== 0) {
+        if(this.state.loading === true) {
             return (
                 <ScrollView style={styles.BackStyle}>
                     <MainHeader/>

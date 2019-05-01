@@ -17,12 +17,12 @@ var formattedDate = dd + '/' + mm + '/';
 
 
 /*Service return all the users that have a Birthday Today*/
-router.get('/',(req,res,next) => {
-    User.find({ birthday: { $regex: formattedDate }}).select('firstname lastname branch').exec().then(docs=> {
-        res.send(docs)
-    })
-
-});
+router.get('/', async (req, res, next) => {
+        User.find({birthday: {$regex: formattedDate}}).select('firstname lastname branch').exec().then(docs => {
+            res.send(docs)
+        })
+    }
+);
 
 
 

@@ -1,9 +1,9 @@
 
 import React,{Component} from 'react'
-import {Text, View, ScrollView, ActivityIndicator} from 'react-native';
+import {Text, View, ScrollView, ActivityIndicator, AsyncStorage,Alert} from 'react-native';
 import axios from "axios";
 import MessageFormat1 from "./MessageFormat1";
-
+import deviceStorage from'../../../Services/deviceStorage'
 class UnreadMessages extends Component {
 
     constructor() {
@@ -17,14 +17,26 @@ class UnreadMessages extends Component {
         this.renderButtons = this.renderButtons.bind(this);
 
     }
-    GetData() {
+    async GetData() {
+        const value = await AsyncStorage.getItem('id_token');
         axios.post('http://192.168.1.34:3000/Message/unread',{
             id: this.props.id
-        }).then(result => {
+        },{ headers: { token: value} }).then(result => {
+            if(result.data.success === false){
+                this.setState({
+                    loading: true
+                });
+                Alert.alert(
+                    'הודעת אבטחה',
+                    'אין הרשאות נא פנה לנציג',
+                )
+            }else{
                 this.setState({
                     data: result.data,
                     loading: true
                 });
+            }
+
 
 
 

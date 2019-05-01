@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Left, Body, Right } from 'native-base';
-import {ActivityIndicator, Linking, TouchableOpacity} from "react-native";
+import {ActivityIndicator, Alert, AsyncStorage, Linking, TouchableOpacity} from "react-native";
 import axios from "axios";
 
 export default class TestFormat extends Component {
@@ -14,12 +14,20 @@ export default class TestFormat extends Component {
     componentDidMount() {
         this.GetData();
     }
-    GetData(){
-        axios.get('http://192.168.1.34:3000/Link/KnowledgeTest')
+    async GetData(){
+        const value = await AsyncStorage.getItem('id_token');
+        axios.get('http://192.168.1.34:3000/Link/KnowledgeTest',{ headers: { token: value} })
             .then(result => {
-                this.setState({
-                    url: result.data.url
-                });
+                if(result.data.success === false){
+                    Alert.alert(
+                        'הודעת אבטחה',
+                        'אין הרשאות נא פנה לנציג',
+                    )
+                }else {
+                    this.setState({
+                        url: result.data.url
+                    });
+                }
             })
     }
 

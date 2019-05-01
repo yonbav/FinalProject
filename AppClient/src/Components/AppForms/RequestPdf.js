@@ -1,6 +1,6 @@
 import React ,{Component} from 'react';
 import axios from "axios";
-import {Text, View} from 'react-native';
+import {AsyncStorage, Text, View} from 'react-native';
 
 
 
@@ -8,10 +8,14 @@ class RequestPdf extends Component{
     componentDidMount() {
         this.GetData();
     }
-    GetData() {
+    async GetData() {
+        const value = await AsyncStorage.getItem('id_token');
         axios.get("http://192.168.1.34:3000/info/"+this.props.title
-        ).then((res)=> {
-            this.handleClick(res.data);
+            ,{ headers: { token: value} }).then((res)=> {
+            if(res.data.success !== false){
+                this.handleClick(res.data);
+            }
+
 
         })
     }

@@ -5,6 +5,7 @@ const router = express.Router();
 const DailyBriefing = require('../../models/dailybriefing');
 const Notifications = require('../../models/Notifications.');
 const axios = require('axios');
+const User = require('../../models/user');
 
 const multer = require('multer');
 const fs = require('fs');
@@ -25,6 +26,10 @@ var somePushTokens =[];
 
 /*Service Add Client to notification list*/
 router.post('/registarnotification',(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     const notification = new Notifications({
         _id: new mongoose.Types.ObjectId(),
         id:req.body.token.value,
@@ -46,37 +51,63 @@ router.post('/registarnotification',(req,res,next) => {
             console.log(err);
             res.status(500).json({error:err});
         });
+            }
+            else{
+                return res.send({'success': false});
+            }
+        });
 
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
-
 /*Service Add Daily Brifing*/
 router.post('/adddailybrief',upload.single('DailyBriefImage'),(req,res,next) => {
-    const dailybriefing = new DailyBriefing({
-        _id: new mongoose.Types.ObjectId(),
-        title:req.body.title,
-        readby:[],
-        image: "uploads/"+req.file.filename,
-        createdAt: new Date(req.body.date)
-    });
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
+                const dailybriefing = new DailyBriefing({
+                    _id: new mongoose.Types.ObjectId(),
+                    title: req.body.title,
+                    readby: [],
+                    image: "uploads/" + req.file.filename,
+                    createdAt: new Date(req.body.date)
+                });
 
-    dailybriefing.save().then(result =>{
-        axios.post('http://192.168.1.34:3000/daily/notification', {
-            title: "קרביץ עובדים",
-            message: 'תדריך יומי עלה נא להכנס'
-        })
-            .then( ()=> {
-                res.status(201).json({
-                    message:'Created DailyBriefing successfully',
-                    createdMessage: result
-                })
-            })
+                dailybriefing.save().then(result => {
+                    axios.post('http://192.168.1.34:3000/daily/notification', {
+                        title: "קרביץ עובדים",
+                        message: 'תדריך יומי עלה נא להכנס'
+                    },{ headers: { token: req.headers.token} })
+                        .then(() => {
+                            if(result.data.success === false) {
+                                return res.send({'success': false});
+                            }else{
+                                res.status(201).json({
+                                    message: 'Created DailyBriefing successfully',
+                                    createdMessage: result
+                                })
+                            }
+
+                        })
 
 
-    }).catch(err=> {
-        res.status(401).json({error:err});
-    });
+                }).catch(err => {
+                    res.status(401).json({error: err});
+                });
+            }
+            else{
+                    return res.send({'success': false});
+                }
+            });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
-
 /*Service Get Daily Brifing by id*/
 router.get('/:id', (req,res,next) => {
     DailyBriefing.findOne({title: req.params.id}).exec().then(doc=>{
@@ -93,6 +124,9 @@ router.get('/:id', (req,res,next) => {
 });
 /*Service Get All Daily Brifing*/
 router.get('/', (req,res,next) => {
+    if(req.headers.token) {
+        User.findOne({token: req.headers.token}).then(user => {
+            if (user) {
     DailyBriefing.find().sort( { createdAt: -1 } ).limit(7).exec().then(doc=>{
         if(doc) {
             res.status(200).json(doc);
@@ -104,43 +138,93 @@ router.get('/', (req,res,next) => {
             console.log(err);
             res.status(500).json({error:err});
         });
+            } else {
+                return res.send({'success': false});
+            }
+        });
+    }else {
+        return res.send({'success': false});
+    }
 });
-
-
 /*Service return all the unread daily brifing of the specific user*/
 router.post('/unread',(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     DailyBriefing.findOne({title:req.body.title , readby: {$ne: req.body.id}}).then(docs=> {
         res.status(200).json({docs});
     }).catch(err=> {
         res.status(401).json({error:err});
     });
+            }
+            else{
+                return res.send({'success': false});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 /*Service marker read all the unread daily brifing*/
 router.post('/pushread',(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     DailyBriefing.updateOne({ title:req.body.title , readby: { $nin: [req.body.id] } }, { $push: { readby: req.body.id}  }).then(docs=> {
         res.status(200).json({docs: docs.nModified});
     }).catch(err=> {
         res.status(401).json({error:err});
     });
+            }
+            else{
+                return res.send({'success': false});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 
 
 /*Service Delete daily brifing*/
 router.post('/deletedailybrief',upload.single('DailyBriefImage'),async (req,res,next) => {
-    await unlinkAsync(req.body.image);
-    DailyBriefing.deleteOne({_id:req.body._id})
-        .then(result=>{
-            res.status(200).json({
-                message:'DailyBriefing deleted'
-            });
-        })
-        .catch(err=> {
-            console.log(err);
-            res.status(500).json({error:err});
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(async user => {
+            if (user) {
+                await unlinkAsync(req.body.image);
+                DailyBriefing.deleteOne({_id: req.body._id})
+                    .then(result => {
+                        res.status(200).json({
+                            message: 'DailyBriefing deleted'
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({error: err});
+                    });
+            } else {
+                return res.send({'success': false});
+            }
         });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 /*Service edit daily brifing*/
 router.patch('/editdailybrief/:id',(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(async user => {
+            if (user) {
     const id = req.params.id;
     const updateOpt = {};
     for (const ops of req.body){
@@ -156,6 +240,15 @@ router.patch('/editdailybrief/:id',(req,res,next) => {
             console.log(err);
             res.status(500).json({error:err});
         });
+            } else {
+                return res.send({'success': false});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 
 
@@ -163,6 +256,10 @@ router.patch('/editdailybrief/:id',(req,res,next) => {
 
 /*Service send notification for all the clients are connected*/
 router.post('/notification', async (req, res, next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(async user => {
+            if (user) {
 
 // Create a new Expo SDK client
     let expo = new Expo();
@@ -258,6 +355,15 @@ router.post('/notification', async (req, res, next) => {
     res.status(201).json({
         message: "Notifications Completed",
     })
+            } else {
+                return res.send({'success': false});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 
 });
 

@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import {Text, View , ScrollView,Dimensions,StatusBar} from 'react-native';
+import {Text, View, ScrollView, Dimensions, StatusBar, AsyncStorage, Alert} from 'react-native';
 import axios from 'axios';
 import Header from "../../common/Header";
 import { SearchBar } from 'react-native-elements';
@@ -27,14 +27,23 @@ export default class Birthdays extends Component{
     updateSearch = search => {
         this.setState({ search });
     };
-    GetData() {
-        axios.get('http://192.168.1.34:3000/getBirthdays')
+    async GetData() {
+        const value = await AsyncStorage.getItem('id_token');
+        axios.get('http://192.168.1.34:3000/getBirthdays',{ headers: { token: value} })
             .then(result => {
-                this.setState({
-                        data: result.data.filter(item=>
-                            item.firstname = item.firstname +' ' + item.lastname
+                if(result.data.success === false){
+                    Alert.alert(
+                        'הודעת אבטחה',
+                        'אין הרשאות נא פנה לנציג',
+                    )
+                }else{
+                    this.setState({
+                        data: result.data.filter(item =>
+                            item.firstname = item.firstname + ' ' + item.lastname
                         ),
                     });
+                }
+
             })
 
     }
