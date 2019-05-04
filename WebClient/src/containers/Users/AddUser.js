@@ -16,7 +16,7 @@ class AddUser extends Component {
     }
 
     render() {
-        return <UserView formTitle="Edit User" submitAction={this.addNewUser}/>
+        return <UserView formTitle="Add User" submitAction={this.addNewUser}/>
     }
 }
 

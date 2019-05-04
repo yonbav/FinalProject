@@ -26,7 +26,8 @@ class LoadUsersExcel extends Component {
         this.setState({usersExcelFile:currentFile}); 
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
         let result = JSON.stringify(this.state.usersExcelFile.name);
         alert("Submit\n=======\n File: " + result);
     }
@@ -35,8 +36,8 @@ class LoadUsersExcel extends Component {
         return (
             <div id='loadUsersExcel' 
                  className="form-backgorund">
-                <form  className="input-form" onSubmit={() => this.handleSubmit()}>                
-                    <div className="form-title">{this.props.Title}</div>                    
+                <form  className="input-form" onSubmit={(e) => this.handleSubmit(e)}>                
+                    <div className="form-title">Load User's Excel</div>                    
                     <div className="form-group row">
                         <label className="col-sm-4 col-form-label">Upload user's excel: </label>
                         <input placeholder={this.state.usersExcelFile ? this.state.usersExcelFile.name : "choose file"} className="col-sm-5" disabled/>
