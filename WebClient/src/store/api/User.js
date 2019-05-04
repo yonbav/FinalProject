@@ -11,25 +11,29 @@ export const login = async (params) => {
         .catch(error => { throw error.response.data });
 };
 
-export const addUser = async (params) => {
+export const addUser = async (params, token) => {
+    headers.token = token;
     return await axios.post(`${API_URL.ADD_USER}`, params, {headers:headers})
     .then(res => res.data)
     .catch(error => {throw error.response.data})
 }
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (token) => {
+    headers.token = token;
     return await axios.get(`${API_URL.GET_ALL_USERS}`, {headers:headers})
     .then(res => res.data)
     .catch(error => {throw error.response.data})
 }
 
-export const deleteUser = async (params) => {
+export const deleteUser = async (params, token) => {
+    headers.token = token;
     return await axios.post(`${API_URL.DELETE_USER}`, params, {headers:headers})
     .then(res => res.data)
     .catch(error => {throw error.response.data})
 }
 
-export const editUser = async (id, params) => {
+export const editUser = async (id, params, token) => {
+    headers.token = token;
     return await axios.patch(`${API_URL.EDIT_USER}/${id}`, params, {headers:headers})
     .then(res => res.data)
     .catch(error => {throw error.response.data})

@@ -97,17 +97,16 @@ router.post('/CheckToken',jsonParser,(req,res,next) => {
     });
 });
 /*Service Login*/
+router.post('/login', jsonParser, (req, res, next) => {
 
-    router.post('/login', jsonParser, (req, res, next) => {
+    User.findOne({id: req.body.id}).then(user => {
+        if (user) {
+            return checkPassword(user, req.body.password, res, req.body.authorization);
+        }
+        return res.send({'success': false});
 
-        User.findOne({id: req.body.id}).then(user => {
-            if (user) {
-                return checkPassword(user, req.body.password, res, req.body.authorization);
-            }
-            return res.send({'success': false});
-
-        });
     });
+});
 
 router.post('/logout',jsonParser,(req,res,next) => {
             User.findOneAndUpdate({id: req.body.id}, {token: null}, {new: true},function(err, doc) {

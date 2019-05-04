@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import UserView from './UserView';
-import {addUser} from '../../store/actions/User'
+import {addUser} from '../../store/api/';
+import {showFullLoader, hideFullLoader} from '../../store/actions/';
 
 class AddUser extends Component {
     constructor(props) {
@@ -12,7 +13,9 @@ class AddUser extends Component {
     }
 
     addNewUser(newUser) {
-        this.props.addUser(newUser)
+        this.props.showFullLoader();
+        addUser(newUser, this.props.loggedUser);
+        this.props.hideFullLoader();
     }
 
     render() {
@@ -20,10 +23,19 @@ class AddUser extends Component {
     }
 }
 
+const mapStateToProps = (state, ownProps) => {
+    const {loggedUser} = state.user;
+    return {
+        loggedUser,
+    }
+
+}
+
 const mapDispatchToProps = (dispatch) => {
         return {
-        addUser: (newUser) => { dispatch(addUser(newUser)) }
+        showFullLoader: () => { dispatch(showFullLoader()) },
+        hideFullLoader: () => { dispatch(hideFullLoader()) },
     }
 }
 
-export default connect(null, mapDispatchToProps)(AddUser)
+export default connect(mapStateToProps, mapDispatchToProps)(AddUser)
