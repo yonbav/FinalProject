@@ -3,7 +3,7 @@ import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { deleteUser, getAllUsers } from '../../store/api';
-import { getAllUsersSuccess, deleteUserSuccess, showFullLoader, hideFullLoader } from '../../store/actions';
+import { showMessage, getAllUsersSuccess, deleteUserSuccess, showFullLoader, hideFullLoader } from '../../store/actions';
 
 class UsersList extends Component {
   constructor(props) {

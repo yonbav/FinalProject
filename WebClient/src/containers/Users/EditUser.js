@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import UserView from './UserView';
 import { connect } from 'react-redux';
 import { editUser, getAllUsers } from '../../store/api';
-import {getAllUsersSuccess, editUserSuccess, showFullLoader, hideFullLoader} from '../../store/actions/';
+import {showMessage, getAllUsersSuccess, editUserSuccess, showFullLoader, hideFullLoader} from '../../store/actions/';
 
 class EditUser extends Component {
     constructor(props) {

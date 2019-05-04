@@ -17,11 +17,11 @@ class AddUser extends Component {
         addUser(newUser, this.props.loggedUser.token).then(data => {
             this.props.addUserSuccess(newUser)
         })
-        .catch(error => {error => {
+        .catch(error => {
             this.props.showMessage({ 
                 type: 'error',
                 msg: 'Failed to get all users.'
-            })}})
+            })})
         .finally(() => {
             this.props.hideFullLoader();
         });
