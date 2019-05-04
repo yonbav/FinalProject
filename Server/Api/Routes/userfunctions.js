@@ -12,6 +12,10 @@ app.use(bodyParser.json());
 const User = require('../../models/user');
 /*Service Add user*/
 router.post('/adduser',jsonParser,(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     bcrypt.hash(req.body.password, 10).then(hash => {
        const user = new User({
             _id: new mongoose.Types.ObjectId(),
@@ -35,11 +39,24 @@ router.post('/adduser',jsonParser,(req,res,next) => {
             res.status(401).json({error:err});
         });
     });
+            }
+            else{
+                return res.send({'success': false});
+            }
+        });
 
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 
 /*Service get user by id*/
 router.get('/:userid',(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     const id = req.params.userid;
     User.findById(id).select('firstname lastname _id id').exec().then(doc=>{
         if(doc) {
@@ -54,6 +71,16 @@ router.get('/:userid',(req,res,next) => {
             console.log(err);
             res.status(500).json({error:err});
         });
+            }
+            else{
+                return res.send({'success': false});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 
 /*Service valid token or null*/
@@ -74,6 +101,10 @@ router.post('/token',(req,res,next) => {
 
 /*Service Get all users*/
 router.get('', (req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     User.find().exec().then(doc=>{
         if(doc) {
             res.status(200).json({
@@ -87,10 +118,24 @@ router.get('', (req,res,next) => {
             console.log(err);
             res.status(500).json({error:err});
         });
+            }
+            else{
+                return res.send({'success': false});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 
 /*Service edit user by id*/
 router.patch('/edituser/:userid',(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     const id = req.params.userid;
     const updateOpt = {};
     for (const ops of req.body){
@@ -106,14 +151,27 @@ router.patch('/edituser/:userid',(req,res,next) => {
             console.log(err);
             res.status(500).json({error:err});
         });
+            }
+            else{
+                return res.send({'success': false});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 
 /*Service Change Password*/
 router.patch('/changepassword/:userid', (req,res,next)=> {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     const id = req.params.userid;
         User.findOne({_id: id})
             .then((user) => {
-                console.log(user.password);
                 bcrypt.compare(req.body.Oldpassword, user.password).then(result => {
                     if (result) {
                         bcrypt.hash(req.body.Newpassword, 10).then(hash2 => {
@@ -135,9 +193,23 @@ router.patch('/changepassword/:userid', (req,res,next)=> {
                     }
                 })
             });
+            }
+            else{
+                return res.send({'success': "false"});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': "false"});
+    }
 });
 /*Service Delete user*/
 router.post('/deleteuser',(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     User.deleteOne({_id:req.body._id})
         .then(result=>{
             res.status(200).json({
@@ -148,6 +220,16 @@ router.post('/deleteuser',(req,res,next) => {
             console.log(err);
             res.status(500).json({error:err});
         });
+            }
+            else{
+                return res.send({'success': false});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 
 });
 

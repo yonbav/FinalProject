@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Text, View, ScrollView, ActivityIndicator} from 'react-native';
+import {Text, View, ScrollView, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
 import axios from "axios";
 import MessageFormat from "./MessageFormat";
 
@@ -16,14 +16,24 @@ class AllMessages extends Component {
 
     }
 
-    GetData() {
-        axios.get('http://192.168.1.34:3000/Message/')
+    async GetData() {
+        const value = await AsyncStorage.getItem('id_token');
+        axios.get('http://192.168.1.34:3000/Message/', {headers: {token: value}})
             .then(result => {
-                this.setState({
-                    data: result.data,
-                    loading: true
-                });
-
+                if(result.data.success === false){
+                    this.setState({
+                        loading: true
+                    });
+                    Alert.alert(
+                        'הודעת אבטחה',
+                        'אין הרשאות נא פנה לנציג',
+                    )
+                }else{
+                    this.setState({
+                        data: result.data,
+                        loading: true
+                    });
+                }
 
             })
 

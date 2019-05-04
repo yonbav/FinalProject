@@ -6,6 +6,7 @@ const Info = require('../../models/importantinformation');
 const multer = require('multer');
 const fs = require('fs');
 const { promisify } = require('util')
+const User = require('../../models/user');
 
 const unlinkAsync = promisify(fs.unlink);
 const storage = multer.diskStorage({
@@ -21,6 +22,10 @@ const upload = multer({storage:storage});
 
 /*Service add a pdf*/
 router.post('/addinfo',upload.single('InfoImage'),(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     const info = new Info({
         _id: new mongoose.Types.ObjectId(),
         title:req.body.title,
@@ -34,11 +39,24 @@ router.post('/addinfo',upload.single('InfoImage'),(req,res,next) => {
         })
     }).catch(err=> {
         res.status(401).json({error:err});
-    });
+    });}
+            else{
+                return res.send({'success': false});
+            }
+        });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 
 /*Service get by id*/
 router.get('/:id', (req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     Info.findOne({title: req.params.id}).exec().then(doc=>{
         if(doc) {
             res.status(200).json(doc);
@@ -49,11 +67,24 @@ router.get('/:id', (req,res,next) => {
         .catch(err=> {
             console.log(err);
             res.status(500).json({error:err});
+        });}
+            else{
+                return res.send({'success': false});
+            }
         });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 
 /*Service get all pdf's*/
 router.get('/', (req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     Info.find().exec().then(doc=>{
         if(doc) {
             res.status(200).json(doc.reverse());
@@ -64,26 +95,52 @@ router.get('/', (req,res,next) => {
         .catch(err=> {
             console.log(err);
             res.status(500).json({error:err});
+        });}
+            else{
+                return res.send({'success': false});
+            }
         });
+
+    }
+    else{
+        return res.send({'success': false});
+    }
 });
 
 /*Service delete a pdf*/
 router.post('/deleteinfo',upload.single('InfoImage'),async (req,res,next) => {
-    await unlinkAsync(req.body.image);
-    Info.deleteOne({_id:req.body._id})
-        .then(result=>{
-            res.status(200).json({
-                message:'Info deleted'
-            });
-        })
-        .catch(err=> {
-            console.log(err);
-            res.status(500).json({error:err});
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(async user => {
+            if (user) {
+                await unlinkAsync(req.body.image);
+                Info.deleteOne({_id: req.body._id})
+                    .then(result => {
+                        res.status(200).json({
+                            message: 'Info deleted'
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({error: err});
+                    });
+            } else {
+                return res.send({'success': false});
+            }
         });
+
+}
+else{
+    return res.send({'success': false});
+}
 
 });
 /*Service edit a pdf by id*/
 router.patch('/editinfo/:id',(req,res,next) => {
+    if(req.headers.token)
+    {
+        User.findOne({token: req.headers.token}).then(user => {
+            if(user) {
     const id = req.params.id;
     const updateOpt = {};
     for (const ops of req.body){
@@ -98,6 +155,15 @@ router.patch('/editinfo/:id',(req,res,next) => {
         .catch(err=> {
             console.log(err);
             res.status(500).json({error:err});
-        });
+        });}
+else{
+    return res.send({'success': false});
+}
+});
+
+}
+else{
+    return res.send({'success': false});
+}
 });
 module.exports = router;

@@ -28,7 +28,9 @@ class EmployeeTraining extends Component {
         return -1;
     }
     mixFunction=(text,id)=>{
-        this.props.navigation.navigate('pdf',{url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
+        if(this.state.Data.length !==0){
+            this.props.navigation.navigate('pdf',{url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
+        }
     }
 
     getResponse(result){

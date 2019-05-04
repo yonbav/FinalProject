@@ -73,7 +73,7 @@ class DailyBriefingView extends Component {
                         <label className="col-sm-1 file-upload-button input-file-image" style={{padding:"0px"}} htmlFor="fileUpload">
                             <img className="upload-image" alt="upload" src={uploadIcon}/>
                         </label>
-                        <input type="file" onChange={(e) => this.onFileChanged(e)} className="col-sm-0 input-file-not-visible" id="fileUpload"/>
+                        <input type="file" accept={".pdf"} onChange={(e) => this.onFileChanged(e)} className="col-sm-0 input-file-not-visible" id="fileUpload"/>
                     </div>   
                     <div className="submit-button-div">                 
                         <button type="submit" className="submit-button btn btn-primary">Submit</button>

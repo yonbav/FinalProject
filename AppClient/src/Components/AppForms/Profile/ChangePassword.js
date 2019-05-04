@@ -2,7 +2,7 @@ import React ,{Component} from 'react';
 import Card from "../../common/Card"
 import CardSection from "../../common/CardSection"
 import Input from "../../common/Input"
-import {Text, View, TouchableOpacity, Image, ActivityIndicator, Alert, Keyboard} from 'react-native';
+import {Text, View, TouchableOpacity, Image, ActivityIndicator, Alert, Keyboard, AsyncStorage} from 'react-native';
 import {connect} from "react-redux";
 import {loginuser} from "../../actions/actions";
 import axios from 'axios';
@@ -43,25 +43,35 @@ class ChangePassword extends Component{
             password2: newText
         })
     }
-    onPressButton(){
+    async onPressButton() {
         Keyboard.dismiss();
-        if (this.state.password1 === this.state.password2){
+        const value = await AsyncStorage.getItem('id_token');
+
+        if (this.state.password1 === this.state.password2) {
             axios.patch('http://192.168.1.34:3000/user/changepassword/' + this.props.user._id, {
                 Oldpassword: this.state.password,
                 Newpassword: this.state.password1,
-            }).then((res)=>  {
-                if(res.data.success === true)
-                {
+            },{ headers: { token: value} }).then((res) => {
+                if (res.data.success === true) {
                     this.props.navigation.goBack();
                     this.setState({
-                    equal: ""})}
-                else{
+                        equal: ""
+                    })
+                }else if(res.data.success === "false"){
+                    Alert.alert(
+                        'הודעת אבטחה',
+                        'אין הרשאות נא פנה לנציג',
+                    )
+                }
+                else {
                     this.setState({
-                        equal: "הסיסמאות אינן תואמות"})}
-               })
+                        equal: "הסיסמאות אינן תואמות"
+                    })
+                }
 
-        }
-        else{
+            })
+
+        } else {
             this.setState({
                 equal: "הסיסמאות אינן תואמות"
             })
@@ -73,9 +83,7 @@ class ChangePassword extends Component{
     render() {
         return (
             <View style={styles.BackStyle}>
-                <View style={{marginTop: 100}}>
-                    <Header name="שינוי סיסמה:"/>
-                </View>
+
                 <View style={styles.LoginStyle}>
                     <Card>
                         <CardSection>
@@ -129,7 +137,7 @@ const mapStateToProps =  state =>{
 };
 const styles = {
     LoginStyle: {
-        paddingTop: 100,
+        paddingTop: 80,
     },
     textStyle: {
         fontSize: 30,
@@ -139,7 +147,7 @@ const styles = {
     },
     BackStyle: {
         backgroundColor: "#ffc68e",
-        paddingBottom: 560
+        flex:1
     },
     buttonStyleBack:{
         flex:1,

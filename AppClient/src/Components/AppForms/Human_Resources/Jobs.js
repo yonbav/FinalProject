@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Linking, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, AsyncStorage, Linking, Text, TouchableOpacity, View} from 'react-native';
 import Header from "../../common/Header";
 import axios from "axios";
 import CardJobFormat from "../../common/CardJobFormat";
@@ -12,19 +12,28 @@ class Jobs extends Component {
             data: []
         };
         this.getResponse = this.getResponse.bind(this)
-
     }
     getResponse(result){
         this.setState({
             data: result
         });
     }
-    GetData() {
-        axios.get('http://192.168.1.34:3000/jobs/')
+    async GetData() {
+        const value = await AsyncStorage.getItem('id_token');
+
+        axios.get('http://192.168.1.34:3000/jobs/',{ headers: { token: value} })
             .then(result => {
-                this.setState({
-                    data: result.data
-                });
+                if(result.data.success === false){
+                    Alert.alert(
+                        'הודעת אבטחה',
+                        'אין הרשאות נא פנה לנציג',
+                    )
+                }else{
+                    this.setState({
+                        data: result.data
+                    });
+                }
+
             })
 
     }

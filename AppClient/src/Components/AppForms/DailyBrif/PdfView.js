@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Keyboard} from 'react-native';
+import {View, Text, Keyboard, AsyncStorage, Alert} from 'react-native';
 import PDFReader from 'rn-pdf-reader-js';
 import { CheckBox } from 'react-native-elements'
 import axios from "axios";
@@ -26,28 +26,42 @@ export default class PdfView extends React.Component {
             checked: result
         });
     }
-    GetData(title,user) {
-        if(user) {
+    async GetData(title, user) {
+        if (user) {
+            const value = await AsyncStorage.getItem('id_token');
             axios.post('http://192.168.1.34:3000/daily/unread', {
                 title: title,
                 id: user.id
-            })
+            },{ headers: { token: value} })
                 .then(result => {
                     if (result.data.docs === null) {
                         this.getResponse(true)
                     }
+                    else if(result.data.success === false){
+                        Alert.alert(
+                            'הודעת אבטחה',
+                            'אין הרשאות נא פנה לנציג',
+                        )
+                    }
                 })
         }
     }
-    Checkandpush(title,user){
-        if(this.state.checked === false) {
+    async Checkandpush(title, user) {
+        if (this.state.checked === false) {
+            const value = await AsyncStorage.getItem('id_token');
             axios.post('http://192.168.1.34:3000/daily/pushread', {
                 title: title,
                 id: user.id
-            })
+            },{ headers: { token: value} })
                 .then(result => {
                     if (result.data.docs === 1) {
                         this.getResponse(true)
+                    }
+                    else if(result.data.success === false){
+                        Alert.alert(
+                            'הודעת אבטחה',
+                            'אין הרשאות נא פנה לנציג',
+                        )
                     }
                 })
         }
