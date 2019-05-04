@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import UserView from './UserView';
 import { connect } from 'react-redux';
-import { editUser, getAllUsers } from '../../store/actions/User';
+import { editUser, getAllUsers } from '../../store/api';
+import {getAllUsersSuccess, editUserSuccess, showFullLoader, hideFullLoader} from '../../store/actions/';
 
 class EditUser extends Component {
     constructor(props) {
@@ -12,11 +13,33 @@ class EditUser extends Component {
     }
 
     componentWillMount() {
-        this.props.getAllUsers();
+        this.props.showFullLoader();
+
+        getAllUsers(this.props.loggedUser.token).then(data => {
+            this.props.getAllUsersSuccess(data.user);
+        }).catch(error => {
+            this.props.showMessage({ 
+                type: 'error',
+                msg: 'Failed to get all users.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        });
     }
 
     editUser(editedUser) {
-        this.props.editUser(editedUser)
+        this.props.showFullLoader();
+
+        editUser(editedUser.id, editedUser, this.props.loggedUser.token).then(data => {
+            this.props.editUserSuccess(editedUser);
+        }).catch(error => {
+            this.props.showMessage({ 
+                type: 'error',
+                msg: 'Failed to get all users.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        });
     }
 
     render() {
@@ -28,14 +51,17 @@ class EditUser extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { allUsersList } = state.users
-    return { allUsersList }
+    const { allUsersList, loggedUser } = state.users
+    return { allUsersList, loggedUser }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        editUser: (userId, editedUser) => { dispatch(editUser(userId, editedUser)) },
-        getAllUsers: () => { dispatch(getAllUsers()) },
+        showFullLoader: () => { dispatch(showFullLoader()) },
+        hideFullLoader: () => { dispatch(hideFullLoader()) },
+        getAllUsersSuccess: (allUsers) => {dispatch(getAllUsersSuccess(allUsers))},
+        editUserSuccess: (allUsers) => {dispatch(editUserSuccess(allUsers))},
+        showMessage: (typ,msg) => {dispatch(showMessage(typ,msg))},
     }
 }
 
