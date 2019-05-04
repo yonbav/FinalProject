@@ -45,15 +45,6 @@ class RouterApp extends React.Component {
     }
 
     componentDidMount(){
-        // if (!this.props.clientsData){
-        //     this.props.showFullLoader('Loading data...');
-        //     this.props.getAllClient();
-        // }
-
-        // setInterval(()=>{
-        // }, 10000);
-
-        // this.props.getVersion();
     }
 
     componentDidUpdate () {

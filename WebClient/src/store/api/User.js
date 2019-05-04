@@ -8,7 +8,7 @@ const headers = {
 export const login = async (params) => {
     return await axios.post(`${API_URL.LOGIN}`, params, {headers: headers})
         .then(res => res.data)
-        .catch(error => { throw error.response.data });
+        .catch(error => { console.log(error); throw error.response.data; });
 };
 
 export const addUser = async (params, token) => {

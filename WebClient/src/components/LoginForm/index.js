@@ -55,14 +55,14 @@ class LoginForm extends Component {
             }else{
                 this.props.showMessage({ 
                     type: 'error',
-                    msg: Constants.ERROR_MESSAGES[data.ErrorCode]
+                    msg: 'Login failed.'
                 })
             }
         }).catch(error => {
             this.setState({loader: false})
             this.props.showMessage({ 
                 type: 'error',
-                msg: 'Login fail.'
+                msg: 'Login failed.'
             })
             console.log('login error', error)
         })
