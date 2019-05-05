@@ -54,34 +54,26 @@ router.post('/adduser', jsonParser, async (req, res, next) => {
 });
 
 /*Service get user by id*/
-router.get('/:userid', (req, res, next) => {
-    if (req.headers.token) {
-        User.findOne({ token: req.headers.token }).then(user => {
-            if (user) {
-                const id = req.params.userid;
-                User.findById(id).select('firstname lastname _id id').exec().then(doc => {
-                    if (doc) {
-                        res.status(200).json({
-                            user: doc
-                        });
-                    } else {
-                        res.status(404).json({ message: 'No valid entry found for ID' });
-                    }
-                })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({ error: err });
-                    });
-            }
-            else {
-                return res.send({ 'success': false });
-            }
+router.get('/:userid', async (req, res, next) => {
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1);
+    if (!isAuth) {
+        return res.status(401).send({'success': false});
+    }
+    const id = req.params.userid;
+    User.findById(id).select('firstname lastname _id id').exec().then(doc => {
+        if (doc) {
+            res.status(200).json({
+                user: doc
+            });
+        } else {
+            res.status(404).json({message: 'No valid entry found for ID'});
+        }
+    })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({error: err});
         });
 
-    }
-    else {
-        return res.send({ 'success': false });
-    }
 });
 
 /*Service valid token or null*/
@@ -149,44 +141,36 @@ router.patch('/edituser/:userid', async(req, res, next) => {
 });
 
 /*Service Change Password*/
-router.patch('/changepassword/:userid', (req, res, next) => {
-    if (req.headers.token) {
-        User.findOne({ token: req.headers.token }).then(user => {
-            if (user) {
-                const id = req.params.userid;
-                User.findOne({ _id: id })
-                    .then((user) => {
-                        bcrypt.compare(req.body.Oldpassword, user.password).then(result => {
-                            if (result) {
-                                bcrypt.hash(req.body.Newpassword, 10).then(hash2 => {
-                                    User.updateOne({ _id: id }, { password: hash2 })
-                                        .exec().then(() => {
-                                            res.status(200).json({
-                                                success: true
-                                            });
-                                        })
-                                        .catch(err => {
-                                            console.log(err);
-                                            res.status(500).json({ error: err });
-                                        });
-                                })
-                            } else {
-                                res.status(200).json({
-                                    success: false
-                                });
-                            }
+router.patch('/changepassword/:userid', async (req, res, next) => {
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
+    if (!isAuth) {
+        return res.status(401).send({'success': false});
+    }
+    const id = req.params.userid;
+    User.findOne({_id: id})
+        .then((user) => {
+            bcrypt.compare(req.body.Oldpassword, user.password).then(result => {
+                if (result) {
+                    bcrypt.hash(req.body.Newpassword, 10).then(hash2 => {
+                        User.updateOne({_id: id}, {password: hash2})
+                            .exec().then(() => {
+                            res.status(200).json({
+                                success: true
+                            });
                         })
+                            .catch(err => {
+                                console.log(err);
+                                res.status(500).json({error: err});
+                            });
+                    })
+                } else {
+                    res.status(200).json({
+                        success: false
                     });
-            }
-            else {
-                return res.send({ 'success': "false" });
-            }
+                }
+            })
         });
 
-    }
-    else {
-        return res.send({ 'success': "false" });
-    }
 });
 /*Service Delete user*/
 router.post('/deleteuser', async (req, res, next) => {

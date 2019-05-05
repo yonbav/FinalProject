@@ -23,62 +23,44 @@ const upload = multer({storage:storage});
 
 
 /*Service add a pdf*/
-router.post('/addinfo',upload.single('InfoImage'),(req,res,next) => {
-    if(req.headers.token)
-    {
-        User.findOne({token: req.headers.token}).then(user => {
-            if(user) {
+router.post('/addinfo',upload.single('InfoImage'), async (req, res, next) => {
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+    if (!isAuth) {
+        return res.status(401).send({'success': false});
+    }
     const info = new Info({
         _id: new mongoose.Types.ObjectId(),
-        title:req.body.title,
-        displayName:req.body.displayName,
-        image: "Information/"+req.file.filename
+        title: req.body.title,
+        displayName: req.body.displayName,
+        image: "Information/" + req.file.filename
     });
-    info.save().then(result =>{
+    info.save().then(result => {
         res.status(201).json({
-            message:'Created information successfully',
+            message: 'Created information successfully',
             createdMessage: result
         })
-    }).catch(err=> {
-        res.status(401).json({error:err});
-    });}
-            else{
-                return res.send({'success': false});
-            }
-        });
-
-    }
-    else{
-        return res.send({'success': false});
-    }
+    }).catch(err => {
+        res.status(401).json({error: err});
+    });
 });
 
 /*Service get by id*/
-router.get('/:id', (req,res,next) => {
-    if(req.headers.token)
-    {
-        User.findOne({token: req.headers.token}).then(user => {
-            if(user) {
-    Info.findOne({title: req.params.id}).exec().then(doc=>{
-        if(doc) {
+router.get('/:id', async (req, res, next) => {
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
+    if (!isAuth) {
+        return res.status(401).send({'success': false});
+    }
+    Info.findOne({title: req.params.id}).exec().then(doc => {
+        if (doc) {
             res.status(200).json(doc);
-        }else{
-            res.status(404).json({message : 'No valid found for Info'});
+        } else {
+            res.status(404).json({message: 'No valid found for Info'});
         }
     })
-        .catch(err=> {
+        .catch(err => {
             console.log(err);
-            res.status(500).json({error:err});
-        });}
-            else{
-                return res.send({'success': false});
-            }
+            res.status(500).json({error: err});
         });
-
-    }
-    else{
-        return res.send({'success': false});
-    }
 });
 
 /*Service get all pdf's*/
@@ -105,10 +87,10 @@ router.get('/', async(req,res,next) => {
 
 /*Service delete a pdf*/
 router.post('/deleteinfo',upload.single('InfoImage'),async (req,res,next) => {
-    if(req.headers.token)
-    {
-        User.findOne({token: req.headers.token}).then(async user => {
-            if (user) {
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+    if (!isAuth) {
+        return res.status(401).send({'success': false});
+    }
                 await unlinkAsync(req.body.image);
                 Info.deleteOne({_id: req.body._id})
                     .then(result => {
@@ -120,15 +102,7 @@ router.post('/deleteinfo',upload.single('InfoImage'),async (req,res,next) => {
                         console.log(err);
                         res.status(500).json({error: err});
                     });
-            } else {
-                return res.send({'success': false});
-            }
-        });
 
-}
-else{
-    return res.send({'success': false});
-}
 
 });
 /*Service edit a pdf by id*/

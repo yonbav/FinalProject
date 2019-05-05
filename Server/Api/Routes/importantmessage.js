@@ -6,6 +6,8 @@ const router = express.Router();
 const IMessage = require('../../models/importantmessages');
 const axios = require('axios');
 const authManager = require('../../Managers/AuthManager');
+const NotificationManager = require('../../Managers/NotificationManager');
+
 const User = require('../../models/user');
 
 var dateNow = new Date();
@@ -18,7 +20,7 @@ var formattedDate = dd + '/' + mm + '/' + yy;
 
 /*Service add a message*/
 router.post('/addmessage', async(req, res, next) => {
-    // Checking if the token recieved is valid. 
+    // Checking if the token recieved is valid.
     let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
     if (!isAuth) {
         return res.status(401).send({ 'success': false });
@@ -33,25 +35,27 @@ router.post('/addmessage', async(req, res, next) => {
         createdAt: new Date()
     });
 
-    message.save().then(result => {
-        axios.post('http://192.168.1.14:3000/daily/notification', {
-            title: "קרביץ עובדים",
-            message: 'הודעה חדשה עלתה נא להכנס'
-        }).then(() => {
-            res.status(201).json({
-                message: 'Created Imessage successfully',
-                createdMessage: result
-            }) 
+    message.save().then(() => {
+        let isNotification = NotificationManager.SendNotificationAsync("קרביץ עובדים",'הודעה חשובה עלתה נא להכנס',req.headers.token);
+        if (!isNotification) {
+            return res.status(401).send({ 'success': false });
+        }
+    }).then((result) => {
+        res.status(201).json({
+            message: 'Created Imessage successfully',
+            createdMessage: result
         })
     }).catch(err => {
-        res.status(401).json({ error: err });
-    });
+        res.status(401).json({error: err})
+    })
+
 });
+
 
 
 /*Service get all*/
 router.get('', async(req, res, next) => {
-    // Checking if the token recieved is valid. 
+    // Checking if the token recieved is valid.
     let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
     if (!isAuth) {
         return res.status(401).send({ 'success': false });
@@ -63,9 +67,9 @@ router.get('', async(req, res, next) => {
             res.status(404).json({ message: 'No valid found for Messages' });
         }
     }).catch(err => {
-            console.log(err);
-            res.status(500).json({ error: err });
-        });
+        console.log(err);
+        res.status(500).json({ error: err });
+    });
 });
 
 /*Service return to user how many unread messages he has*/
@@ -77,43 +81,30 @@ router.post('/unreadCount', (req, res, next) => {
     });
 });
 /*Service return all the unread messages of the specific user*/
-router.post('/unread', (req, res, next) => {
-    if (req.headers.token) {
-        User.findOne({ token: req.headers.token }).then(user => {
-            if (user) {
-                IMessage.find({ readby: { $ne: req.body.id } }).then(docs => {
-                    res.status(200).json(docs);
-                }).catch(err => {
-                    res.status(401).json({ error: err });
-                });
-            } else {
-                return res.send({ 'success': false });
-            }
-        });
-    } else {
-        return res.send({ 'success': false });
+router.post('/unread', async (req, res, next) => {
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
+    if (!isAuth) {
+        return res.status(401).send({'success': false});
     }
-
+    IMessage.find({readby: {$ne: req.body.id}}).then(docs => {
+        res.status(200).json(docs);
+    }).catch(err => {
+        res.status(401).json({error: err});
+    });
 
 });
-router.post('/pushread', (req, res, next) => {
-
-    if (req.headers.token) {
-        User.findOne({ token: req.headers.token }).then(user => {
-            if (user) {
-                IMessage.updateOne({
-                    _id: req.body._id,
-                    readby: { $nin: [req.body.id] }
-                }, { $push: { readby: req.body.id } }).then(docs => {
-                    res.status(200).json({ docs: docs.nModified });
-                })
-            } else {
-                return res.send({ 'success': false });
-            }
-        });
-    } else {
-        return res.send({ 'success': false });
+router.post('/pushread', async (req, res, next) => {
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
+    if (!isAuth) {
+        return res.status(401).send({'success': false});
     }
+    IMessage.updateOne({
+        _id: req.body._id,
+        readby: {$nin: [req.body.id]}
+    }, {$push: {readby: req.body.id}}).then(docs => {
+        res.status(200).json({docs: docs.nModified});
+    })
+
 });
 
 
@@ -152,10 +143,10 @@ router.patch('/editMessage/:id', async (req, res, next) => {
     }
     IMessage.updateOne({ _id: id }, { $set: updateOpt })
         .exec().then(result => {
-            res.status(200).json({
-                message: 'Message updated'
-            });
-        })
+        res.status(200).json({
+            message: 'Message updated'
+        });
+    })
         .catch(err => {
             console.log(err);
             res.status(500).json({ error: err });

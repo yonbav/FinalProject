@@ -31,7 +31,8 @@
     "mongoose": "^5.4.19",
     "multer": "^1.4.1",
     "nodemailer": "^6.0.0",
-    "xoauth2": "^1.2.0"
+    "xoauth2": "^1.2.0",
+    "nexmo": "latest"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

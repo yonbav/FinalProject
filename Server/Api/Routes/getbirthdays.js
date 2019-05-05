@@ -6,26 +6,18 @@ const router = express.Router();
 var jsonParser = bodyParser.json();
 app.use(bodyParser.json());
 const User = require('../../models/user');
+const authManager = require("../../Managers/AuthManager");
 
 /*Service return all the users and there Birthdays*/
-router.get('/',(req,res,next) => {
-    if(req.headers.token)
-    {
-        User.findOne({token: req.headers.token}).then(user => {
-            if(user) {
-    User.find().select('firstname lastname birthday').exec().then(docs=> {
+router.get('/', async (req, res, next) => {
+
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
+    if (!isAuth) {
+        return res.status(401).send({'success': false});
+    }
+    User.find().select('firstname lastname birthday').exec().then(docs => {
         res.send(docs)
-    })}
-            else{
-                return res.send({'success': false});
-            }
-        });
-
-    }
-    else{
-        return res.send({'success': false});
-    }
-
+    })
 });
 
 
