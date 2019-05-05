@@ -89,10 +89,10 @@ class UserView extends Component {
                             <label className="custom-control-label" htmlFor="supervizer">Supervizer</label>
                         </div>
                     </div>
-                    <div className="form-group row">
+                    {/* <div className="form-group row">
                         <label htmlFor="password" className="col-sm-3 col-form-label">Password: </label>
                         <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} name="password" id="password" value={this.state.user.password} placeholder="Enter password"></input>
-                    </div>   
+                    </div>    */}
                     <div className="form-group row">
                         <label htmlFor="phone_number" className="col-sm-3 col-form-label">Phone: </label>
                         <input type="phone" className="form-control col-sm-8" onChange={this.handleInputChange} name="phone_number" id="phone_number" value={this.state.user.phone_number} placeholder="Enter phone number"></input>

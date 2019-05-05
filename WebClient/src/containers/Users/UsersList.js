@@ -62,10 +62,6 @@ class UsersList extends Component {
       Header: 'Last Name',
       accessor: 'lastname',
     }, {
-      Header: 'Password',
-      accessor: 'password',
-      Cell: props => <div style={{ fontSize: "12px" }}>{props.value}</div>
-    }, {
       Header: 'Birthday',
       accessor: 'birthday',
     }, {
