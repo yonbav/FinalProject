@@ -15,10 +15,6 @@ import {
     login
 } from '../../store/api'
 
-import {
-    Constants
-} from '../../Common'
-
 class LoginForm extends Component {
 
     constructor(props) {

@@ -1,5 +1,5 @@
 import { all, call, fork, put, takeEvery, take } from 'redux-saga/effects';
-import { convertJsonToPatchString } from '../../Utils/JsonUtils'
+import { convertJsonToPatchString } from '../../Utils/JsonUtils';
 
 import {
     ADD_USER,
@@ -25,10 +25,10 @@ import {
     editUser
 } from '../api'
 
-function* getAllUsersSaga() {
+function* getAllUsersSaga(token) {
     try {
         yield put(showFullLoader())
-        const response = yield call(getAllUsers);
+        const response = yield call(getAllUsers, token);
         yield put(getAllUsersSuccess(response.user));
     } catch (error) {
         console.log('[getAllUsersSaga]', error);
@@ -41,10 +41,10 @@ function* getAllUsersSaga() {
     }
 }
 
-function* deleteUserSaga(userId) {
+function* deleteUserSaga(userId, token) {
     try {
         yield put(showFullLoader())
-        const response = yield call(deleteUser, {_id: userId}); 
+        const response = yield call(deleteUser, {_id: userId}, token); 
         console.log("delete user respone: ", response);
         yield put(deleteUserSuccess(userId))
         yield put(showMessage({
@@ -64,10 +64,10 @@ function* deleteUserSaga(userId) {
     }
 }
 
-function* addUserSaga(newUser) {
+function* addUserSaga(newUser, token) {
     try {
         yield put(showFullLoader())
-        const response = yield call(addUser, newUser); 
+        const response = yield call(addUser, newUser, token); 
         yield put(addUserSuccess(newUser))
         console.log("add user respone: ", response);
         yield put(showMessage({
@@ -88,11 +88,11 @@ function* addUserSaga(newUser) {
     }
 }
 
-function* editUserSaga(editedUser) {
+function* editUserSaga(editedUser, token) {
     try {
         yield put(showFullLoader())
         let userString = convertJsonToPatchString(editedUser)
-        const response = yield call(editUser, editedUser._id, userString);
+        const response = yield call(editUser, editedUser._id, userString, token);
         console.log("edit user respone: ", response);
         yield put(editUserSuccess(editedUser))
         yield put(showMessage({
@@ -114,22 +114,23 @@ function* editUserSaga(editedUser) {
 }
 
 export function* getAllUsersDetect() {
-    yield takeEvery(GET_ALL_USERS, getAllUsersSaga);
+    const action = yield take(GET_ALL_USERS)
+    yield takeEvery(GET_ALL_USERS, getAllUsersSaga, [action.token]);
 }
 
 export function* addUsersDetect() {
     const action = yield take(ADD_USER)
-    yield takeEvery(ADD_USER, addUserSaga, action.newUser);
+    yield takeEvery(ADD_USER, addUserSaga, [action.newUser, action.token]);
 }
 
 export function* editUsersDetect() {
     const action = yield take(EDIT_USER)
-    yield takeEvery(EDIT_USER, editUserSaga, action.editedUser);
+    yield takeEvery(EDIT_USER, editUserSaga, [action.editedUser, action.token]);
 }
 
 export function* deleteUsersDetect() {
     const action = yield take(DELETE_USER)
-    yield takeEvery(DELETE_USER, deleteUserSaga, action.userId);
+    yield takeEvery(DELETE_USER, deleteUserSaga, [action.userId, action.token]);
 }
 
 export default function* rootSaga() {

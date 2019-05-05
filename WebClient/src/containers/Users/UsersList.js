@@ -35,8 +35,12 @@ class UsersList extends Component {
   deleteUser(userId) {
     this.props.showFullLoader();
     
-    deleteUser(userId, this.props.loggedUser.token).then(data => {
+    deleteUser({_id:userId}, this.props.loggedUser.token).then(data => {
        this.props.deleteUserSuccess(userId);
+       this.props.showMessage({
+        type: 'success',
+        msg: 'user was deleted.'
+      });
     }).catch(error => {
       this.props.showMessage({
         type: 'error',

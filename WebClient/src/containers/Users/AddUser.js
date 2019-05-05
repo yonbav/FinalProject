@@ -16,11 +16,16 @@ class AddUser extends Component {
         this.props.showFullLoader();
         addUser(newUser, this.props.loggedUser.token).then(data => {
             this.props.addUserSuccess(newUser)
+            
+            this.props.showMessage({ 
+                type: 'success',
+                msg: 'User was successfully added.'
+            })
         })
         .catch(error => {
             this.props.showMessage({ 
                 type: 'error',
-                msg: 'Failed to get all users.'
+                msg: 'Failed to add users.'
             })})
         .finally(() => {
             this.props.hideFullLoader();
@@ -33,11 +38,8 @@ class AddUser extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {loggedUser} = state.user;
-    return {
-        loggedUser,
-    }
-
+    const {loggedUser} = state.users;
+    return { loggedUser }
 }
 
 const mapDispatchToProps = (dispatch) => {

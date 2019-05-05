@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserView from './UserView';
 import { connect } from 'react-redux';
 import { editUser, getAllUsers } from '../../store/api';
+import { convertJsonToPatchString } from '../../Utils/JsonUtils';
 import {showMessage, getAllUsersSuccess, editUserSuccess, showFullLoader, hideFullLoader} from '../../store/actions/';
 
 class EditUser extends Component {
@@ -10,9 +11,15 @@ class EditUser extends Component {
         this.state = {};
 
         this.editUser = this.editUser.bind(this);
+        this.loadAllUsers = this.loadAllUsers.bind(this);
     }
 
     componentWillMount() {
+        if (!this.props.allUsersList || this.props.allUsersList.length === 0)
+            this.loadAllUsers()
+    }
+
+    loadAllUsers() {
         this.props.showFullLoader();
 
         getAllUsers(this.props.loggedUser.token).then(data => {
@@ -29,13 +36,18 @@ class EditUser extends Component {
 
     editUser(editedUser) {
         this.props.showFullLoader();
+        let userString = convertJsonToPatchString(editedUser)
 
-        editUser(editedUser.id, editedUser, this.props.loggedUser.token).then(data => {
+        editUser(editedUser._id, userString, this.props.loggedUser.token).then(data => {
             this.props.editUserSuccess(editedUser);
+            this.props.showMessage({ 
+                type: 'success',
+                msg: 'User was edited.'
+            })
         }).catch(error => {
             this.props.showMessage({ 
                 type: 'error',
-                msg: 'Failed to get all users.'
+                msg: 'Failed to edit user.'
             })
         }).finally(() => {
             this.props.hideFullLoader();

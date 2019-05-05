@@ -26,10 +26,11 @@ export const logoutSuccess = () => {
 
 // Delete user
 
-export const deleteUser = (userId) => {
+export const deleteUser = (userId, token) => {
     return {
         type: DELETE_USER,
         userId,
+        token,       
     };
 }
 export const deleteUserSuccess = (userId) => {
@@ -41,10 +42,11 @@ export const deleteUserSuccess = (userId) => {
 
 // Add user
 
-export const addUser = (newUser) => {
+export const addUser = (newUser, token) => {
     return {
         type: ADD_USER, 
         newUser,
+        token,
     };
 };
 export const addUserSuccess = (newUser) => {
@@ -57,10 +59,11 @@ export const addUserSuccess = (newUser) => {
 
 // Edit user
 
-export const editUser = (editedUser) => {
+export const editUser = (editedUser, token) => {
     return {
         type: EDIT_USER, 
         editedUser,
+        token,
     };
 };
 
@@ -73,9 +76,10 @@ export const editUserSuccess = (editedUser) => {
 
 // Get all users
 
-export const getAllUsers = () => {
+export const getAllUsers = (token) => {
     return {
-        type: GET_ALL_USERS
+        type: GET_ALL_USERS,
+        token
     };
 };
 

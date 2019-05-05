@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {withRouter} from 'react-router-dom';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {
     formatDate,
@@ -119,4 +120,4 @@ class UserView extends Component {
     }
 }
 
-export default UserView;
+export default withRouter(UserView);
