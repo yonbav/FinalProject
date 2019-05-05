@@ -24,7 +24,6 @@ class CodeVerify extends Component{
             codeinput: newText
         })
     }
-
     onPressButton() {
         const { navigation } = this.props;
         const mail = navigation.getParam('mail');
@@ -47,7 +46,6 @@ class CodeVerify extends Component{
                 loading:false})
             }
         })
-
     }
     renderSubmit()
     {
@@ -65,11 +63,8 @@ class CodeVerify extends Component{
         }
 
     }
-
     render() {
-
             return (
-
                 <View style={styles.BackStyle}>
                     <View style={styles.LoginStyle}>
                         <Card>

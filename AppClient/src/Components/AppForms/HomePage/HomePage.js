@@ -4,12 +4,13 @@ import Messeges from "../Messages/Messeges";
 import Sales from "./Sales";
 import Mail from "./Mail";
 import axios from "axios";
-import { Permissions, Notifications } from 'expo';
+import {Permissions, Notifications} from 'expo';
 import {connect} from "react-redux";
 import {Header} from "react-native-elements"
 import SalesFormat from "./SalesFormat";
 import DailyBirthdayFormat from "./DailyBirthdayFormat";
 import ManagerFormat from "./ManagerFormat";
+import { WebBrowser } from 'expo';
 
 class HomePage extends Component{
     async registerForPushNotificationsAsync() {
@@ -120,6 +121,10 @@ class HomePage extends Component{
         </View>
 
 )
+    _handlePressButtonAsync = async () => {
+        let result = await WebBrowser.openBrowserAsync('http://192.168.1.34:3000/Information/חוברת הדרכה לעובד חדש.pdf');
+    };
+
 
 
 render() {
@@ -146,6 +151,9 @@ render() {
             keyExtractor={(item) => item.toString()}
             renderItem={this._renderItem}
         />
+        <TouchableOpacity
+            onPress={this._handlePressButtonAsync}
+        ><Text> Open WebBrowser</Text></TouchableOpacity>
     </View>
 
     );

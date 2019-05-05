@@ -9,12 +9,12 @@ import {
 import LoginForm from "./src/Components/AppForms/LoginForm";
 import HomePage from "./src/Components/AppForms/HomePage/HomePage";
 import Profile from "./src/Components/AppForms/Profile/Profile";
-import createSwitchNavigator from "react-navigation/src/navigators/createSwitchNavigator";
-import createStackNavigator from "react-navigation/src/navigators/createStackNavigator";
-import Icon from "react-native-vector-icons/Ionicons";
-import IconF from "react-native-vector-icons/Feather";
-import IconM from "react-native-vector-icons/MaterialCommunityIcons";
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import {createSwitchNavigator} from "react-navigation";
+import {createStackNavigator} from "react-navigation";
+import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from 'react-navigation';
 import DailyBrif from "./src/Components/AppForms/DailyBrif/DailyBrif";
 import PdfView from "./src/Components/AppForms/DailyBrif/PdfView";
 import HumanResources from "./src/Components/AppForms/Human_Resources/HumanResources";
@@ -221,39 +221,39 @@ export const SignedIn = createBottomTabNavigator({
     Home: {screen: HomeP,navigationOptions:{
             tabBarLabel: 'דף הבית',
             tabBarIcon: ({tintColor}) =>(
-                <Icon name="ios-home" color={tintColor} size={24}/>
+                <Ionicons name="ios-home" color={tintColor} size={24}/>
             )
         }
     },
     Daily: {screen: DailyB,navigationOptions:{
             tabBarLabel: 'תדריך יומי',
             tabBarIcon: ({tintColor}) =>(
-                <IconF name="book-open" color={tintColor} size={24}/>
+                <Feather name="book-open" color={tintColor} size={24}/>
             )
         }},
     Human: {screen: HumanR,navigationOptions:{
             tabBarLabel: 'עדכוני משא',
             tabBarIcon: ({tintColor}) =>(
-                <IconM name="update" color={tintColor} size={24}/>
+                <MaterialCommunityIcons name="update" color={tintColor} size={24}/>
             )
         }},
     Empl: {screen: Emp,navigationOptions:{
             tabBarLabel: 'הדרכה',
             tabBarIcon: ({tintColor}) =>(
-                <IconM name="teach" color={tintColor} size={24}/>
+                <MaterialCommunityIcons name="teach" color={tintColor} size={24}/>
             )
         }},
     Info: {screen: Info,navigationOptions:{
             tabBarLabel: 'מידע חשוב',
             tabBarIcon: ({tintColor}) =>(
-                <IconF name="info" color={tintColor} size={24}/>
+                <Feather name="info" color={tintColor} size={24}/>
             )
         }},
 
     Profile: {screen: Pro,navigationOptions:{
             tabBarLabel: 'פרופיל',
             tabBarIcon: ({tintColor}) =>(
-                <Icon name="ios-man" color={tintColor} size={24}/>
+                <Ionicons name="ios-man" color={tintColor} size={24}/>
             )
         }}
 },{
