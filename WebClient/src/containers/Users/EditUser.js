@@ -22,8 +22,8 @@ class EditUser extends Component {
     loadAllUsers() {
         this.props.showFullLoader();
 
-        getAllUsers(this.props.loggedUser.token).then(data => {
-            this.props.getAllUsersSuccess(data.user);
+        getAllUsers(this.props.loggedUser.token).then(res => {
+            this.props.getAllUsersSuccess(res.data.user);
         }).catch(error => {
             this.props.showMessage({ 
                 type: 'error',
@@ -38,7 +38,16 @@ class EditUser extends Component {
         this.props.showFullLoader();
         let userString = convertJsonToPatchString(editedUser)
 
-        editUser(editedUser._id, userString, this.props.loggedUser.token).then(data => {
+        editUser(editedUser._id, userString, this.props.loggedUser.token).then(res => {
+            // If failed to edit the user
+            if (res.status < 200 || res.status >=300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to edit user.'
+                })
+                return;
+            }
+
             this.props.editUserSuccess(editedUser);
             this.props.showMessage({ 
                 type: 'success',
@@ -58,7 +67,8 @@ class EditUser extends Component {
         let userToEdit = this.props.allUsersList ? this.props.allUsersList.find(usr => usr._id === this.props.match.params.id) : {};
         return <UserView formTitle="Edit User"
             user={userToEdit}
-            submitAction={this.editUser} />
+            submitAction={this.editUser}
+            isShowPassword={false} />
     }
 }
 

@@ -16,8 +16,16 @@ class UsersList extends Component {
   componentWillMount() {
     this.props.showFullLoader();
 
-    getAllUsers(this.props.loggedUser.token).then(data => {
-      this.props.getAllUsersSuccess(data.user);
+    getAllUsers(this.props.loggedUser.token).then(res => {
+      // If failed to get all users
+      if (res.status < 200 || res.status >=300) {
+          this.props.showMessage({
+              type: 'error',
+              msg: 'Failed to edit user.'
+          })
+          return;
+      }
+      this.props.getAllUsersSuccess(res.data.user);
     }).catch(error => {
       this.props.showMessage({
         type: 'error',
@@ -35,7 +43,16 @@ class UsersList extends Component {
   deleteUser(userId) {
     this.props.showFullLoader();
     
-    deleteUser({_id:userId}, this.props.loggedUser.token).then(data => {
+    deleteUser({_id:userId}, this.props.loggedUser.token).then(res => {
+      // If failed to edit the user
+      if (res.status < 200 || res.status >=300) {
+          this.props.showMessage({
+              type: 'error',
+              msg: 'Failed to delete user.'
+          })
+          return;
+      }
+
        this.props.deleteUserSuccess(userId);
        this.props.showMessage({
         type: 'success',
