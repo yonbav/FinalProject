@@ -52,7 +52,7 @@ router.post('/addmessage', async(req, res, next) => {
 /*Service get all*/
 router.get('', async(req, res, next) => {
     // Checking if the token recieved is valid. 
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
     if (!isAuth) {
         return res.status(401).send({ 'success': false });
     }

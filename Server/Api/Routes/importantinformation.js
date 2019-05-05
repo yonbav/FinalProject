@@ -85,7 +85,7 @@ router.get('/:id', (req,res,next) => {
 router.get('/', async(req,res,next) => {
 
     // Checking if the token recieved is valid. 
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
     if (!isAuth) {
         return res.status(401).send({ 'success': false });
     }
