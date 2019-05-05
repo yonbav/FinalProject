@@ -4,6 +4,7 @@ import {
 } from '../actionTypes';
 
 const initState = {
+    importantInfoList: []
 };
 
 export default (state = initState, action) => {
