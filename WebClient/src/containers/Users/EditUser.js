@@ -25,10 +25,7 @@ class EditUser extends Component {
         getAllUsers(this.props.loggedUser.token).then(res => {
             this.props.getAllUsersSuccess(res.data.user);
         }).catch(error => {
-            this.props.showMessage({ 
-                type: 'error',
-                msg: 'Failed to get all users.'
-            })
+            console.log(error);
         }).finally(() => {
             this.props.hideFullLoader();
         });
@@ -82,7 +79,7 @@ const mapDispatchToProps = (dispatch) => {
         showFullLoader: () => { dispatch(showFullLoader()) },
         hideFullLoader: () => { dispatch(hideFullLoader()) },
         getAllUsersSuccess: (allUsers) => {dispatch(getAllUsersSuccess(allUsers))},
-        editUserSuccess: (allUsers) => {dispatch(editUserSuccess(allUsers))},
+        editUserSuccess: (editedUser) => {dispatch(editUserSuccess(editedUser))},
         showMessage: (typ,msg) => {dispatch(showMessage(typ,msg))},
     }
 }

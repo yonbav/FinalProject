@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getAllImportantInfo } from '../../store/actions'
+import {  getAllImportantInfo } from '../../store/api';
+import { getAllImportantInfoSuccess, showFullLoader, hideFullLoader, showMessage } from '../../store/actions/';
 
 class ImportantInfoList extends Component {
     constructor(props) {
@@ -11,7 +12,26 @@ class ImportantInfoList extends Component {
     }
 
     componentWillMount() {
-        this.props.getAllInfo();
+        this.props.showFullLoader();
+
+        getAllImportantInfo(this.props.loggedUser.token).then(res => {
+            // If failed to get all info
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to get all info.'
+                })
+                return;
+            }
+            this.props.getAllImportantInfoSuccess(res.data);
+        }).catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to get all info.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        });
     }
 
     componentDidMount() {
@@ -43,13 +63,17 @@ class ImportantInfoList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    const { loggedUser } = state.users;
     const { importantInfoList } = state.info
-    return { importantInfoList };
+    return { importantInfoList, loggedUser };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllInfo: () => { dispatch(getAllImportantInfo()) },
+        showFullLoader: () => { dispatch(showFullLoader()) },
+        hideFullLoader: () => { dispatch(hideFullLoader()) },
+        getAllImportantInfoSuccess: (allInfo) => { dispatch(getAllImportantInfoSuccess(allInfo)) },
+        showMessage: (typ, msg) => { dispatch(showMessage(typ, msg)) },
     }
 }
 

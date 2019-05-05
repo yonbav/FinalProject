@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getAllImportantMessages, deleteImportantMessage } from '../../store/actions'
+import { deleteImportantMessage, getAllImportantMessages } from '../../store/api';
+import { getAllImportantMessagesSuccess, deleteImportantMessageSuccess, showFullLoader, showMessage, hideFullLoader } from '../../store/actions'
 
 class ImportantMessagesList extends Component {
     constructor(props) {
@@ -12,7 +13,26 @@ class ImportantMessagesList extends Component {
     }
 
     componentWillMount() {
-        this.props.getAllImportantMessages();
+        this.props.showFullLoader();
+
+        getAllImportantMessages(this.props.loggedUser.token).then(res => {
+            // If failed to get all messages
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to get all messages.'
+                })
+                return;
+            }
+            this.props.getAllImportantMessagesSuccess(res.data);
+        }).catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to get all messages.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        });
     }
 
     componentDidMount() {
@@ -20,7 +40,29 @@ class ImportantMessagesList extends Component {
     }
 
     deleteImportantMessage(importantMessageId) {
-        this.props.deleteImportantMessage(importantMessageId);
+        deleteImportantMessage({ _id: importantMessageId }, this.props.loggedUser.token).then(res => {
+            // If failed to edit the user
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to delete message.'
+                })
+                return;
+            }
+
+            this.props.deleteImportantMessageSuccess(importantMessageId);
+            this.props.showMessage({
+                type: 'success',
+                msg: 'message was deleted.'
+            });
+        }).catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to delete message.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        })
     }
 
     render() {
@@ -57,14 +99,18 @@ class ImportantMessagesList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    const { loggedUser } = state.users;
     const { importantMessagesList } = state.messages;
-    return { importantMessagesList };
+    return { importantMessagesList, loggedUser };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllImportantMessages: () => { dispatch(getAllImportantMessages()) },
-        deleteImportantMessage: (messageId) => { dispatch(deleteImportantMessage(messageId)) },
+        showFullLoader: () => { dispatch(showFullLoader()) },
+        hideFullLoader: () => { dispatch(hideFullLoader()) },
+        getAllImportantMessagesSuccess: (allMessages) => { dispatch(getAllImportantMessagesSuccess(allMessages)) },
+        deleteImportantMessageSuccess: (messageId) => { dispatch(deleteImportantMessageSuccess(messageId)) },
+        showMessage: (typ, msg) => { dispatch(showMessage(typ, msg)) },
     }
 }
 
