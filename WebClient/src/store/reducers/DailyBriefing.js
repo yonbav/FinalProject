@@ -6,6 +6,7 @@ import {
 } from '../actionTypes';
 
 const initState = {
+    dailyBriefingsList: []
 };
 
 export default (state = initState, action) => {

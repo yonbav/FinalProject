@@ -90,10 +90,10 @@ class LoadUsersExcel extends Component {
 
     render() {
         return (
-            <div id='loadUsersExcel'
-                className="form-backgorund">
-                <form className="input-form" onSubmit={(e) => this.handleSubmit(e)}>
-                    <div className="form-title">{this.props.Title}</div>
+            <div id='loadUsersExcel' 
+                 className="form-backgorund">
+                <form  className="input-form" onSubmit={(e) => this.handleSubmit(e)}>                
+                    <div className="form-title">Load User's Excel</div>                    
                     <div className="form-group row">
                         <label className="col-sm-4 col-form-label">Upload user's excel: </label>
                         <input placeholder={this.state.usersExcelFile ? this.state.usersExcelFile.name : "choose file"} className="col-sm-5" disabled />

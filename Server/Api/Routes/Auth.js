@@ -97,6 +97,7 @@ router.post('/CheckToken',jsonParser,(req,res,next) => {
     });
 });
 /*Service Login*/
+router.post('/login', jsonParser, (req, res, next) => {
 
 router.post('/login', jsonParser, (req, res, next) => {
 

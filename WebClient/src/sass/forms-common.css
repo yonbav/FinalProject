@@ -48,3 +48,7 @@
 .form-date-picker {
     text-align: right;
 }
+.input-form-radio {
+    margin-top: 5px;
+    margin-left: 10px; 
+}

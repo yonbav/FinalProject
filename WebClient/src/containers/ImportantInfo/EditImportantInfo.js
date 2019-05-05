@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ImportantInfoView from './ImportantInfoView';
-import { editImportantInfo, getAllImportantInfo } from '../../store/actions/ImportantInfo';
+import { editImportantInfo, getAllImportantInfo } from '../../store/api/';
+import { convertJsonToPatchString } from '../../Utils/JsonUtils';
+import { editImportantInfoSuccess, getAllImportantInfoSuccess, showFullLoader, hideFullLoader, showMessage } from '../../store/actions/';
 import { connect } from 'react-redux';
 
 class EditImportantInfo extends Component {
@@ -12,11 +14,45 @@ class EditImportantInfo extends Component {
     }
 
     componentWillMount() {
-        this.props.getAllInfo();
+        getAllImportantInfo(this.props.loggedUser.token).then(res => {
+            // If failed to get all info
+            if (res.status < 200 || res.status >= 300) {
+                return;
+            }
+            this.props.getAllImportantInfoSuccess(res.data);
+        }).catch(error => {
+            console.log(error);
+        }).finally(() => {
+            this.props.hideFullLoader();
+        });
     }
 
-    editInfo(editedInfo) {
-        this.props.editImportantInfo(editedInfo)
+    editInfo(editedInfo) {        this.props.showFullLoader();
+        let infoString = convertJsonToPatchString(editedInfo)
+
+        editImportantInfo(editedInfo._id, infoString, this.props.loggedUser.token).then(res => {
+            // If failed to edit the info
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to edit info.'
+                })
+                return;
+            }
+
+            this.props.editImportantInfoSuccess(editedInfo);
+            this.props.showMessage({
+                type: 'success',
+                msg: 'info was edited.'
+            })
+        }).catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to edit info.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        });
     }
 
     render() {
@@ -28,14 +64,18 @@ class EditImportantInfo extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    const { loggedUser } = state.users;
     const { importantInfoList } = state.info
-    return { importantInfoList };
+    return { importantInfoList, loggedUser }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllInfo: () => { dispatch(getAllImportantInfo()) },
-        editImportantInfo: (editedInfo) => { dispatch(editImportantInfo(editedInfo)) },
+        showFullLoader: () => { dispatch(showFullLoader()) },
+        hideFullLoader: () => { dispatch(hideFullLoader()) },
+        getAllImportantInfoSuccess: (allInfo) => { dispatch(getAllImportantInfoSuccess(allInfo)) },
+        editImportantInfoSuccess: (editedInfo) => { dispatch(editImportantInfoSuccess(editedInfo)) },
+        showMessage: (typ, msg) => { dispatch(showMessage(typ, msg)) },
     }
 }
 

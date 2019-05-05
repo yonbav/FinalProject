@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getAllUsers, deleteUser } from '../../store/actions'
+import { deleteUser, getAllUsers } from '../../store/api';
+import { showMessage, getAllUsersSuccess, deleteUserSuccess, showFullLoader, hideFullLoader } from '../../store/actions';
 
 class UsersList extends Component {
   constructor(props) {
@@ -13,7 +14,26 @@ class UsersList extends Component {
   }
 
   componentWillMount() {
-    this.props.getAllUsers();
+    this.props.showFullLoader();
+
+    getAllUsers(this.props.loggedUser.token).then(res => {
+      // If failed to get all users
+      if (res.status < 200 || res.status >=300) {
+          this.props.showMessage({
+              type: 'error',
+              msg: 'Failed to edit user.'
+          })
+          return;
+      }
+      this.props.getAllUsersSuccess(res.data.user);
+    }).catch(error => {
+      this.props.showMessage({
+        type: 'error',
+        msg: 'Failed to get all users.'
+      })
+    }).finally(() => {
+      this.props.hideFullLoader();
+    });
   }
 
   componentDidMount() {
@@ -21,7 +41,31 @@ class UsersList extends Component {
   }
 
   deleteUser(userId) {
-    this.props.deleteUserById(userId);
+    this.props.showFullLoader();
+    
+    deleteUser({_id:userId}, this.props.loggedUser.token).then(res => {
+      // If failed to edit the user
+      if (res.status < 200 || res.status >=300) {
+          this.props.showMessage({
+              type: 'error',
+              msg: 'Failed to delete user.'
+          })
+          return;
+      }
+
+       this.props.deleteUserSuccess(userId);
+       this.props.showMessage({
+        type: 'success',
+        msg: 'user was deleted.'
+      });
+    }).catch(error => {
+      this.props.showMessage({
+        type: 'error',
+        msg: 'Failed to delete users.'
+      })
+    }).finally(() => {
+      this.props.hideFullLoader();
+    })
   }
 
   render() {
@@ -34,10 +78,6 @@ class UsersList extends Component {
     }, {
       Header: 'Last Name',
       accessor: 'lastname',
-    }, {
-      Header: 'Password',
-      accessor: 'password',
-      Cell: props => <div style={{ fontSize: "12px" }}>{props.value}</div>
     }, {
       Header: 'Birthday',
       accessor: 'birthday',
@@ -70,14 +110,17 @@ class UsersList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { allUsersList } = state.users
-  return { allUsersList }
+  const { allUsersList, loggedUser } = state.users
+  return { allUsersList, loggedUser }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllUsers: () => { dispatch(getAllUsers()) },
-    deleteUserById: (userId) => { dispatch(deleteUser(userId)) },
+    showFullLoader: () => { dispatch(showFullLoader()) },
+    hideFullLoader: () => { dispatch(hideFullLoader()) },
+    getAllUsersSuccess: (allUsers) => { dispatch(getAllUsersSuccess(allUsers)) },
+    deleteUserSuccess: (userId) => { dispatch(deleteUserSuccess(userId)) },
+    showMessage: (typ, msg) => { dispatch(showMessage(typ, msg)) },
   }
 }
 

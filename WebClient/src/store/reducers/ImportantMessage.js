@@ -6,6 +6,7 @@ import {
 } from '../actionTypes';
 
 const initState = {
+    importantMessagesList:[],
 };
 
 export default (state = initState, action) => {

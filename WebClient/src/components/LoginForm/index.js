@@ -15,10 +15,6 @@ import {
     login
 } from '../../store/api'
 
-import {
-    Constants
-} from '../../Common'
-
 class LoginForm extends Component {
 
     constructor(props) {
@@ -43,26 +39,26 @@ class LoginForm extends Component {
             id: this.state.userName,
             password: this.state.password,
             authorization: '5',
-        }).then(data => {
+        }).then(res => {
             this.setState({loader: false})
-            if(data.success === true){
+            if(res.data.success === true){
                 this.props.showMessage({ 
                     type: 'success',
                     msg: 'Login success.'
                 })
-                this.props.loginSuccess(data.user)
+                this.props.loginSuccess(res.data.user)
                 this.props.toggleLoginForm();
             }else{
                 this.props.showMessage({ 
                     type: 'error',
-                    msg: Constants.ERROR_MESSAGES[data.ErrorCode]
+                    msg: 'Login failed.'
                 })
             }
         }).catch(error => {
             this.setState({loader: false})
             this.props.showMessage({ 
                 type: 'error',
-                msg: 'Login fail.'
+                msg: 'Login failed.'
             })
             console.log('login error', error)
         })
