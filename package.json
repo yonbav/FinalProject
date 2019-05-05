@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "kravitz final project",
   "scripts": {
-    "startServer": "cd ./Server && npm start&",
-    "startweb": "npm run startServer && cd ./WebClient && npm start",
+    "startserver": "cd ./Server && npm start&",
+    "debugserver": "cd ./Server && npm run debug&",
+    "startweb": "npm run startserver && cd ./WebClient && npm start",
+    "debugweb": "npm run debugserver && cd ./WebClient && npm start",
     "poststartweb": "pkill -f nodemon"
   },
   "repository": {
