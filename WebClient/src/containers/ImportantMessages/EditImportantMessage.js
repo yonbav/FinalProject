@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ImprtantMessageView from './ImportantMessageView';
 import { connect } from 'react-redux';
-import { editImportantMessage, getAllImportantMessages } from '../../store/api';
 import { convertJsonToPatchString } from '../../Utils/JsonUtils';
+import { editImportantMessage, getAllImportantMessages } from '../../store/api';
 import { showMessage, getAllImportantMessagesSuccess, editImportantMessageSuccess, showFullLoader, hideFullLoader } from '../../store/actions/';
 
 class EditImportantMessage extends Component {
@@ -14,6 +14,7 @@ class EditImportantMessage extends Component {
     }
 
     componentWillMount() {
+        this.props.showFullLoader();
         getAllImportantMessages(this.props.loggedUser.token).then(res => {
             // If failed to get all messages
             if (res.status < 200 || res.status >= 300) {

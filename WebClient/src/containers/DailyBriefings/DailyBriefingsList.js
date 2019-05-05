@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getAllDailyBriefings, deleteDailyBriefing } from '../../store/actions'
+import { deleteDailyBriefing, getAllDailyBriefings } from '../../store/api';
+import { getAllDailyBriefingsSuccess, deleteDailyBriefingSuccess, showFullLoader, showMessage, hideFullLoader } from '../../store/actions'
 
 class DailyBriefingsList extends Component {
     constructor(props) {
@@ -12,7 +13,24 @@ class DailyBriefingsList extends Component {
     }
 
     componentWillMount() {
-        this.props.getAllDailyBriefings()
+        this.props.showFullLoader();
+        getAllDailyBriefings(this.props.loggedUser.token).then(res => {
+            // If failed to get all daily briefings
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to get all brieifngs.'
+                })
+            }
+            this.props.getAllDailyBriefingsSuccess(res.data);
+        }).catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to get all brieifngs.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        });
     }
 
     componentDidMount() {
@@ -20,7 +38,30 @@ class DailyBriefingsList extends Component {
     }
 
     deleteDailyBriefing(dailyBriefingid) {
-        this.props.deleteDailyBriefing(dailyBriefingid);
+        this.props.showFullLoader();
+        deleteDailyBriefing({ _id: dailyBriefingid }, this.props.loggedUser.token).then(res => {
+            // If failed to edit the user
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to delete briefing.'
+                })
+                return;
+            }
+
+            this.props.deleteDailyBriefingSuccess(dailyBriefingid);
+            this.props.showMessage({
+                type: 'success',
+                msg: 'briefing was deleted.'
+            });
+        }).catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to delete briefing.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        })
     }
 
     render() {
@@ -47,15 +88,20 @@ class DailyBriefingsList extends Component {
     }
 }
 
+
 const mapStateToProps = (state, ownProps) => {
+    const { loggedUser } = state.users;
     const { dailyBriefingsList } = state.briefings;
-    return { dailyBriefingsList }
+    return { dailyBriefingsList, loggedUser };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllDailyBriefings: () => { dispatch(getAllDailyBriefings()) },
-        deleteDailyBriefing: (briefingId) => { dispatch(deleteDailyBriefing(briefingId)) },
+        showFullLoader: () => { dispatch(showFullLoader()) },
+        hideFullLoader: () => { dispatch(hideFullLoader()) },
+        getAllDailyBriefingsSuccess: (allBriefings) => { dispatch(getAllDailyBriefingsSuccess(allBriefings)) },
+        deleteDailyBriefingSuccess: (briefingId) => { dispatch(deleteDailyBriefingSuccess(briefingId)) },
+        showMessage: (typ, msg) => { dispatch(showMessage(typ, msg)) },
     }
 }
 
