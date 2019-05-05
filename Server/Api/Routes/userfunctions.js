@@ -17,13 +17,13 @@ const User = require('../../models/user');
 router.post('/adduser', jsonParser, async (req, res, next) => {
     
     // Checking if the token recieved is valid. 
-    var isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
     if (!isAuth) {
         return res.status(401).send({ 'success': false });
     }
 
     // Checking if the user that was recieved is valid
-    var isValid = await userManager.isAddUserValidAsync(req.body)
+    let isValid = await userManager.isAddUserValidAsync(req.body)
     if (!isValid) {
         return res.status(400).send({ 'success': false });
     }
@@ -101,65 +101,51 @@ router.post('/token', (req, res, next) => {
 });
 
 /*Service Get all users*/
-router.get('', (req, res, next) => {
-    if (req.headers.token) {
-        User.findOne({ token: req.headers.token }).then(user => {
-            if (user) {
-                User.find().exec().then(doc => {
-                    if (doc) {
-                        res.status(200).json({
-                            user: doc
-                        });
-                    } else {
-                        res.status(404).json({ message: 'No valid entry found for ID' });
-                    }
-                })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({ error: err });
-                    });
-            }
-            else {
-                return res.send({ 'success': false });
-            }
-        });
+router.get('', async(req, res, next) => {
 
+    // Checking if the token recieved is valid. 
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+    if (!isAuth) {
+        return res.status(401).send({ 'success': false });
     }
-    else {
-        return res.send({ 'success': false });
-    }
+
+    User.find().exec().then(doc => {
+        if (doc) {
+            res.status(200).json({
+                user: doc
+            });
+        } else {
+            res.status(404).json({ message: 'No valid entry found for ID' });
+        }
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({ error: err });
+    });
 });
 
 /*Service edit user by id*/
-router.patch('/edituser/:userid', (req, res, next) => {
-    if (req.headers.token) {
-        User.findOne({ token: req.headers.token }).then(user => {
-            if (user) {
-                const id = req.params.userid;
-                const updateOpt = {};
-                for (const ops of req.body) {
-                    updateOpt[ops.propName] = ops.value;
-                }
-                User.update({ _id: id }, { $set: updateOpt })
-                    .exec().then(result => {
-                        res.status(200).json({
-                            message: 'User updated'
-                        });
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({ error: err });
-                    });
-            }
-            else {
-                return res.send({ 'success': false });
-            }
-        });
+router.patch('/edituser/:userid', async(req, res, next) => {
+    // Checking if the token recieved is valid. 
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+    if (!isAuth) {
+        return res.status(401).send({ 'success': false });
+    }
 
+    const id = req.params.userid;    
+    const updateOpt = {};
+    for (const ops of req.body) {
+        updateOpt[ops.propName] = ops.value;
     }
-    else {
-        return res.send({ 'success': false });
-    }
+    User.update({ _id: id }, { $set: updateOpt })
+        .exec().then(result => {
+            res.status(200).json({
+                message: 'User updated'
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err }); 
+        });
 });
 
 /*Service Change Password*/
@@ -203,31 +189,23 @@ router.patch('/changepassword/:userid', (req, res, next) => {
     }
 });
 /*Service Delete user*/
-router.post('/deleteuser', (req, res, next) => {
-    if (req.headers.token) {
-        User.findOne({ token: req.headers.token }).then(user => {
-            if (user) {
-                User.deleteOne({ _id: req.body._id })
-                    .then(result => {
-                        res.status(200).json({
-                            message: 'User deleted'
-                        });
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({ error: err });
-                    });
-            }
-            else {
-                return res.send({ 'success': false });
-            }
+router.post('/deleteuser', async (req, res, next) => {
+
+    // Checking if the token recieved is valid. 
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+    if (!isAuth) {
+        return res.status(401).send({ 'success': false });
+    }
+
+    User.deleteOne({ _id: req.body._id })
+        .then(result => {
+            res.status(200).json({
+                message: 'User deleted'
+            });
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err });
         });
-
-    }
-    else {
-        return res.send({ 'success': false });
-    }
-
 });
 
 /*Service ForgetPassword after code verify*/
