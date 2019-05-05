@@ -7,6 +7,8 @@ const multer = require('multer');
 const fs = require('fs');
 const { promisify } = require('util')
 const User = require('../../models/user');
+const authManager = require('../../Managers/AuthManager');
+
 
 const unlinkAsync = promisify(fs.unlink);
 const storage = multer.diskStorage({
@@ -80,11 +82,14 @@ router.get('/:id', (req,res,next) => {
 });
 
 /*Service get all pdf's*/
-router.get('/', (req,res,next) => {
-    if(req.headers.token)
-    {
-        User.findOne({token: req.headers.token}).then(user => {
-            if(user) {
+router.get('/', async(req,res,next) => {
+
+    // Checking if the token recieved is valid. 
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+    if (!isAuth) {
+        return res.status(401).send({ 'success': false });
+    }
+
     Info.find().exec().then(doc=>{
         if(doc) {
             res.status(200).json(doc.reverse());
@@ -95,16 +100,7 @@ router.get('/', (req,res,next) => {
         .catch(err=> {
             console.log(err);
             res.status(500).json({error:err});
-        });}
-            else{
-                return res.send({'success': false});
-            }
         });
-
-    }
-    else{
-        return res.send({'success': false});
-    }
 });
 
 /*Service delete a pdf*/
@@ -136,11 +132,14 @@ else{
 
 });
 /*Service edit a pdf by id*/
-router.patch('/editinfo/:id',(req,res,next) => {
-    if(req.headers.token)
-    {
-        User.findOne({token: req.headers.token}).then(user => {
-            if(user) {
+router.patch('/editinfo/:id',async(req,res,next) => {
+    
+    // Checking if the token recieved is valid. 
+    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+    if (!isAuth) {
+        return res.status(401).send({ 'success': false });
+    }
+
     const id = req.params.id;
     const updateOpt = {};
     for (const ops of req.body){
@@ -155,15 +154,6 @@ router.patch('/editinfo/:id',(req,res,next) => {
         .catch(err=> {
             console.log(err);
             res.status(500).json({error:err});
-        });}
-else{
-    return res.send({'success': false});
-}
-});
-
-}
-else{
-    return res.send({'success': false});
-}
+        });
 });
 module.exports = router;
