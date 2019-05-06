@@ -120,7 +120,7 @@ const mapDispatchToProps = (dispatch) => {
     hideFullLoader: () => { dispatch(hideFullLoader()) },
     getAllUsersSuccess: (allUsers) => { dispatch(getAllUsersSuccess(allUsers)) },
     deleteUserSuccess: (userId) => { dispatch(deleteUserSuccess(userId)) },
-    showMessage: (typ, msg) => { dispatch(showMessage(typ, msg)) },
+    showMessage: (message) => { dispatch(showMessage(message)) },
   }
 }
 

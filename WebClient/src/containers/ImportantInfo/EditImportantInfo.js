@@ -75,7 +75,7 @@ const mapDispatchToProps = (dispatch) => {
         hideFullLoader: () => { dispatch(hideFullLoader()) },
         getAllImportantInfoSuccess: (allInfo) => { dispatch(getAllImportantInfoSuccess(allInfo)) },
         editImportantInfoSuccess: (editedInfo) => { dispatch(editImportantInfoSuccess(editedInfo)) },
-        showMessage: (typ, msg) => { dispatch(showMessage(typ, msg)) },
+        showMessage: (message) => { dispatch(showMessage(message)) },
     }
 }
 

@@ -64,7 +64,7 @@ const mapDispatchToProps = (dispatch) => {
         showFullLoader: () => { dispatch(showFullLoader()) },
         hideFullLoader: () => { dispatch(hideFullLoader()) },
         addDailyBriefingSuccess: (newBriefing) => { dispatch(addDailyBriefingSuccess(newBriefing)) },
-        showMessage: (typ, msg) => { dispatch(showMessage(typ, msg)) },
+        showMessage: (message) => { dispatch(showMessage(message)) },
     }
 }
 
