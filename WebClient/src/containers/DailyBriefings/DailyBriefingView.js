@@ -5,6 +5,7 @@ import {
     parseDate,
 } from 'react-day-picker/moment';
 import uploadIcon from '../../images/upload-icon.png';
+import moment from 'moment';
 
 class DailyBriefingView extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class DailyBriefingView extends Component {
         };
         
         this.onFileChanged = this.onFileChanged.bind(this);
+        this.onDateChanged = this.onDateChanged.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
@@ -31,9 +33,20 @@ class DailyBriefingView extends Component {
         }
 
         let newBriefing = this.state.briefing
+        newBriefing.DailyBriefImage = currentFile;
         newBriefing.image = currentFile.name;
 
         this.setState({briefing:newBriefing}); 
+    }
+
+    onDateChanged(newDate) {
+        let newBriefing = this.state.briefing
+        newBriefing.date =  newDate
+        newBriefing.title = moment(newDate).format("D.M")
+        this.setState({
+            briefing: newBriefing,
+        });
+        
     }
 
     handleSubmit(e) {
@@ -57,13 +70,7 @@ class DailyBriefingView extends Component {
                                 value={this.state.briefing.title}
                                 placeholder="DD/MM/YYYY"
                                 format="DD/MM/YYYY"
-                                onDayChange={(newDate) => {
-                                    let newBriefing = this.state.briefing
-                                    newBriefing.title =  newDate
-                                    this.setState({
-                                        briefing: newBriefing,
-                                    });
-                                }}
+                                onDayChange={(date) => this.onDateChanged(date)}
                             />
                         </div>
                     </div>

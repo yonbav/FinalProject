@@ -18,3 +18,13 @@ export function convertJsonToPatchString(obj) {
 
     return result
 }
+
+export function convertJsonToFormData(obj) {
+    let formData = new FormData();
+
+    Object.keys(obj).forEach((key, index) => { 
+        formData.append(key, obj[key])
+    });
+
+    return formData
+}

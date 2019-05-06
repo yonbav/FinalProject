@@ -26,10 +26,11 @@ class ImportantInfoView extends Component {
             return;
         }
 
-        let newinfo = this.state.info
-        newinfo.image = currentFile.name;
+        let newInfo = this.state.info
+        newInfo.InfoImage = currentFile;
+        newInfo.image = currentFile.name;
 
-        this.setState({info:newinfo}); 
+        this.setState({info:newInfo}); 
     }
 
     handleInputChange(event) {

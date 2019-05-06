@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DailyBriefingView from './DailyBriefingView';
 import { connect } from 'react-redux';
 import { addDailyBriefing } from '../../store/api';
+import {convertJsonToFormData} from '../../Utils/JsonUtils';
 import { addDailyBriefingSuccess, showFullLoader, showMessage, hideFullLoader } from '../../store/actions'
 
 class AddDailyBriefing extends Component {
@@ -14,7 +15,8 @@ class AddDailyBriefing extends Component {
 
     addNewDailyBriefing(newBriefing) {
         this.props.showFullLoader();
-        addDailyBriefing(newBriefing, this.props.loggedUser.token).then(res => {
+        var formDataBrieifing = convertJsonToFormData(newBriefing);
+        addDailyBriefing(formDataBrieifing, this.props.loggedUser.token).then(res => {
             // If failed to add the user
             if (res.status < 200 || res.status >=300) {
                 this.props.showMessage({

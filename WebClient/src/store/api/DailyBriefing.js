@@ -2,12 +2,16 @@ import axios from 'axios';
 import API_URL from './ApiUrl'
 
 const headers = {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
 }
 
-export const addDailyBriefing = async (params, token) => {
-    headers.token = token;
-    return await axios.post(`${API_URL.ADD_DAILY_BRIEFING}`, params, {headers:headers})
+const formHeaders = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+}
+
+export const addDailyBriefing = async (formData, token) => {
+    formHeaders.token = token;
+    return await axios.post(`${API_URL.ADD_DAILY_BRIEFING}`, formData, {headers:formHeaders})
     .then(res => res)
     .catch(error => {throw error.response.data})
 }
@@ -26,9 +30,9 @@ export const deleteDailyBriefing = async (params, token) => {
     .catch(error => {throw error.response.data})
 }
 
-export const editDailyBriefing = async (id, params, token) => {
-    headers.token = token;
-    return await axios.patch(`${API_URL.EDIT_DAILY_BRIEFING}/${id}`, params, {headers:headers})
+export const editDailyBriefing = async (id, formData, token) => {
+    formHeaders.token = token;
+    return await axios.post(`${API_URL.EDIT_DAILY_BRIEFING}/${id}`, formData, {headers:formHeaders})
     .then(res => res)
     .catch(error => {throw error.response.data})
 }

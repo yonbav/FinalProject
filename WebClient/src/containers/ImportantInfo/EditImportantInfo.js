@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ImportantInfoView from './ImportantInfoView';
 import { editImportantInfo, getAllImportantInfo } from '../../store/api/';
-import { convertJsonToPatchString } from '../../Utils/JsonUtils';
+import { convertJsonToFormData } from '../../Utils/JsonUtils';
 import { editImportantInfoSuccess, getAllImportantInfoSuccess, showFullLoader, hideFullLoader, showMessage } from '../../store/actions/';
 import { connect } from 'react-redux';
 
@@ -27,10 +27,10 @@ class EditImportantInfo extends Component {
         });
     }
 
-    editInfo(editedInfo) {        this.props.showFullLoader();
-        let infoString = convertJsonToPatchString(editedInfo)
-
-        editImportantInfo(editedInfo._id, infoString, this.props.loggedUser.token).then(res => {
+    editInfo(editedInfo) {        
+        this.props.showFullLoader();
+        let infoFormData = convertJsonToFormData(editedInfo)
+        editImportantInfo(editedInfo._id, infoFormData, this.props.loggedUser.token).then(res => {
             // If failed to edit the info
             if (res.status < 200 || res.status >= 300) {
                 this.props.showMessage({
