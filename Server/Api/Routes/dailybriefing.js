@@ -9,21 +9,23 @@ const User = require('../../models/user');
 const authManager = require('../../Managers/AuthManager');
 const multer = require('multer');
 const fs = require('fs');
+const DAILY_BRIEFING_PATH = "./uploads/";
 const NotificationManager = require("../../Managers/NotificationManager");
+const DailyBriefingManager = require("../../Managers/DailyBriefingManager");
 const { Expo } = require('expo-server-sdk');
 const { promisify } = require('util');
+const {convertJsonToUpdateOpt} = require('../../Managers/UtilsManager');
 const unlinkAsync = promisify(fs.unlink);
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads/');
+        cb(null, DAILY_BRIEFING_PATH);
     },
-    filename: function (req, file, cb) {
+    briefingFileName: function (req, file, cb) {
         cb(null, file.originalname);
     }
 });
 const upload = multer({ storage: storage });
 var somePushTokens = [];
-
 
 /*Service Add Client to notification list*/
 router.post('/registarnotification', async (req, res, next) => {
@@ -58,34 +60,37 @@ router.post('/registarnotification', async (req, res, next) => {
 });
 /*Service Add Daily Brifing*/
 router.post('/adddailybrief', upload.single('DailyBriefImage'), async (req, res, next) => {
-
-    // Checking if the token recieved is valid. 
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
-    if (!isAuth) {
-        return res.status(401).send({ 'success': false });
-    }
-
-    const dailybriefing = new DailyBriefing({
-        _id: new mongoose.Types.ObjectId(),
-        title: req.body.title,
-        readby: [],
-        image: "uploads/" + req.file.filename,
-        createdAt: new Date(req.body.date)
-    });
-
-    dailybriefing.save().then(() => {
-        let isNotification = NotificationManager.SendNotificationAsync("קרביץ עובדים",'תדריך יומי עלה נא להכנס',req.headers.token);
-        if (!isNotification) {
+    try {
+        // Checking if the token recieved is valid. 
+        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+        if (!isAuth) {
             return res.status(401).send({ 'success': false });
         }
-    }).then(() => {
-        res.status(201).json({
-            message: 'Created DailyBrif successfully',
-        })
-    }).catch(err => {
-        res.status(401).json({error: err})
-    })
 
+        const dailybriefing = new DailyBriefing({
+            _id: new mongoose.Types.ObjectId(),
+            title: req.body.title,
+            readby: [],
+            image: req.body.image,
+            createdAt: new Date(req.body.date)
+        });
+
+        dailybriefing.save().then(() => {
+            let isNotification = NotificationManager.SendNotificationAsync("קרביץ עובדים", 'תדריך יומי עלה נא להכנס', req.headers.token);
+            if (!isNotification) {
+                return res.status(401).send({ 'success': false });
+            }
+        }).then(() => {
+            res.status(201).json({
+                message: 'Created DailyBrif successfully',
+            })
+        }).catch(err => {
+            res.status(401).json({ error: err })
+        })
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 /*Service Get Daily Brifing by id*/
 router.get('/:id', (req, res, next) => {
@@ -156,49 +161,61 @@ router.post('/pushread', async (req, res, next) => {
 
 /*Service Delete daily brifing*/
 router.post('/deletedailybrief', upload.single('DailyBriefImage'), async (req, res, next) => {
+    try {
+        // Checking if the token recieved is valid. 
+        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+        if (!isAuth) {
+            return res.status(401).send({ 'success': false });
+        }
 
-    // Checking if the token recieved is valid. 
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
-    if (!isAuth) {
-        return res.status(401).send({ 'success': false });
-    }
-
-    await unlinkAsync(req.body.image);
-    DailyBriefing.deleteOne({ _id: req.body._id })
-        .then(result => {
-            res.status(200).json({
-                message: 'DailyBriefing deleted'
+        var briefingFileName = await DailyBriefingManager.findFileNameByIdAsync(req.body._id)
+        await unlinkAsync(DAILY_BRIEFING_PATH + briefingFileName);
+        DailyBriefing.deleteOne({ _id: req.body._id })
+            .then(result => {
+                res.status(200).json({
+                    message: 'DailyBriefing deleted'
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ error: err });
             });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ error: err });
-        });
+    }
+    catch (err) {
+        res.status(500).json({ error: err });
+    }
 });
 
 /*Service edit daily brifing*/
-router.patch('/editdailybrief/:id', async(req, res, next) => {
+router.post('/editdailybrief/:id', upload.single('DailyBriefImage'), async(req, res, next) => {
+    try {
+        // Checking if the token recieved is valid. 
+        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+        if (!isAuth) {
+            return res.status(401).send({ 'success': false });
+        }
+    
+        const id = req.params.id; 
 
-    // Checking if the token recieved is valid. 
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
-    if (!isAuth) {
-        return res.status(401).send({ 'success': false });
-    }
+        // Checking if the file was edited and we need to delete the old one
+        var briefingFileName = await DailyBriefingManager.findFileNameByIdAsync(id)
+        if(req.file.filename && req.file.filename !== briefingFileName)        
+            await unlinkAsync(DAILY_BRIEFING_PATH + briefingFileName);
 
-    const id = req.params.id;
-    const updateOpt = {};
-    for (const ops of req.body) {
-        updateOpt[ops.propName] = ops.value;
-    }
-    DailyBriefing.updateOne({ _id: id }, { $set: updateOpt })
+        let updateOpt = convertJsonToUpdateOpt(req.body);
+        DailyBriefing.updateOne({ _id: id }, { $set: updateOpt })
         .exec().then(result => {
             res.status(200).json({
                 message: 'dailybrief updated'
             });
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).json({ error: err });
-        });
+                console.log(err);
+                res.status(500).json({ error: err });
+            });        
+    }
+    catch (err) {
+        res.status(500).json({ error: err });
+    }
 });
 module.exports = router;
