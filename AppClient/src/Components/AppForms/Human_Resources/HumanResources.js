@@ -2,7 +2,6 @@ import React,{Component} from 'react'
 import {Image, Keyboard, Text, TouchableOpacity, View} from 'react-native';
 import Harassment from "./Harassment";
 import MainHeader from "../../common/MainHeader";
-import MessageFormat2 from "../Messages/MessageFormat2";
 import HaressmentFormat from "./HaressmentFormat";
 import BirthdayFormat from "./BirthdayFormat";
 import JobsFormat from "./JobsFormat";
@@ -31,7 +30,7 @@ class HumanResources extends Component {
                 <Harassment  callback={this.getResponse.bind(this)}/>
                 <BirthdayFormat   title="ימי הולדת" navigation={this.props.navigation}/>
                 <JobsFormat   title="חבר מביא חבר" navigation={this.props.navigation}/>
-                <HaressmentFormat  url={"http://192.168.1.34:3000/"+this.state.harassmentData.image} title="תקנון מניעת הטרדה מינית"  user={this.props.user}
+                <HaressmentFormat  url={"http://192.168.1.34:3000/Information/"+this.state.harassmentData.image} title="תקנון מניעת הטרדה מינית"  user={this.props.user}
                                     navigation={this.props.navigation}/>
 
             </View>
