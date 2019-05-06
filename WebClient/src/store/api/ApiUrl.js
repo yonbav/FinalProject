@@ -3,7 +3,9 @@ import {Constants} from '../../Common';
 export default {
 
     // login
-    LOGIN: `${Constants.SERVER_URL}/Auth/Login`,
+    LOGIN: `${Constants.SERVER_URL}/Auth/login`,
+    // logout
+    LOGOUT: `${Constants.SERVER_URL}/Auth/logout`,
 
     /// user ///
     
