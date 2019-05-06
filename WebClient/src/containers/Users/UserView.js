@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import moment from 'moment';
 import {
     formatDate,
     parseDate,
@@ -11,11 +12,20 @@ class UserView extends Component {
         super(props);
         this.state = { user: this.props.user ? this.props.user : {} };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onDateChanged = this.onDateChanged.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }    
 
     componentDidMount() {
         document.getElementById("ImportantMessageForm").scrollIntoView();
+    }
+
+    onDateChanged(newDate) {
+        let newUser = this.state.user
+        newUser.birthday = moment(newDate).format("DD/MM/YYYY");                            
+        this.setState({
+            user: newUser
+        });   
     }
 
     handleInputChange(event) {
@@ -64,13 +74,7 @@ class UserView extends Component {
                                 value={this.state.user.birthday}
                                 placeholder="DD/MM/YYYY"
                                 format="DD/MM/YYYY"
-                                onDayChange={(newBirthday) => {
-                                    let newUser = this.state.user
-                                    newUser.birthday = newBirthday;                            
-                                    this.setState({
-                                        user: newUser
-                                    });
-                                }}
+                                onDayChange={(date) => this.onDateChanged(date)}
                             />
                         </div>
                     </div>
