@@ -68,13 +68,13 @@ class DailyBrif extends Component {
         return this.state.data.map((item) => {
             if(item ===this.state.data[0]) {
                 return (
-                        <MessageFormat2 key={item._id} url={"http://192.168.1.34:3000/Information/"+item.image} title= {item.title}  user={this.props.user}
+                        <MessageFormat2 key={item._id} url={"http://192.168.1.34:3000/uploads/"+item.image} title= {item.title}  user={this.props.user}
                                         navigation={this.props.navigation}/>
                 );
             }
             else{
                 return (
-                    <MessageFormat3 key={item._id} url={"http://192.168.1.34:3000/Information/"+item.image} title= {item.title}  user={this.props.user}
+                    <MessageFormat3 key={item._id} url={"http://192.168.1.34:3000/uploads/"+item.image} title= {item.title}  user={this.props.user}
                                     navigation={this.props.navigation}/>
                 );
             }
