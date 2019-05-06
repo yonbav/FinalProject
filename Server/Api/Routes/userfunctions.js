@@ -15,20 +15,20 @@ const User = require('../../models/user');
 
 /*Service Add user*/
 router.post('/adduser', jsonParser, async (req, res, next) => {
-    
-    // Checking if the token recieved is valid. 
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
-    if (!isAuth) {
-        return res.status(401).send({ 'success': false });
-    }
+    try {
+        // Checking if the token recieved is valid. 
+        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+        if (!isAuth) {
+            return res.status(401).send({ 'success': false });
+        }
 
-    // Checking if the user that was recieved is valid
-    let isValid = await userManager.isAddUserValidAsync(req.body)
-    if (!isValid) {
-        return res.status(400).send({ 'success': false });
-    }
+        // Checking if the user that was recieved is valid
+        let isValid = await userManager.isAddUserValidAsync(req.body)
+        if (!isValid) {
+            return res.status(400).send({ 'success': false });
+        }
 
-    bcrypt.hash(req.body.password, 10).then(hash => {
+        let hash = await bcrypt.hash(req.body.password, 10);
         const user = new User({
             _id: new mongoose.Types.ObjectId(),
             firstname: req.body.firstname,
@@ -42,15 +42,16 @@ router.post('/adduser', jsonParser, async (req, res, next) => {
             branch: req.body.branch,
             token: null
         });
-        user.save().then(result => {
-            res.status(201).json({
-                message: 'Created user successfully',
-                createdUser: result
-            })
-        }).catch(err => {
-            res.status(401).json({ error: err });
-        });
-    });
+
+        let result = await user.save();
+        res.status(201).json({
+            message: 'Created user successfully',
+            createdUser: result
+        })
+    }
+    catch (err) {
+        res.status(500).json({ error: err });
+    }
 });
 
 /*Service get user by id*/

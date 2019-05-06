@@ -2,100 +2,61 @@ import React, { Component } from 'react';
 import uploadIcon from '../../images/upload-icon.png';
 import XLSX from 'xlsx';
 import {addUser} from '../../store/api'
-import { showMessage, showFullLoader, hideFullLoader } from '../../store/actions';
+import { showMessage, showFullLoader, hideFullLoader, addUserSuccess } from '../../store/actions';
 import { connect } from 'react-redux';
 
 class LoadUsersExcel extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            usersListFromFile: [],
+            usersExcelFile: {}
+        };
 
         this.onFileChanged = this.onFileChanged.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.addnewUser = this.addnewUser.bind(this);
+        this.addAllUsers = this.addAllUsers.bind(this);
     }
 
     componentDidMount() {
         document.getElementById("loadUsersExcel").scrollIntoView();
     }
 
-    onFileChanged(event) {
+    onFileChanged(event) { 
+        // Getting the current file.
         var currentFile = event.target.files[0];
-
         if (!currentFile) {
-            alert("Failed to upload file");
+            this.props.showMessage({type: 'error', msg: 'Failed to upload the excel file.'});
             return;
         }
 
-        this.setState({ usersExcelFile: currentFile });
-    }
+        this.setState({usersExcelFile:currentFile})
 
-    addnewUser(newUser) {
-        addUser(newUser, this.props.loggedUser.token)
-        .then(res => {
-            // If failed to add the user
-            if (res.status < 200 || res.status >= 300) {
-                this.props.showMessage({
-                    type: 'error',
-                    msg: 'Failed to add user. ' + newUser.id
-                })
-                return;
-            }
-
-            this.props.addUserSuccess(newUser);
-        })
-        .catch(error => {
-            this.props.showMessage({
-                type: 'error',
-                msg: 'Failed to add users.' + newUser.id
-            })
-        })
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-
-        if (!this.state.usersExcelFile) {
-            this.props.showNewMessage({
-                type: 'error',
-                msg: 'Please select file.'
-            });
-            return
-        }
-
+        // Loading the file's data
         const reader = new FileReader();
         const rABS = !!reader.readAsBinaryString;
         reader.onload = (e) => {
             try {
-                this.props.showLoader();
-                var newUsersList = this.convertResultToJson(e.target.result, rABS);
-                newUsersList.forEach((newUser) => {
-                    this.props.addnewUser(newUser);
-                })
-                this.props.showNewMessage({
-                    type: 'success',
-                    msg: 'Excel file was successfully uploaded.'
-                })
+                this.props.showFullLoader();
+                let allUsers = this.convertResultToJson(e.target.result, rABS);
+                this.setState({ usersListFromFile: allUsers });
             }
             catch (error) {
-                this.props.showNewMessage({
-                    type: 'error',
-                    msg: 'Failed to upload the excel file.'
-                });
+                this.props.showMessage({type: 'error', msg: 'Failed to upload the excel file.'});
             }
             finally {
-                this.props.hideLoader();
+                this.props.hideFullLoader();
             }
         };
-        if (rABS) reader.readAsBinaryString(this.state.usersExcelFile); else reader.readAsArrayBuffer(this.state.usersExcelFile);
+        if (rABS) reader.readAsBinaryString(currentFile); else reader.readAsArrayBuffer(currentFile);
     }
 
     convertResultToJson(result, rABS) {
         const bstr = result;
-        const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array' });
+        const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array', dateNF: 'mm/dd/yyyy' });
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
-        const rawData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+        const rawData = XLSX.utils.sheet_to_json(ws, { header: 1, raw:false });
 
         let jsonData = []
 
@@ -112,6 +73,43 @@ class LoadUsersExcel extends Component {
         return jsonData;
     }
 
+    addAllUsers(usersList) {
+        let counter=0;
+        this.props.showFullLoader()
+        usersList.forEach(newUser => {
+            addUser(newUser, this.props.loggedUser.token).then(res => {
+                // If failed to add the user
+                if (res.status < 200 || res.status >= 300) {
+                    this.props.showMessage({ type: 'error', msg: `Failed to add user ${newUser.id}` });
+                }
+                else {
+                    this.props.addUserSuccess(newUser);
+                    this.props.showMessage({ type: 'success', msg: `user ${newUser.id} was added` })
+                }
+            }).catch(error => {
+                    this.props.showMessage({ type: 'error', msg: `Failed to add users ${newUser.id}` })
+                }).finally(() => {
+                    counter++;
+                    if (counter === usersList.length)
+                    {
+                        this.props.hideFullLoader()
+                        this.props.showMessage({ type: 'success', msg: 'Finish adding all users.' })
+                    }
+                })
+        });
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+
+        if (!this.state.usersListFromFile || this.state.usersListFromFile.length === 0) {
+            this.props.showMessage({type: 'error', msg: 'Invalid file, please upload another file.'});
+            return;
+        }
+
+        this.addAllUsers(this.state.usersListFromFile);
+    }
+
     render() {
         return (
             <div id='loadUsersExcel' 
@@ -120,7 +118,7 @@ class LoadUsersExcel extends Component {
                     <div className="form-title">Load User's Excel</div>                    
                     <div className="form-group row">
                         <label className="col-sm-4 col-form-label">Upload user's excel: </label>
-                        <input placeholder={this.state.usersExcelFile ? this.state.usersExcelFile.name : "choose file"} className="col-sm-5" disabled />
+                        <input placeholder={this.state.usersExcelFile.name ? this.state.usersExcelFile.name : "choose file"} className="col-sm-5" disabled />
                         <label className="col-sm-1 file-upload-button input-file-image" style={{ padding: "0px" }} htmlFor="fileUpload">
                             <img className="upload-image" alt="upload" src={uploadIcon} />
                         </label>
@@ -141,9 +139,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        showLoader: () => { dispatch(showFullLoader()) },
-        hideLoader: () => { dispatch(hideFullLoader()) },
-        showNewMessage: (message) => { dispatch(showMessage(message)) }
+        showFullLoader: () => { dispatch(showFullLoader()) },
+        hideFullLoader: () => { dispatch(hideFullLoader()) },
+        showMessage: (message) => { dispatch(showMessage(message)) },
+        addUserSuccess: (newUser) => {dispatch(addUserSuccess(newUser))}
     }
 }
 
