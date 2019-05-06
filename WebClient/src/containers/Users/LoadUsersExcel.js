@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import uploadIcon from '../../images/upload-icon.png';
 import XLSX from 'xlsx';
-import { showMessage, showFullLoader, hideFullLoader, addUser } from '../../store/actions';
+import {addUser} from '../../store/api'
+import { showMessage, showFullLoader, hideFullLoader } from '../../store/actions';
 import { connect } from 'react-redux';
 
 class LoadUsersExcel extends Component {
@@ -11,6 +12,7 @@ class LoadUsersExcel extends Component {
 
         this.onFileChanged = this.onFileChanged.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.addnewUser = this.addnewUser.bind(this);
     }
 
     componentDidMount() {
@@ -26,6 +28,28 @@ class LoadUsersExcel extends Component {
         }
 
         this.setState({ usersExcelFile: currentFile });
+    }
+
+    addnewUser(newUser) {
+        addUser(newUser, this.props.loggedUser.token)
+        .then(res => {
+            // If failed to add the user
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to add user. ' + newUser.id
+                })
+                return;
+            }
+
+            this.props.addUserSuccess(newUser);
+        })
+        .catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to add users.' + newUser.id
+            })
+        })
     }
 
     handleSubmit(e) {
@@ -110,13 +134,17 @@ class LoadUsersExcel extends Component {
     }
 }
 
+const mapStateToProps = (state, ownProps) => {
+    const { loggedUser } = state.users;
+    return { loggedUser }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         showLoader: () => { dispatch(showFullLoader()) },
         hideLoader: () => { dispatch(hideFullLoader()) },
-        addnewUser: (newUser) => { dispatch(addUser(newUser)) },
         showNewMessage: (message) => { dispatch(showMessage(message)) }
     }
 }
 
-export default connect(null, mapDispatchToProps)(LoadUsersExcel);
+export default connect(mapStateToProps, mapDispatchToProps)(LoadUsersExcel);
