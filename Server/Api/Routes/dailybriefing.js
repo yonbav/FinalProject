@@ -14,7 +14,7 @@ const NotificationManager = require("../../Managers/NotificationManager");
 const DailyBriefingManager = require("../../Managers/DailyBriefingManager");
 const { Expo } = require('expo-server-sdk');
 const { promisify } = require('util');
-const {convertJsonToUpdateOpt} = require('../../Managers/UtilsManager');
+const { convertJsonToUpdateOpt } = require('../../Managers/UtilsManager');
 const unlinkAsync = promisify(fs.unlink);
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -107,7 +107,7 @@ router.get('/:id', (req, res, next) => {
         });
 });
 /*Service Get All Daily Brifing*/
-router.get('/', async(req, res, next) => {
+router.get('/', async (req, res, next) => {
 
     // Checking if the token recieved is valid. 
     let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1);
@@ -130,13 +130,13 @@ router.get('/', async(req, res, next) => {
 router.post('/unread', async (req, res, next) => {
     let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
     if (!isAuth) {
-        return res.status(401).send({'success': false});
+        return res.status(401).send({ 'success': false });
     }
 
-    DailyBriefing.findOne({title: req.body.title, readby: {$ne: req.body.id}}).then(docs => {
-        res.status(200).json({docs});
+    DailyBriefing.findOne({ title: req.body.title, readby: { $ne: req.body.id } }).then(docs => {
+        res.status(200).json({ docs });
     }).catch(err => {
-        res.status(401).json({error: err});
+        res.status(401).json({ error: err });
     });
 
 
@@ -145,15 +145,15 @@ router.post('/unread', async (req, res, next) => {
 router.post('/pushread', async (req, res, next) => {
     let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
     if (!isAuth) {
-        return res.status(401).send({'success': false});
+        return res.status(401).send({ 'success': false });
     }
     DailyBriefing.updateOne({
         title: req.body.title,
-        readby: {$nin: [req.body.id]}
-    }, {$push: {readby: req.body.id}}).then(docs => {
-        res.status(200).json({docs: docs.nModified});
+        readby: { $nin: [req.body.id] }
+    }, { $push: { readby: req.body.id } }).then(docs => {
+        res.status(200).json({ docs: docs.nModified });
     }).catch(err => {
-        res.status(401).json({error: err});
+        res.status(401).json({ error: err });
     });
 
 });
@@ -187,32 +187,32 @@ router.post('/deletedailybrief', upload.single('DailyBriefImage'), async (req, r
 });
 
 /*Service edit daily brifing*/
-router.post('/editdailybrief/:id', upload.single('DailyBriefImage'), async(req, res, next) => {
+router.post('/editdailybrief/:id', upload.single('DailyBriefImage'), async (req, res, next) => {
     try {
         // Checking if the token recieved is valid. 
         let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
         if (!isAuth) {
             return res.status(401).send({ 'success': false });
         }
-    
-        const id = req.params.id; 
+
+        const id = req.params.id;
 
         // Checking if the file was edited and we need to delete the old one
         var briefingFileName = await DailyBriefingManager.findFileNameByIdAsync(id)
-        if(req.file.filename && req.file.filename !== briefingFileName)        
+        if (req.file.filename && req.file.filename !== briefingFileName)
             await unlinkAsync(DAILY_BRIEFING_PATH + briefingFileName);
 
         let updateOpt = convertJsonToUpdateOpt(req.body);
         DailyBriefing.updateOne({ _id: id }, { $set: updateOpt })
-        .exec().then(result => {
-            res.status(200).json({
-                message: 'dailybrief updated'
-            });
-        })
-        .catch(err => {
+            .exec().then(result => {
+                res.status(200).json({
+                    message: 'dailybrief updated'
+                });
+            })
+            .catch(err => {
                 console.log(err);
                 res.status(500).json({ error: err });
-            });        
+            });
     }
     catch (err) {
         res.status(500).json({ error: err });
