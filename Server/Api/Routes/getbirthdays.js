@@ -10,14 +10,18 @@ const authManager = require("../../Managers/AuthManager");
 
 /*Service return all the users and there Birthdays*/
 router.get('/', async (req, res, next) => {
-
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
-    if (!isAuth) {
-        return res.status(401).send({'success': false});
+    try {
+        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
+        if (!isAuth) {
+            return res.status(401).send({ 'success': false });
+        }
+        User.find().select('firstname lastname birthday').exec().then(docs => {
+            res.send(docs)
+        })
     }
-    User.find().select('firstname lastname birthday').exec().then(docs => {
-        res.send(docs)
-    })
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 
 

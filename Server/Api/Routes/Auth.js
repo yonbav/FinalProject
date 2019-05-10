@@ -21,79 +21,97 @@ const nexmo = new Nexmo({
 })
 const from = 'kravitz';
 /*Service Forget Password*/
-router.post('/forget',jsonParser, async (req, res, next) => {
-    var x = await crypto.createHash('md5').update('idanlazar8241@gmail.com' + Math.random(1000)).digest("hex").slice(0, 6);
-    HashChange.push(x);
-    const text = 'Your code is:' + x;
-    const to = '972'+req.body.mail;
+router.post('/forget', jsonParser, async (req, res, next) => {
+    try {
+        var x = await crypto.createHash('md5').update('idanlazar8241@gmail.com' + Math.random(1000)).digest("hex").slice(0, 6);
+        HashChange.push(x);
+        const text = 'Your code is:' + x;
+        const to = '972' + req.body.mail;
 
-    User.findOne({phone_number: req.body.mail}).then( user => {
-        if (user) {
-            nexmo.message.sendSms(from, to, text);
-            return res.send({'success': true});
-        }
-        else{return res.send({'success': false});}
-    });
-
-
-
+        User.findOne({ phone_number: req.body.mail }).then(user => {
+            if (user) {
+                nexmo.message.sendSms(from, to, text);
+                return res.send({ 'success': true });
+            }
+            else { return res.send({ 'success': false }); }
+        });
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 /*Service Verify Code Forget Password*/
-router.post('/verifycode',jsonParser, async (req, res, next) => {
-    if(HashChange.find((element)=> element === req.body.code))
-    {
-        HashChange.remove(req.body.code);
-        User.findOne({phone_number: req.body.mail}).then(user => {
-            if (user) {
-                return res.send(user);
-            }
-        });
-
-    }
-    else{return res.send({'success': false});}
-});
-
-
-
-/*Service Check if the token is alive*/
-router.post('/CheckToken',jsonParser,(req,res,next) => {
-    User.findOne({id: req.body.id}).then(user => {
-        if (user) {
-            jwt.verify(req.body.token, config.secret, function (err, decoded) {
-                if (err) {
-                    User.findOneAndUpdate({id: req.body.id}, {token: null}, {new: true}, function (err, doc) {
-                        return res.send({'success': false});
-                    })
-
-                } else {
-                    return res.send({'success': true});
-
+router.post('/verifycode', jsonParser, async (req, res, next) => {
+    try {
+        if (HashChange.find((element) => element === req.body.code)) {
+            HashChange.remove(req.body.code);
+            User.findOne({ phone_number: req.body.mail }).then(user => {
+                if (user) {
+                    return res.send(user);
                 }
             });
+
         }
-        else {
-            return res.send({'success': false});
-        }
-    });
+        else { return res.send({ 'success': false }); }
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
+
+/*Service Check if the token is alive*/
+router.post('/CheckToken', jsonParser, (req, res, next) => {
+    try {
+        User.findOne({ id: req.body.id }).then(user => {
+            if (user) {
+                jwt.verify(req.body.token, config.secret, function (err, decoded) {
+                    if (err) {
+                        User.findOneAndUpdate({ id: req.body.id }, { token: null }, { new: true }, function (err, doc) {
+                            return res.send({ 'success': false });
+                        })
+
+                    } else {
+                        return res.send({ 'success': true });
+
+                    }
+                });
+            }
+            else {
+                return res.send({ 'success': false });
+            }
+        });
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
+});
+
 /*Service Login*/
-
 router.post('/login', jsonParser, (req, res, next) => {
+    try {
+        User.findOne({ id: req.body.id }).then(user => {
+            if (user) {
+                return checkPassword(user, req.body.password, res, req.body.authorization);
+            }
+            return res.send({ 'success': false });
 
-    User.findOne({id: req.body.id}).then(user => {
-        if (user) {
-            return checkPassword(user, req.body.password, res, req.body.authorization);
-        }
-        return res.send({'success': false});
-
-    });
+        });
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 
-router.post('/logout',jsonParser,(req,res,next) => {
-    User.findOneAndUpdate({id: req.body.id}, {token: null}, {new: true},function(err, doc) {
-        if(err){return res.send({'success': false});}
-        else{return res.send({'success': true});}
-    })
+router.post('/logout', jsonParser, (req, res, next) => {
+    try {
+        User.findOneAndUpdate({ id: req.body.id }, { token: null }, { new: true }, function (err, doc) {
+            if (err) { return res.send({ 'success': false }); }
+            else { return res.send({ 'success': true }); }
+        })
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 
 checkPassword = (user, password, res,authorization) => {
