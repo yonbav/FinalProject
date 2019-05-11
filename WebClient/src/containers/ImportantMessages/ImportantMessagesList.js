@@ -66,18 +66,19 @@ class ImportantMessagesList extends Component {
     }
 
     render() {
-        const columns = [{
+        const columns = [ {
             Header: 'Title',
-            maxWidth: '300',
             accessor: 'title',
+            maxWidth: '300',
+            Cell: props => <Link to={"/readby/ImportantMessage/" + props.original._id}>{props.value}</Link>
         }, {
             Header: 'Content',
             accessor: 'contect',
-            Cell: props => <div style={{ textAlign: "left" }}>{props.value}</div>
+            Cell: props => <div style={{ textAlign: "right" }}>{props.value}</div>
         }, {
             Header: 'Link',
             accessor: 'link',
-            Cell: props => <div style={{ textAlign: "left" }}>{props.value}</div>
+            Cell: props => <div style={{ textAlign: "right" }}>{props.value}</div>
         }, {
             Header: 'created Date',
             accessor: 'createdtime',

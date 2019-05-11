@@ -66,8 +66,9 @@ class DailyBriefingsList extends Component {
 
     render() {
         const columns = [{
-            Header: 'Date',
+            Header: 'Title',
             accessor: 'title',
+            Cell: props => <Link to={"/readby/DailyBriefing/" + props.original._id}>{props.value}</Link>
         }, {
             Header: 'File Name',
             accessor: 'image',

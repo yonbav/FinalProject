@@ -3,6 +3,7 @@ import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { deleteUser, getAllUsers } from '../../store/api';
+import { EnumFunctions } from '../../Common';
 import { showMessage, getAllUsersSuccess, deleteUserSuccess, showFullLoader, hideFullLoader } from '../../store/actions';
 
 class UsersList extends Component {
@@ -84,6 +85,7 @@ class UsersList extends Component {
     }, {
       Header: 'Authorization',
       accessor: 'authorization',
+      Cell: props => <div>{EnumFunctions.AuthEnumToString(props.value)}</div>,
     }, {
       Header: 'Gender',
       accessor: 'gender',
