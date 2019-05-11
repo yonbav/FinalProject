@@ -3,7 +3,7 @@ import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { deleteUser, getAllUsers } from '../../store/api';
-import { EnumFunctions } from '../../Common';
+import {EnumFunctions, defaultFilterMethod} from '../../Common';
 import { showMessage, getAllUsersSuccess, deleteUserSuccess, showFullLoader, hideFullLoader } from '../../store/actions';
 
 class UsersList extends Component {
@@ -99,15 +99,17 @@ class UsersList extends Component {
       Header: '',
       accessor: '_id',
       maxWidth: '100',
+      filterable: false,
       Cell: props => <Link to={"/Users/EditUser/" + props.value}>Edit</Link>
     }, {
       Header: '',
       accessor: '_id',
       maxWidth: '100',
+      filterable: false,
       Cell: props => <button onClick={() => this.deleteUser(props.value)} className="btn btn-link">Delete</button>
     }];
 
-    return <div id="usersTable"><ReactTable defaultPageSize={10} className="react-table-default" data={this.props.allUsersList} columns={columns} /></div>
+    return <div id="usersTable"><ReactTable filterable defaultFilterMethod={(filter, row) => defaultFilterMethod(filter, row)} defaultPageSize={10} className="react-table-default" data={this.props.allUsersList} columns={columns} /></div>
   }
 }
 

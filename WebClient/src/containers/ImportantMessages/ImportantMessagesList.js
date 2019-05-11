@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import { defaultFilterMethod } from '../../Common';
 import { deleteImportantMessage, getAllImportantMessages } from '../../store/api';
 import { getAllImportantMessagesSuccess, deleteImportantMessageSuccess, showFullLoader, showMessage, hideFullLoader } from '../../store/actions'
 
@@ -87,15 +88,17 @@ class ImportantMessagesList extends Component {
             Header: '',
             accessor: '_id',
             maxWidth: '100',
+            filterable: false,
             Cell: props => <Link to={"/ImportantMessages/EditImportantMessage/" + props.value}>Edit</Link>
         }, {
             Header: '',
             accessor: '_id',
             maxWidth: '100',
+            filterable: false,
             Cell: props => <button onClick={() => this.deleteImportantMessage(props.value)} className="btn btn-link">Delete</button>
         }];
 
-        return <div id="ImportantMessageTable"><ReactTable defaultPageSize={10} className="react-table-default" data={this.props.importantMessagesList} columns={columns} /></div>
+        return <div id="ImportantMessageTable"><ReactTable filterable defaultFilterMethod={(filter, row) => defaultFilterMethod(filter, row)} defaultPageSize={10} className="react-table-default" data={this.props.importantMessagesList} columns={columns} /></div>
     }
 }
 

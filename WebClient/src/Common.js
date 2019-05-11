@@ -14,6 +14,10 @@ export const clone = (src) => {
     return JSON.parse(JSON.stringify(src));
 }
 
+export const defaultFilterMethod = (filter, row) => {
+    return row[filter.id].startsWith(filter.value) || row[filter.id].endsWith(filter.value);
+}
+
 export const EnumFunctions = { 
     AuthEnumToString: (value) => {
         switch (value) {

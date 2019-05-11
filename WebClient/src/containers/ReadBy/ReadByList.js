@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { connect } from 'react-redux';
 import { getAllUsers } from '../../store/api';
-import {EnumFunctions} from '../../Common';
+import {EnumFunctions, defaultFilterMethod} from '../../Common';
 import { showMessage, getAllUsersSuccess, showFullLoader, hideFullLoader } from '../../store/actions';
 
 
@@ -64,7 +64,7 @@ class ReadByList extends Component {
             Header: 'Branch',
             accessor: 'branch',
           }];
-        return <div id="usersTable"><ReactTable defaultPageSize={10} className="react-table-default" data={this.state.readByUsers} columns={columns} /></div>
+        return <div id="usersTable"><ReactTable filterable defaultFilterMethod={(filter, row) => defaultFilterMethod(filter, row)} defaultPageSize={10} className="react-table-default" data={this.state.readByUsers} columns={columns} /></div>
     }
 }
 

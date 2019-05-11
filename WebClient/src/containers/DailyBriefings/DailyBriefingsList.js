@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import { defaultFilterMethod } from '../../Common';
 import { deleteDailyBriefing, getAllDailyBriefings } from '../../store/api';
 import { getAllDailyBriefingsSuccess, deleteDailyBriefingSuccess, showFullLoader, showMessage, hideFullLoader } from '../../store/actions'
 
@@ -77,15 +78,17 @@ class DailyBriefingsList extends Component {
             Header: '',
             accessor: '_id',
             maxWidth: '100',
+            filterable: false,
             Cell: props => <Link to={"/DailyBriefings/EditDailyBriefing/" + props.value}>Edit</Link>
         }, {
             Header: '',
             accessor: '_id',
             maxWidth: '100',
+            filterable: false,
             Cell: props => <button onClick={() => this.deleteDailyBriefing(props.value)} className="btn btn-link">Delete</button>
         }];
 
-        return <div id="dailyBreifingTable"><ReactTable defaultPageSize={10} className="react-table-default" data={this.props.dailyBriefingsList} columns={columns} /></div>
+        return <div id="dailyBreifingTable"><ReactTable filterable defaultFilterMethod={(filter, row) => defaultFilterMethod(filter, row)} defaultPageSize={10} className="react-table-default" data={this.props.dailyBriefingsList} columns={columns} /></div>
     }
 }
 
