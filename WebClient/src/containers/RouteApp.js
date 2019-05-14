@@ -11,7 +11,11 @@ import {
     hideMessage,
     showFullLoader,
     hideFullLoader,
+    logoutSuccess,
+    showMessage
 } from '../store/actions';
+
+import {checkToken} from '../store/api';
 
 import Home from './Home';
 
@@ -38,17 +42,12 @@ class RouterApp extends React.Component {
         this.state = {
             
         }
+
+        this.checkIsTokenValid = this.checkIsTokenValid.bind(this);
     }
 
     componentWillMount(){
-        
-    }
-
-    componentDidMount(){
-    }
-
-    componentDidUpdate () {
-        
+        setInterval(this.checkIsTokenValid, 10 * 1000)
     }
 
     componentWillReceiveProps(newProps){
@@ -58,6 +57,25 @@ class RouterApp extends React.Component {
         if (!this.props.clientsData && newProps.clientsData){
             this.props.hideFullLoader();
         }
+    }
+
+    checkIsTokenValid() {
+        // Checking if there is a valid logged user
+        if (!this.props.loggedUser)
+            return;
+
+        // Creating the params for the check token request
+        let params = { id: this.props.loggedUser.id, token: this.props.loggedUser.token };
+
+        checkToken(params).then(res => {
+            if (res.data.success)
+                return;
+
+            this.props.logoutSuccess();
+        }).catch(err => {
+            this.props.showMessage({ type: "error", msg: "Failed to varify token, fatal error has happened." });
+            this.props.logoutSuccess();
+        })
     }
 
     render() {
@@ -112,10 +130,13 @@ class RouterApp extends React.Component {
 
 const mapStateToProps = (state) => {
     const { message} = state.ui;
-    return {message}
+    const { loggedUser } = state.users;
+    return {message, loggedUser}
 };
 export default withRouter(connect(mapStateToProps, {
     hideMessage,
+    showMessage,
     showFullLoader,
     hideFullLoader,
+    logoutSuccess,
 })(RouterApp));

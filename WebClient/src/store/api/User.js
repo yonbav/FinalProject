@@ -17,6 +17,12 @@ export const logout = async (params) => {
         .catch(error => { throw error.response.data; });
 };
 
+export const checkToken = async (params) => {
+    return await axios.post(`${API_URL.CHECK_TOKEN}`, params, {headers: headers})
+        .then(res => res)
+        .catch(error => { throw error.response.data; });
+};
+
 export const addUser = async (params, token) => {
     headers.token = token;
     return await axios.post(`${API_URL.ADD_USER}`, params, {headers:headers})

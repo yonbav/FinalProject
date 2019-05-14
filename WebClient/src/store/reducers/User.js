@@ -11,7 +11,7 @@ import localStore from 'store'
 import {isJsonValid} from '../../Utils/JsonUtils'
 
 const initState = {
-    loggedUser: isJsonValid(localStore.get('logged_user')) ? JSON.parse(localStore.get('logged_user')) : {},
+    loggedUser: isJsonValid(localStore.get('logged_user')) ? JSON.parse(localStore.get('logged_user')) : null,
     allUsersList: []
 };
 

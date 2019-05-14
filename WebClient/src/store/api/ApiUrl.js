@@ -6,6 +6,8 @@ export default {
     LOGIN: `${Constants.SERVER_URL}/Auth/login`,
     // logout
     LOGOUT: `${Constants.SERVER_URL}/Auth/logout`,
+    // check token
+    CHECK_TOKEN: `${Constants.SERVER_URL}/Auth/checkToken`,
 
     /// user ///
     
