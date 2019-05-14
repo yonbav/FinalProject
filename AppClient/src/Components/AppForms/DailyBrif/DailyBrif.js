@@ -1,10 +1,22 @@
 import React,{Component} from 'react'
-import {ActivityIndicator, Alert, AsyncStorage, Keyboard, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {
+    ActivityIndicator,
+    Alert,
+    AsyncStorage,
+    FlatList,
+    Keyboard,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import axios from "axios";
 import {connect} from "react-redux";
 import MainHeader from "../../common/MainHeader";
 import MessageFormat2 from "../Messages/MessageFormat2";
 import MessageFormat3 from "../Messages/MessageFormat3";
+import SalesFormat from "../HomePage/SalesFormat";
+import DailyBirthdayFormat from "../HomePage/DailyBirthdayFormat";
 
 class DailyBrif extends Component {
 
@@ -12,10 +24,18 @@ class DailyBrif extends Component {
         super();
         this.state = {
             data: [],
-            loading: false
+            loading: false,
+            stories: [{id: 1}],
+            isFetching:false
         };
         this.GetData = this.GetData.bind(this);
         this.renderButtons = this.renderButtons.bind(this);
+
+    }
+    onRefresh(){
+        this.setState({isFetching:true})
+        {this.GetData()}
+        this.setState({isFetching:false})
 
     }
 
@@ -44,18 +64,17 @@ class DailyBrif extends Component {
         this.GetData();
         Keyboard.dismiss();
     }
-
     renderButtons() {
         return this.state.data.map((item) => {
             if(item ===this.state.data[0]) {
                 return (
-                        <MessageFormat2 key={item._id} url={"http://192.168.1.34:3000/"+item.image} title= {item.title}  user={this.props.user}
+                        <MessageFormat2 key={item._id} url={"http://192.168.1.34:3000/uploads/"+item.image} title= {item.title}  user={this.props.user}
                                         navigation={this.props.navigation}/>
                 );
             }
             else{
                 return (
-                    <MessageFormat3 key={item._id} url={"http://192.168.1.34:3000/"+item.image} title= {item.title}  user={this.props.user}
+                    <MessageFormat3 key={item._id} url={"http://192.168.1.34:3000/uploads/"+item.image} title= {item.title}  user={this.props.user}
                                     navigation={this.props.navigation}/>
                 );
             }
@@ -63,15 +82,26 @@ class DailyBrif extends Component {
         });
 
     }
+    _renderItem = () => (
+        <ScrollView>
+            {this.renderButtons()}
+        </ScrollView>
+
+    )
 
     render() {
         if(this.state.loading === true) {
             return (
-                <ScrollView style={styles.BackStyle}>
+                <View style={styles.BackStyle}>
                     <MainHeader/>
-                    {this.renderButtons()}
-
-                </ScrollView>
+                    <FlatList
+                        onRefresh={() => this.onRefresh()}
+                        refreshing={this.state.isFetching}
+                        data={this.state.stories}
+                        keyExtractor={(item) => item.toString()}
+                        renderItem={this._renderItem}
+                    />
+                </View>
 
             );
         }

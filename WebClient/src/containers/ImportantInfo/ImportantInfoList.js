@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import { defaultFilterMethod } from '../../Common';
 import {  getAllImportantInfo } from '../../store/api';
 import { getAllImportantInfoSuccess, showFullLoader, hideFullLoader, showMessage } from '../../store/actions/';
 
@@ -55,10 +56,11 @@ class ImportantInfoList extends Component {
             Header: '',
             accessor: '_id',
             maxWidth: '100',
+            filterable: false,
             Cell: props => <Link to={"/ImportantInfo/EditImportantInfo/" + props.value}>Edit</Link>
         }];
 
-        return <div id="importantInfoTable"><ReactTable defaultPageSize={10} className="react-table-default" data={this.props.importantInfoList} columns={columns} /></div>
+        return <div id="importantInfoTable"><ReactTable filterable defaultFilterMethod={(filter, row) => defaultFilterMethod(filter, row)} defaultPageSize={10} className="react-table-default" data={this.props.importantInfoList} columns={columns} /></div>
     }
 }
 

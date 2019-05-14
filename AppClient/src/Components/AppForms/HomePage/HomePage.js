@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Text,View,Image,Keyboard, TouchableOpacity,FlatList} from "react-native";
+import {Text,View,Image,Keyboard, TouchableOpacity,FlatList,ScrollView} from "react-native";
 import Messeges from "../Messages/Messeges";
 import Sales from "./Sales";
 import Mail from "./Mail";
@@ -153,7 +153,7 @@ render() {
         />
         <TouchableOpacity
             onPress={this._handlePressButtonAsync}
-        ><Text> Open WebBrowser</Text></TouchableOpacity>
+        ><Text>דוגמה לpdf</Text></TouchableOpacity>
     </View>
 
     );

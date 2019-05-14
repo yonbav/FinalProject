@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import { Constants, EnumFunctions } from '../../Common';
 import moment from 'moment';
 import {
     formatDate,
@@ -81,16 +82,16 @@ class UserView extends Component {
                     <div className="form-group row">
                         <label htmlFor="authorization" className="col-sm-3 col-form-label">authorization: </label>
                         <div className="input-form-radio custom-control custom-radio">
-                            <input type="radio" name="authorization" checked={this.state.user.authorization === "1"} id="user" onChange={this.handleInputChange} value={1} className="custom-control-input" />
-                            <label className="custom-control-label" htmlFor="user">User</label>
+                            <input type="radio" name="authorization" checked={this.state.user.authorization === Constants.AUTHORIZATION.EMPLOYEE} id="user" onChange={this.handleInputChange} value={Constants.AUTHORIZATION.EMPLOYEE} className="custom-control-input" />
+                            <label className="custom-control-label" htmlFor="user">{EnumFunctions.AuthEnumToString(Constants.AUTHORIZATION.EMPLOYEE)}</label>
                         </div>
                         <div className="input-form-radio custom-control custom-radio">
-                            <input type="radio" name="authorization" id="manager" checked={this.state.user.authorization === "3"} onChange={this.handleInputChange}  value={3} className="custom-control-input"  />
-                            <label className="custom-control-label" htmlFor="manager">Manager</label>
+                            <input type="radio" name="authorization" id="manager" checked={this.state.user.authorization === Constants.AUTHORIZATION.MANAGER} onChange={this.handleInputChange}  value={Constants.AUTHORIZATION.MANAGER} className="custom-control-input"  />
+                            <label className="custom-control-label" htmlFor="manager">{EnumFunctions.AuthEnumToString(Constants.AUTHORIZATION.MANAGER)}</label>
                         </div>
                         <div className="input-form-radio custom-control custom-radio">
-                            <input type="radio" name="authorization" id="supervizer" checked={this.state.user.authorization === "5"} onChange={this.handleInputChange} value={5} className="custom-control-input"  />
-                            <label className="custom-control-label" htmlFor="supervizer">Supervizer</label>
+                            <input type="radio" name="authorization" id="supervizer" checked={this.state.user.authorization === Constants.AUTHORIZATION.SUPERVIZER} onChange={this.handleInputChange} value={Constants.AUTHORIZATION.SUPERVIZER} className="custom-control-input"  />
+                            <label className="custom-control-label" htmlFor="supervizer">{EnumFunctions.AuthEnumToString(Constants.AUTHORIZATION.SUPERVIZER)}</label>
                         </div>
                     </div>
                     {

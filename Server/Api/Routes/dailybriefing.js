@@ -10,7 +10,7 @@ const authManager = require('../../Managers/AuthManager');
 const multer = require('multer');
 const fs = require('fs');
 const DAILY_BRIEFING_PATH = "./uploads/";
-const NotificationManager = require("../../Managers/NotificationManager");
+const NotificationManager = require("../../Managers/NotificationManager"); 
 const DailyBriefingManager = require("../../Managers/DailyBriefingManager");
 const { Expo } = require('expo-server-sdk');
 const { promisify } = require('util');
@@ -29,34 +29,37 @@ var somePushTokens = [];
 
 /*Service Add Client to notification list*/
 router.post('/registarnotification', async (req, res, next) => {
-
-    // Checking if the token recieved is valid. 
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
-    if (!isAuth) {
-        return res.status(401).send({ 'success': false });
-    }
-
-    const notification = new Notifications({
-        _id: new mongoose.Types.ObjectId(),
-        id: req.body.token.value,
-    });
-    Notifications.findOne({ id: req.body.token.value }).exec().then(doc => {
-        if (doc) {
-            res.status(200).json(doc);
-        } else {
-            notification.save().then(result => {
-                res.status(201).json({
-                    message: 'registar notification successfully',
-                })
-            }).catch(err => {
-                res.status(401).json({ error: err });
-            });
+    try {
+        // Checking if the token recieved is valid. 
+        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
+        if (!isAuth) {
+            return res.status(401).send({ 'success': false });
         }
-    })
-        .catch(err => {
+
+        const notification = new Notifications({
+            _id: new mongoose.Types.ObjectId(),
+            id: req.body.token.value,
+        });
+        Notifications.findOne({ id: req.body.token.value }).exec().then(doc => {
+            if (doc) {
+                res.status(200).json(doc);
+            } else {
+                notification.save().then(result => {
+                    res.status(201).json({
+                        message: 'registar notification successfully',
+                    })
+                }).catch(err => {
+                    res.status(401).json({ error: err });
+                });
+            }
+        }).catch(err => {
             console.log(err);
             res.status(500).json({ error: err });
         });
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 /*Service Add Daily Brifing*/
 router.post('/adddailybrief', upload.single('DailyBriefImage'), async (req, res, next) => {
@@ -94,68 +97,82 @@ router.post('/adddailybrief', upload.single('DailyBriefImage'), async (req, res,
 });
 /*Service Get Daily Brifing by id*/
 router.get('/:id', (req, res, next) => {
-    DailyBriefing.findOne({ title: req.params.id }).exec().then(doc => {
-        if (doc) {
-            res.status(200).json(doc);
-        } else {
-            res.status(404).json({ message: 'No valid found for Info' });
-        }
-    })
-        .catch(err => {
+    try {
+        DailyBriefing.findOne({ title: req.params.id }).exec().then(doc => {
+            if (doc) {
+                res.status(200).json(doc);
+            } else {
+                res.status(404).json({ message: 'No valid found for Info' });
+            }
+        }).catch(err => {
             console.log(err);
             res.status(500).json({ error: err });
         });
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 /*Service Get All Daily Brifing*/
 router.get('/', async (req, res, next) => {
-
-    // Checking if the token recieved is valid. 
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1);
-    if (!isAuth) {
-        return res.status(401).send({ 'success': false });
-    }
-    DailyBriefing.find().sort({ createdAt: -1 }).limit(7).exec().then(doc => {
-        if (doc) {
-            res.status(200).json(doc);
-        } else {
-            res.status(404).json({ message: 'No valid found for DailyBriefing' });
+    try {
+        // Checking if the token recieved is valid. 
+        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1);
+        if (!isAuth) {
+            return res.status(401).send({ 'success': false });
         }
-    })
-        .catch(err => {
+        DailyBriefing.find().sort({ createdAt: -1 }).limit(7).exec().then(doc => {
+            if (doc) {
+                res.status(200).json(doc);
+            } else {
+                res.status(404).json({ message: 'No valid found for DailyBriefing' });
+            }
+        }).catch(err => {
             console.log(err);
             res.status(500).json({ error: err });
         });
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 /*Service return all the unread daily brifing of the specific user*/
 router.post('/unread', async (req, res, next) => {
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
-    if (!isAuth) {
-        return res.status(401).send({ 'success': false });
+    try {
+        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
+        if (!isAuth) {
+            return res.status(401).send({ 'success': false });
+        }
+
+        DailyBriefing.findOne({ title: req.body.title, readby: { $ne: req.body.id } }).then(docs => {
+            res.status(200).json({ docs });
+        }).catch(err => {
+            res.status(401).json({ error: err });
+        });
     }
-
-    DailyBriefing.findOne({ title: req.body.title, readby: { $ne: req.body.id } }).then(docs => {
-        res.status(200).json({ docs });
-    }).catch(err => {
-        res.status(401).json({ error: err });
-    });
-
-
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 /*Service marker read all the unread daily brifing*/
 router.post('/pushread', async (req, res, next) => {
-    let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
-    if (!isAuth) {
-        return res.status(401).send({ 'success': false });
+    try {
+        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 1)
+        if (!isAuth) {
+            return res.status(401).send({ 'success': false });
+        }
+        DailyBriefing.updateOne({
+            title: req.body.title,
+            readby: { $nin: [req.body.id] }
+        }, { $push: { readby: req.body.id } }).then(docs => {
+            res.status(200).json({ docs: docs.nModified });
+        }).catch(err => {
+            res.status(401).json({ error: err });
+        });
     }
-    DailyBriefing.updateOne({
-        title: req.body.title,
-        readby: { $nin: [req.body.id] }
-    }, { $push: { readby: req.body.id } }).then(docs => {
-        res.status(200).json({ docs: docs.nModified });
-    }).catch(err => {
-        res.status(401).json({ error: err });
-    });
-
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 });
 
 

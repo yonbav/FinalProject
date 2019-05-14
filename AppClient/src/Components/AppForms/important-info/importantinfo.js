@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {Image, Keyboard, Text, TouchableOpacity, View,Dimensions} from 'react-native';
 import RequestPdf from "../RequestPdf";
 import MainHeader from "../../common/MainHeader";
-import {Body, Card, CardItem, Left} from "native-base";
+import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
 
 class importantinfo extends Component {
     constructor() {
@@ -28,15 +28,15 @@ class importantinfo extends Component {
     }
     mixFunction=(text,id)=>{
         this.props.navigation.navigate('pdf',
-            {url: "http://192.168.1.34:3000/"+this.state.Data[id].image,title: text});
+            {url: "http://192.168.1.34:3000/Information/"+this.state.Data[id].image,title: text});
     }
     renderimage(title){
         if(title === "Branches")
-            return(<Image source = {require('../../../Resources/Cell.png')} resizeMode="stretch"  style={styles.image}/>)
+            return(<Thumbnail source={require( "../../../Resources/Cell.png")} style={{height: 50, width: 50}}/>)
         else if(title === "Mate")
-            return(<Image source = {require('../../../Resources/Cell.jpg')} resizeMode="stretch" style={styles.image}/>)
+            return(<Thumbnail source={require( "../../../Resources/Cell.jpg")} style={{height: 50, width: 50}}/>)
         else{
-            return(<Image source = {require('../../../Resources/Kupa.png')}  resizeMode="stretch" style={styles.image}/>)
+            return(<Thumbnail source={require( "../../../Resources/Kupa.png")} style={{height: 50, width: 50}}/>)
         }
     }
 
@@ -47,20 +47,14 @@ class importantinfo extends Component {
                     <View key={item.id} >
                     <TouchableOpacity onPress={() => this.mixFunction(item.text,
                                           this.findWithAttr(this.state.Data,'title',item.title))}>
-
-                    <Card>
-                        <CardItem>
-                            <Left>
-                                <Body>
-                                    <Text style={{alignSelf: 'center',alignContent: 'center',fontWeight:'bold',fontSize:20}}>{item.text} </Text>
-                                </Body>
-                            </Left>
-                        </CardItem>
-                        <CardItem cardBody>
-                            {this.renderimage(item.title)}
-                        </CardItem>
-
-                    </Card>
+                        <Card>
+                            <CardItem>
+                                <Left>
+                                    {this.renderimage(item.title)}
+                            <Body>
+                                <Text style={styles.title}>{item.text}</Text>
+                            </Body>
+                        </Left></CardItem></Card>
                     </TouchableOpacity>
                     </View>
                 );
@@ -76,8 +70,6 @@ class importantinfo extends Component {
                 <RequestPdf title ="Branches" callback={this.getResponse.bind(this)}/>
                 <RequestPdf title ="Mate" callback={this.getResponse.bind(this)}/>
                 <RequestPdf title ="Kav" callback={this.getResponse.bind(this)}/>
-
-                {this.renderButtons()}
                 <TouchableOpacity onPress={()=> this.props.navigation.navigate('Minhal')}>
                 <Card>
                     <CardItem>
@@ -85,8 +77,12 @@ class importantinfo extends Component {
                                 <Text style={{alignSelf: 'center',alignContent: 'center',fontWeight:'bold',fontSize:20}}>תיקיית מנהלים</Text>
                             </Body>
                     </CardItem>
+                        <CardItem cardBody>
+                            <Image source = {require('../../../Resources/Folder.jpg')} resizeMode="stretch" style={{height: 200, width: 20, flex: 1}}/>
+                        </CardItem>
                 </Card>
                 </TouchableOpacity>
+                {this.renderButtons()}
             </View>
 
         );
@@ -120,7 +116,10 @@ const styles = {
        flex: 1,
        width: "100%",
        height: 120,
-       }
+       },
+    title:{
+        alignSelf: 'center',alignContent: 'center',fontWeight:'bold',fontSize:20
+    }
 }
 
 export default importantinfo;

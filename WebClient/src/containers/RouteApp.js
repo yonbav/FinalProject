@@ -35,6 +35,9 @@ import DailyBriefingsList from './DailyBriefings/DailyBriefingsList';
 import ImportantInfoList from './ImportantInfo/ImportantInfoList';
 import EditImportantInfo from './ImportantInfo/EditImportantInfo';
 
+import MessageReadByList from './ReadBy/MessageReadByList';
+import BriefingReadByList from './ReadBy/BriefingReadByList';
+
 class RouterApp extends React.Component {
 
     constructor(props){
@@ -115,6 +118,10 @@ class RouterApp extends React.Component {
                             <Route exact path="/ImportantInfo" component={ImportantInfoList}/>
                             <Route exact path="/ImportantInfo/ImportantInfoList" component={ImportantInfoList}/>
                             <Route exact path="/ImportantInfo/EditImportantInfo/:id" component={EditImportantInfo}/>
+                        </Switch>
+                        <Switch>
+                            <Route exact path="/readby/ImportantMessage/:id" component={MessageReadByList}/>
+                            <Route exact path="/readby/DailyBriefing/:id" component={BriefingReadByList}/>
                         </Switch>
                     </main>
                     {message && message.isShowMsg && message.data.type === 'error' && NotificationManager.error (message.data.msg, 'Error')}
