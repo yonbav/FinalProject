@@ -91,6 +91,7 @@ export default class PdfView extends React.Component {
         const title = navigation.getParam('title');
         const url = navigation.getParam('url');
         const user = navigation.getParam('user');
+        console.log(url);
         return (
             <View style={styles.container}>
                 <View style={styles.Pdf}>
