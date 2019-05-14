@@ -107,7 +107,7 @@ router.post('/deleteinfo',upload.single('InfoImage'),async (req,res,next) => {
             return res.status(401).send({ 'success': false });
         }
         var infoFileName = await findFileNameByIdAsync(req.body._id);
-        unlinkAsync(INFO_FILES_PATH + infoFileName).catch(err => log(`Important Info failed to delete file. error: ${err}`));;
+        unlinkAsync(INFO_FILES_PATH + infoFileName).catch(err => log(`Important Info failed to delete file. error: ${err}`));
         Info.deleteOne({ _id: req.body._id })
             .then(result => {
                 res.status(200).json({
