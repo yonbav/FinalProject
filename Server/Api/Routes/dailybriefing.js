@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, DAILY_BRIEFING_PATH);
     },
-    briefingFileName: function (req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, file.originalname);
     }
 });
@@ -168,8 +168,8 @@ router.post('/deletedailybrief', upload.single('DailyBriefImage'), async (req, r
             return res.status(401).send({ 'success': false });
         }
 
-        var briefingFileName = await DailyBriefingManager.findFileNameByIdAsync(req.body._id)
-        await unlinkAsync(DAILY_BRIEFING_PATH + briefingFileName);
+        var briefingFileName = await DailyBriefingManager.findFileNameByIdAsync(req.body._id)        
+        unlinkAsync(DAILY_BRIEFING_PATH + briefingFileName).catch(err => log(`Dialy Briefing failed to delete file. error: ${err}`));
         DailyBriefing.deleteOne({ _id: req.body._id })
             .then(result => {
                 res.status(200).json({
@@ -199,8 +199,8 @@ router.post('/editdailybrief/:id', upload.single('DailyBriefImage'), async (req,
 
         // Checking if the file was edited and we need to delete the old one
         var briefingFileName = await DailyBriefingManager.findFileNameByIdAsync(id)
-        if (req.file.filename && req.file.filename !== briefingFileName)
-            await unlinkAsync(DAILY_BRIEFING_PATH + briefingFileName);
+        if (req.file && req.file.filename && req.file.filename !== briefingFileName)
+            unlinkAsync(DAILY_BRIEFING_PATH + briefingFileName).catch(err => log(`Dialy Briefing failed to delete file. error: ${err}`));
 
         let updateOpt = convertJsonToUpdateOpt(req.body);
         DailyBriefing.updateOne({ _id: id }, { $set: updateOpt })

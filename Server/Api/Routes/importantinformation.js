@@ -94,7 +94,7 @@ router.post('/deleteinfo',upload.single('InfoImage'),async (req,res,next) => {
         return res.status(401).send({'success': false});
     }
     var infoFileName = await findFileNameByIdAsync(req.body._id);
-    await unlinkAsync(INFO_FILES_PATH + infoFileName);
+    unlinkAsync(INFO_FILES_PATH + infoFileName).catch(err => log(`Important Info failed to delete file. error: ${err}`));;
     Info.deleteOne({_id: req.body._id})
         .then(result => {
             res.status(200).json({
@@ -122,8 +122,8 @@ router.post('/editinfo/:id',upload.single('InfoImage'),async(req,res,next) => {
 
         // checking if need to remove oldfile because new file was uploaded
         var infoFileName = await findFileNameByIdAsync(id);
-        if(req.file.filename && req.file.filename !== infoFileName)        
-            await unlinkAsync(INFO_FILES_PATH + infoFileName);
+        if(req.file && req.file.filename && req.file.filename !== infoFileName)        
+            unlinkAsync(INFO_FILES_PATH + infoFileName).catch(err => log(`Important Info failed to delete file. error: ${err}`));
 
         const updateOpt = convertJsonToUpdateOpt(req.body);
         Info.updateOne({ _id: id }, { $set: updateOpt })
