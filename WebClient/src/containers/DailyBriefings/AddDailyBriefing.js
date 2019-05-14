@@ -32,9 +32,6 @@ class AddDailyBriefing extends Component {
                 type: 'success',
                 msg: 'briefing was successfully added.'
             })
-            
-            // Routing bact to the user addition
-            window.location.href = "/DailyBriefings/DailyBriefingsList";
         })
         .catch(error => {
             this.props.showMessage({

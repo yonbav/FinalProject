@@ -30,9 +30,6 @@ class AddImportantMessage extends Component {
                 type: 'success',
                 msg: 'Message was successfully added.'
             })
-            
-            // Routing bact to the user addition
-            window.location.href = "/ImportantMessages/ImportantMessagesList";
         })
         .catch(error => {
             this.props.showMessage({
