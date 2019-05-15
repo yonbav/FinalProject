@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
+import { CSVLink } from "react-csv";
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { getAllUsers } from '../../store/api';
 import {EnumFunctions, defaultFilterMethod} from '../../Common';
 import { showMessage, getAllUsersSuccess, showFullLoader, hideFullLoader } from '../../store/actions';
 
-
 class ReadByList extends Component {
     constructor(props) {
         super(props);
-        this.state = {readByUsers:[]}
+        this.state = { readByUsers:[] }
         this.getAllUsersFromSever = this.getAllUsersFromSever.bind(this);
     }
 
@@ -63,8 +64,23 @@ class ReadByList extends Component {
         },{
             Header: 'Branch',
             accessor: 'branch',
-          }];
-        return <div id="usersTable"><ReactTable filterable defaultFilterMethod={(filter, row) => defaultFilterMethod(filter, row)} defaultPageSize={10} className="react-table-default" data={this.state.readByUsers} columns={columns} /></div>
+          }
+        ];
+
+        const csvHeaders = [
+            { label: "ID", key: "id" },
+            { label: "First Name", key: "firstname" },
+            { label: "Last Name", key: "lastname" },
+            { label: "Authorization", key: "authorization" },
+            { label: "Branch", key: "branch" },
+        ];
+        
+        const csvFileName = `readby_${moment().format("DD_MM_YYYY_hh_mm_ss")}.csv` 
+           
+        return (<div id="usersTable">
+            <ReactTable filterable defaultFilterMethod={(filter, row) => defaultFilterMethod(filter, row)} defaultPageSize={10} className="react-table-default" data={this.state.readByUsers} columns={columns} />
+            <div style={{fontWieght:"700", textDecoration:"underline", fontSize: "20px", display:"flex", justifyContent:"center"}}><CSVLink filename={csvFileName} data={this.state.readByUsers} headers={csvHeaders}>Import to Excel</CSVLink></div>
+            </div>);
     }
 }
 
