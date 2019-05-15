@@ -59,7 +59,7 @@ class ImportantInfoView extends Component {
                     <div className="form-title">{this.props.Title}</div>
                     <div className="form-group row">
                         <label htmlFor="title" className="col-sm-3 col-form-label">Title: </label>
-                        <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="title" value={this.state.info.title} placeholder="Enter title"></input>
+                        <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="title" value={this.state.info.title} disabled></input>
                     </div>   
                     <div className="form-group row">
                         <label htmlFor="displayName" className="col-sm-3 col-form-label">Display Name: </label>

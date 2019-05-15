@@ -18,6 +18,7 @@ import {
 import {checkToken} from '../store/api';
 
 import Home from './Home';
+import LoginForm from '../components/LoginForm'
 
 import AddUser from './Users/AddUser';
 import EditUser from './Users/EditUser';
@@ -87,7 +88,8 @@ class RouterApp extends React.Component {
 
         return (            
             <div>
-                <div id="app-main">
+                <div id="app-main">                
+                    <LoginForm />
                     <Splash/>
                     <Header/>
                     <ImageSlider/>

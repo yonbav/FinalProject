@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import LoginForm from '../components/LoginForm'
 import YouTube from 'react-youtube';
 
 class Home extends Component {
@@ -25,7 +24,6 @@ class Home extends Component {
 
         return (
             <div id="home">
-                <LoginForm />
                 <div style={{display:"flex", justifyContent:"center"}}>
                     <YouTube
                         videoId="_9QSx85H_Z8"
