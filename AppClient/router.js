@@ -29,7 +29,7 @@ import ForgetPassword from "./src/Components/AppForms/ForgetPassword/ForgetPassw
 import CodeVerify from "./src/Components/AppForms/ForgetPassword/CodeVerify";
 import ForgetPasswordChange from "./src/Components/AppForms/ForgetPassword/ForgetPasswordChange";
 import Minhal from "./src/Components/AppForms/EmployeeTraining/Minhal"
-
+import Guidance from "./src/Components/AppForms/EmployeeTraining/guidance"
 
 
 export const SignedOut = createStackNavigator({
@@ -207,6 +207,16 @@ export const Emp = createStackNavigator({
         screen: EmployeeTraining,
         navigationOptions: {
             header: null,
+        },
+    },
+    Guidance: {
+        screen: Guidance,
+        navigationOptions: {
+            title: 'תיקיית הדרכות',
+            headerTitleStyle : {textAlign: 'center',alignSelf:'center',color:"#fff",},
+            headerStyle:{
+                backgroundColor:'#ffc68d',
+            },
         },
     },
     pdf: {

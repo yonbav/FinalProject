@@ -4,7 +4,7 @@ const Notifications = require('../models/Notifications.');
 var somePushTokens = [];
 
 module.exports = {
-    SendNotificationAsync: async (title,message,token) => {
+    SendNotificationAsync: async (title,message,token,type) => {
         try {
             let isAuth = await authManager.isTokenValidAsync(token, 5)
             if (!isAuth) {
@@ -36,7 +36,7 @@ module.exports = {
                     sound: 'default',
                     title: title,
                     body: message,
-                    data: { withSome: 'data' },
+                    data: { withSome: type },
                 })
             }
 

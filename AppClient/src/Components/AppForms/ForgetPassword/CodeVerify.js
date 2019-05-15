@@ -29,7 +29,7 @@ class CodeVerify extends Component{
         const mail = navigation.getParam('mail');
         this.setState({
             loading: true});
-        axios.post('http://192.168.1.34:3000/Auth/verifycode',{
+        axios.post('http://192.168.43.209:3000/Auth/verifycode',{
             code: this.state.codeinput,
             mail: mail
         }).then(result => {

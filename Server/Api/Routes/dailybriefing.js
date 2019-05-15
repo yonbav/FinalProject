@@ -79,7 +79,7 @@ router.post('/adddailybrief', upload.single('DailyBriefImage'), async (req, res,
         });
 
         dailybriefing.save().then(() => {
-            let isNotification = NotificationManager.SendNotificationAsync("קרביץ עובדים", 'תדריך יומי עלה נא להכנס', req.headers.token);
+            let isNotification = NotificationManager.SendNotificationAsync("קרביץ עובדים", 'תדריך יומי עלה נא להכנס', req.headers.token,'Daily');
             if (!isNotification) {
                 return res.status(401).send({ 'success': false });
             }

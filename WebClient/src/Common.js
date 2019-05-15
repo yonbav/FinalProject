@@ -1,5 +1,5 @@
 export const Constants = {
-    SERVER_URL: 'http://localhost:3000',
+    SERVER_URL: 'http://192.168.43.209:3000',
     ERROR_MESSAGES: [
     ],
     INTERAL_ERROR_MESSAGE: "Internal server error, please check server logs.",

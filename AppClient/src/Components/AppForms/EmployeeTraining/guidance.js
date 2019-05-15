@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View,} from 'react-native';
 import ReqInfo from "./ReqInfo";
 
-class Minhal extends Component {
+class guidance extends Component {
 
     constructor() {
         super();
@@ -13,12 +13,12 @@ class Minhal extends Component {
     }
 
     render() {
-            return (
-                <ScrollView style={[styles.BackStyle,{flex:1}]}>
-                    <ReqInfo  navigation={this.props.navigation} type="minhal"/>
-                </ScrollView>
+        return (
+            <ScrollView style={[styles.BackStyle,{flex:1}]}>
+                <ReqInfo  navigation={this.props.navigation} type="guidance"/>
+            </ScrollView>
 
-            );
+        );
 
 
     }
@@ -35,4 +35,4 @@ const styles = {
     }
 }
 
-export default Minhal;
+export default guidance;
