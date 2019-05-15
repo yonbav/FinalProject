@@ -10,7 +10,7 @@ class Harassment extends Component{
     }
     async GetData() {
         const value = await AsyncStorage.getItem('id_token');
-        axios.get("http://192.168.1.34:3000/info/harassment"
+        axios.get("http://192.168.43.209:3000/info/harassment"
             ,{ headers: { token: value} }).then((res) => {
             if(res.data.success !== false){
                 this.handleClick(res.data);

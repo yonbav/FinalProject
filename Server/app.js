@@ -34,6 +34,7 @@ const dailybriefingfunc = require("./Api/Routes/dailybriefing");
 const jobsfunc = require("./Api/Routes/jobs");
 const infofunc = require("./Api/Routes/importantinformation");
 const minhalfunc = require("./Api/Routes/Minhal");
+const guidancefunc = require("./Api/Routes/Guidance");
 
 app.use('/uploads', express.static(path.join('uploads')));
 app.use('/Information', express.static(path.join('Information')));
@@ -48,6 +49,7 @@ app.use("/daily",dailybriefingfunc);
 app.use("/jobs",jobsfunc);
 app.use("/info",infofunc);
 app.use("/minhal",minhalfunc);
+app.use("/guidance",guidancefunc);
 
 
 setInterval(function () {

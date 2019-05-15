@@ -28,7 +28,7 @@ class importantinfo extends Component {
     }
     mixFunction=(text,id)=>{
         this.props.navigation.navigate('pdf',
-            {url: "http://192.168.1.34:3000/Information/"+this.state.Data[id].image,title: text});
+            {url: "http://192.168.43.209:3000/Information/"+this.state.Data[id].image,title: text});
     }
     renderimage(title){
         if(title === "Branches")
@@ -74,7 +74,7 @@ class importantinfo extends Component {
                 <Card>
                     <CardItem>
                             <Body>
-                                <Text style={{alignSelf: 'center',alignContent: 'center',fontWeight:'bold',fontSize:20}}>תיקיית מנהלים</Text>
+                                <Text style={{alignSelf: 'center',alignContent: 'center',fontWeight:'bold',fontSize:20}}>תיקיית נהלים</Text>
                             </Body>
                     </CardItem>
                         <CardItem cardBody>

@@ -29,7 +29,7 @@ class ForgetPassword extends Component{
     onPressButton() {
         this.setState({
             loading: true});
-        axios.post('http://192.168.1.34:3000/Auth/forget',{
+        axios.post('http://192.168.43.209:3000/Auth/forget',{
             mail: this.state.mailinput
         }).then(result => {
             if(result.data.success === true)

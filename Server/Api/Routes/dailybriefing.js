@@ -9,7 +9,7 @@ const User = require('../../models/user');
 const authManager = require('../../Managers/AuthManager');
 const multer = require('multer');
 const fs = require('fs');
-const DAILY_BRIEFING_PATH = "./uploads/";
+const DAILY_BRIEFING_PATH = "./Information/";
 const NotificationManager = require("../../Managers/NotificationManager"); 
 const DailyBriefingManager = require("../../Managers/DailyBriefingManager");
 const { Expo } = require('expo-server-sdk');
@@ -79,7 +79,7 @@ router.post('/adddailybrief', upload.single('DailyBriefImage'), async (req, res,
         });
 
         dailybriefing.save().then(() => {
-            let isNotification = NotificationManager.SendNotificationAsync("קרביץ עובדים", 'תדריך יומי עלה נא להכנס', req.headers.token);
+            let isNotification = NotificationManager.SendNotificationAsync("קרביץ עובדים", 'תדריך יומי עלה נא להכנס', req.headers.token,'Daily');
             if (!isNotification) {
                 return res.status(401).send({ 'success': false });
             }

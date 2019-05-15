@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Image, Keyboard, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Keyboard, Text, TouchableOpacity, View,ScrollView} from 'react-native';
 import Harassment from "./Harassment";
 import MainHeader from "../../common/MainHeader";
 import HaressmentFormat from "./HaressmentFormat";
@@ -25,15 +25,15 @@ class HumanResources extends Component {
 
     render() {
         return (
-            <View style={styles.BackStyle}>
+            <ScrollView style={styles.BackStyle}>
                 <MainHeader/>
                 <Harassment  callback={this.getResponse.bind(this)}/>
                 <BirthdayFormat   title="ימי הולדת" navigation={this.props.navigation}/>
                 <JobsFormat   title="חבר מביא חבר" navigation={this.props.navigation}/>
-                <HaressmentFormat  url={"http://192.168.1.34:3000/Information/"+this.state.harassmentData.image} title="תקנון מניעת הטרדה מינית"  user={this.props.user}
+                <HaressmentFormat  url={"http://192.168.43.209:3000/Information/"+this.state.harassmentData.image} title="תקנון מניעת הטרדה מינית"  user={this.props.user}
                                     navigation={this.props.navigation}/>
 
-            </View>
+            </ScrollView>
 
         );
     }

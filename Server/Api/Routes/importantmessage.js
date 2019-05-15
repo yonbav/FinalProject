@@ -37,7 +37,7 @@ router.post('/addmessage', async (req, res, next) => {
         });
 
         message.save().then(() => {
-            let isNotification = NotificationManager.SendNotificationAsync("קרביץ עובדים", 'הודעה חשובה עלתה נא להכנס', req.headers.token);
+            let isNotification = NotificationManager.SendNotificationAsync("קרביץ עובדים", 'הודעה חשובה עלתה נא להכנס', req.headers.token,'Message');
             if (!isNotification) {
                 return res.status(401).send({ 'success': false });
             }
