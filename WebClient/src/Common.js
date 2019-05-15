@@ -7,7 +7,8 @@ export const Constants = {
         EMPLOYEE   : "1",
         MANAGER    : "3",
         SUPERVIZER : "5",
-    }
+    },
+    PDF_FOLDER_NAME: "/information/"
 }
 
 export const clone = (src) => {

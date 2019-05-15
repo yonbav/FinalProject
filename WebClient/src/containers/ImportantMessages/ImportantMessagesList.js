@@ -79,7 +79,7 @@ class ImportantMessagesList extends Component {
         }, {
             Header: 'Link',
             accessor: 'link',
-            Cell: props => <div style={{ textAlign: "right" }}>{props.value}</div>
+            Cell: props => <a href={props.value} style={{ textAlign: "right" }}>{props.value}</a>
         }, {
             Header: 'created Date',
             accessor: 'createdtime',

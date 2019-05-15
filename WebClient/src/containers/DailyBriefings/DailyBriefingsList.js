@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { defaultFilterMethod } from '../../Common';
+import { defaultFilterMethod, Constants } from '../../Common';
 import { deleteDailyBriefing, getAllDailyBriefings } from '../../store/api';
 import { getAllDailyBriefingsSuccess, deleteDailyBriefingSuccess, showFullLoader, showMessage, hideFullLoader } from '../../store/actions'
 
@@ -73,7 +73,7 @@ class DailyBriefingsList extends Component {
         }, {
             Header: 'File Name',
             accessor: 'image',
-            Cell: props => <span className='number'>{props.value}</span>
+            Cell: props => <a href={`${Constants.SERVER_URL}${Constants.PDF_FOLDER_NAME}${props.value}`}>{props.value}</a>
         }, {
             Header: '',
             accessor: '_id',
