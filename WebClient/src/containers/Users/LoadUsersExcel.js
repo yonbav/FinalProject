@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import uploadIcon from '../../images/upload-icon.png';
 import XLSX from 'xlsx';
-import {addUser} from '../../store/api'
-import { showMessage, showFullLoader, hideFullLoader, addUserSuccess } from '../../store/actions';
+import {addUser, deleteUser, getAllUsers} from '../../store/api'
+import { showMessage, showFullLoader, hideFullLoader, addUserSuccess, getAllUsersSuccess, deleteUserSuccess } from '../../store/actions';
 import { connect } from 'react-redux';
 
 class LoadUsersExcel extends Component {
@@ -10,7 +10,9 @@ class LoadUsersExcel extends Component {
         super(props);
         this.state = {
             usersListFromFile: [],
-            usersExcelFile: {}
+            usersExcelFile: {},
+            submitCounter: 0,
+            totalUsersToEdit:0,
         };
 
         this.onFileChanged = this.onFileChanged.bind(this);
@@ -20,6 +22,29 @@ class LoadUsersExcel extends Component {
 
     componentDidMount() {
         document.getElementById("loadUsersExcel").scrollIntoView();
+    }
+
+    componentWillMount() {
+        this.props.showFullLoader();
+
+        getAllUsers(this.props.loggedUser.token).then(res => {
+            // If failed to get all users
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to edit user.'
+                })
+                return;
+            }
+            this.props.getAllUsersSuccess(res.data.user);
+        }).catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to get all users.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        });
     }
 
     onFileChanged(event) { 
@@ -73,9 +98,31 @@ class LoadUsersExcel extends Component {
         return jsonData;
     }
 
+    deleteAllUsers(usersList) {
+        usersList.forEach(newUser => {
+            deleteUser({_id:newUser._id}, this.props.loggedUser.token).then(res => {
+                // If failed to delete the user
+                if (res.status < 200 || res.status >= 300) {
+                    this.props.showMessage({ type: 'error', msg: `Failed to delete user ${newUser.id}` });
+                }
+                else {
+                    this.props.deleteUserSuccess(newUser);
+                    this.props.showMessage({ type: 'success', msg: `user ${newUser.id} was deleted` })
+                }
+            }).catch(error => {
+                    this.props.showMessage({ type: 'error', msg: `Failed to delete users` })
+                }).finally(() => {
+                    this.setState({submitCounter:this.state.submitCounter+1});
+                    if (this.state.submitCounter >= this.state.totalUsersToEdit)
+                    {
+                        this.props.hideFullLoader()
+                        this.props.showMessage({ type: 'success', msg: 'Finish deleting users.' })
+                    }
+                })
+        });
+    }
+
     addAllUsers(usersList) {
-        let counter=0;
-        this.props.showFullLoader()
         usersList.forEach(newUser => {
             addUser(newUser, this.props.loggedUser.token).then(res => {
                 // If failed to add the user
@@ -87,10 +134,10 @@ class LoadUsersExcel extends Component {
                     this.props.showMessage({ type: 'success', msg: `user ${newUser.id} was added` })
                 }
             }).catch(error => {
-                    this.props.showMessage({ type: 'error', msg: `Failed to add users ${newUser.id}` })
+                    this.props.showMessage({ type: 'error', msg: `Failed to add users` })
                 }).finally(() => {
-                    counter++;
-                    if (counter === usersList.length)
+                    this.setState({submitCounter:this.state.submitCounter+1});
+                    if (this.state.submitCounter >= this.state.totalUsersToEdit)
                     {
                         this.props.hideFullLoader()
                         this.props.showMessage({ type: 'success', msg: 'Finish adding all users.' })
@@ -106,8 +153,41 @@ class LoadUsersExcel extends Component {
             this.props.showMessage({type: 'error', msg: 'Invalid file, please upload another file.'});
             return;
         }
+        
+        // Getting the users need to add
+        let usersToAdd = [];
+        // Getting the users need to delete
+        let usersToDelete = []; 
+        // Concatenating the users from excel and the current users list 
+        let allUsers = this.props.allUsersList.concat(this.state.usersListFromFile);
 
-        this.addAllUsers(this.state.usersListFromFile);
+        // Foreach user we check if he needs to be added or deleted or nothing needs to be doe with him
+        allUsers.forEach(curUser => {
+            let userExistInFile=this.state.usersListFromFile.some(usr => usr.id === curUser.id);
+            let userExistInDB=this.props.allUsersList.some(usr => usr.id === curUser.id);
+
+            if (userExistInFile && !userExistInDB) {
+                usersToAdd.push(curUser);
+            }
+            else if (!userExistInFile && userExistInDB) {
+                usersToDelete.push(curUser);
+            }
+        })
+
+        // Setting the submit counter and totalUsersToEdit for hide loading logic.
+        // We will hide the loading when submitCounter is equal to total users to edit
+        this.setState({submitCounter:0});
+        this.setState({totalUsersToEdit:usersToAdd.length + usersToDelete.length});
+
+        if (this.state.totalUsersToEdit === 0)
+        {
+            this.props.showMessage({type:"info", msg:"Loading succeded. No changes found from current users data."})
+            return;
+        }
+
+        this.props.showFullLoader();
+        this.addAllUsers(usersToAdd);
+        this.deleteAllUsers(usersToDelete);
     }
 
     render() {
@@ -133,16 +213,18 @@ class LoadUsersExcel extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { loggedUser } = state.users;
-    return { loggedUser }
+    const { loggedUser, allUsersList } = state.users;
+    return { loggedUser, allUsersList }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         showFullLoader: () => { dispatch(showFullLoader()) },
         hideFullLoader: () => { dispatch(hideFullLoader()) },
-        showMessage: (message) => { dispatch(showMessage(message)) },
-        addUserSuccess: (newUser) => {dispatch(addUserSuccess(newUser))}
+        showMessage: (message) => { dispatch(showMessage(message)) }, 
+        addUserSuccess: (newUser) => {dispatch(addUserSuccess(newUser))},
+        deleteUserSuccess: (newUser) => {dispatch(deleteUserSuccess(newUser))},
+        getAllUsersSuccess: (newUser) => {dispatch(getAllUsersSuccess(newUser))},
     }
 }
 
