@@ -29,6 +29,10 @@ import AddImportantMessage from './ImportantMessages/AddImportantMessage';
 import EditImportantMessage from './ImportantMessages/EditImportantMessage';
 import ImportantMessagesList from './ImportantMessages/ImportantMessagesList';
 
+import AddLinkItem from './Links/AddLinkItem';
+import EditLinkItem from './Links/EditLinkItem';
+import LinkItemsList from './Links/LinkItemsList';
+
 import AddDailyBriefing from './DailyBriefings/AddDailyBriefing';
 import EditDailyBriefing from './DailyBriefings/EditDailyBriefing';
 import DailyBriefingsList from './DailyBriefings/DailyBriefingsList';
@@ -120,6 +124,12 @@ class RouterApp extends React.Component {
                             <Route exact path="/ImportantInfo" component={ImportantInfoList}/>
                             <Route exact path="/ImportantInfo/ImportantInfoList" component={ImportantInfoList}/>
                             <Route exact path="/ImportantInfo/EditImportantInfo/:id" component={EditImportantInfo}/>
+                        </Switch>
+                        <Switch>
+                            <Route exact path="/LinkItems" component={LinkItemsList}/>
+                            <Route exact path="/LinkItems/AddLinkItem" component={AddLinkItem}/>
+                            <Route exact path="/LinkItems/EditLinkItem/:id" component={EditLinkItem}/>
+                            <Route exact path="/LinkItems/LinkItemsList" component={LinkItemsList}/>
                         </Switch>
                         <Switch>
                             <Route exact path="/readby/ImportantMessage/:id" component={MessageReadByList}/>

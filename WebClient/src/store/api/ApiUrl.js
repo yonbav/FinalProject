@@ -31,6 +31,17 @@ export default {
     // Get all important messages
     GET_ALL_IMPORTANT_MESSAGES: `${Constants.SERVER_URL}/message/`,
 
+    /// link item ///
+
+    // Add a link item
+    ADD_LINK_ITEM: `${Constants.SERVER_URL}/link/addLink`,
+    // Edit a link item
+    EDIT_LINK_ITEM: `${Constants.SERVER_URL}/link/editLink`,
+    // Delete a link item
+    DELETE_LINK_ITEM: `${Constants.SERVER_URL}/link/deleteLink`,
+    // Get all link items
+    GET_ALL_LINK_ITEMS: `${Constants.SERVER_URL}/link/`,
+
     /// important info ///
 
     // Edit an important info

@@ -28,6 +28,16 @@ export const DELETE_IMPORTANT_MESSAGE_SUCCESS = 'delete_important_message_succes
 
 export const EDIT_IMPORTANT_MESSAGE_SUCCESS = 'edit_important_message_success';
 
+// link items
+
+export const ADD_LINK_ITEM_SUCCESS = 'add_link_item_success';
+
+export const GET_ALL_LINK_ITEMS_SUCCESS = 'get_all_link_items_success';
+
+export const DELETE_LINK_ITEM_SUCCESS = 'delete_link_item_success';
+
+export const EDIT_LINK_ITEM_SUCCESS = 'edit_link_item_success';
+
 // daily briefing
 
 export const ADD_DAILY_BRIEFING_SUCCESS = 'add_daily_briefing_success';

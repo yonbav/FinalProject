@@ -60,6 +60,9 @@ class Header extends Component {
                 <DropdownItem MainLabel="Messages"
                     Label_1="Add Message" Link_1="/ImportantMessages/AddImportantMessage"
                     Label_2="Manage Messages" Link_2="/ImportantMessages/ImportantMessagesList" />
+                <DropdownItem MainLabel="Links"
+                    Label_1="Add Link" Link_1="/LinkItems/AddLinkItem"
+                    Label_2="Manage Links" Link_2="/LinkItems/LinkItemsList" />
                 <DropdownItem MainLabel="Important Info"
                     Label_2="Manage Important Info" Link_2="/ImportantInfo/ImportantInfoList" />
             </div>
