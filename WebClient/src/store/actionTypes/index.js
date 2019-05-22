@@ -48,6 +48,16 @@ export const DELETE_DAILY_BRIEFING_SUCCESS = 'delete_daily_briefing_success';
 
 export const EDIT_DAILY_BRIEFING_SUCCESS = 'edit_daily_briefing_success';
 
+// minhal
+
+export const ADD_MINHAL_SUCCESS = 'add_minhal_success';
+
+export const GET_ALL_MINHALS_SUCCESS = 'get_all_minhals_success';
+
+export const DELETE_MINHAL_SUCCESS = 'delete_minhal_success';
+
+export const EDIT_MINHAL_SUCCESS = 'edit_minhal_success';
+
 // important info
 
 export const GET_ALL_IMPORTANT_INFO_SUCCESS = 'get_all_important_info_success';

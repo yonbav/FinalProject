@@ -5,6 +5,7 @@ import Message from './ImportantMessage';
 import Briefing from './DailyBriefing';
 import Info from './ImportantInfo';
 import Link from './LinkItem';
+import Minhal from './Minhal';
 
 
 const reducers = combineReducers ({
@@ -13,7 +14,8 @@ const reducers = combineReducers ({
     messages: Message,
     briefings: Briefing,
     info: Info,
-    links: Link
+    links: Link,
+    minhals: Minhal,
 });
 
 export default reducers;

@@ -33,6 +33,10 @@ import AddLinkItem from './Links/AddLinkItem';
 import EditLinkItem from './Links/EditLinkItem';
 import LinkItemsList from './Links/LinkItemsList';
 
+import AddMinhal from './Minhals/AddMinhal';
+import EditMinhal from './Minhals/EditMinhal';
+import MinhalsList from './Minhals/MinhalsList';
+
 import AddDailyBriefing from './DailyBriefings/AddDailyBriefing';
 import EditDailyBriefing from './DailyBriefings/EditDailyBriefing';
 import DailyBriefingsList from './DailyBriefings/DailyBriefingsList';
@@ -130,6 +134,12 @@ class RouterApp extends React.Component {
                             <Route exact path="/LinkItems/AddLinkItem" component={AddLinkItem}/>
                             <Route exact path="/LinkItems/EditLinkItem/:id" component={EditLinkItem}/>
                             <Route exact path="/LinkItems/LinkItemsList" component={LinkItemsList}/>
+                        </Switch>
+                        <Switch>
+                            <Route exact path="/Minhals" component={MinhalsList}/>
+                            <Route exact path="/Minhals/AddMinhal" component={AddMinhal}/>
+                            <Route exact path="/Minhals/EditMinhal/:id" component={EditMinhal}/>
+                            <Route exact path="/Minhals/MinhalsList" component={MinhalsList}/>
                         </Switch>
                         <Switch>
                             <Route exact path="/readby/ImportantMessage/:id" component={MessageReadByList}/>

@@ -177,7 +177,7 @@ router.post('/pushread', async (req, res, next) => {
 
 
 /*Service Delete daily brifing*/
-router.post('/deletedailybrief', upload.single('DailyBriefImage'), async (req, res, next) => {
+router.post('/deletedailybrief', async (req, res, next) => {
     try {
         // Checking if the token recieved is valid. 
         let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)

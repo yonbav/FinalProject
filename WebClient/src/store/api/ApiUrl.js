@@ -51,13 +51,24 @@ export default {
 
     /// daily briefing ///
 
-    // Add an daily briefing
+    // Add a daily briefing
     ADD_DAILY_BRIEFING: `${Constants.SERVER_URL}/daily/addDailyBrief`,
-    // Edit an daily briefing
+    // Edit a daily briefing
     EDIT_DAILY_BRIEFING: `${Constants.SERVER_URL}/daily/editDailyBrief`,
-    // Delete an daily briefing
+    // Delete a daily briefing
     DELETE_DAILY_BRIEFING: `${Constants.SERVER_URL}/daily/deleteDailyBrief`,
     // Get all daily briefing
     GET_ALL_DAILY_BRIEFINGS: `${Constants.SERVER_URL}/daily/`,
+    
+    /// minhals ///
+
+    // Add minhal
+    ADD_MINHAL: `${Constants.SERVER_URL}/minhal/addMinhal`,
+    // Edit minhal
+    EDIT_MINHAL: `${Constants.SERVER_URL}/minhal/editMinhal`,
+    // Delete minhal
+    DELETE_MINHAL: `${Constants.SERVER_URL}/minhal/deleteMinhal`,
+    // Get all minhals
+    GET_ALL_MINHALS: `${Constants.SERVER_URL}/minhal/`,
 }
 

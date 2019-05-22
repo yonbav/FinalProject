@@ -39,15 +39,15 @@ class ImportantMessageView extends Component {
                 <div className="form-title">{this.props.formTitle}</div>
                     <div className="form-group row">
                         <label htmlFor="title" className="col-sm-3 col-form-label">Title: </label>
-                        <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="title" value={this.state.message.title} placeholder="Enter text"></input>
+                        <input type="text" className="form-control col-sm-8" onChange={this.handleInputChange} id="title" value={this.state.message ? this.state.message.title : {}} placeholder="Enter text"></input>
                     </div>
                     <div className="form-group row">
                         <label htmlFor="link" className="col-sm-3 col-form-label">Link: </label>
-                        <input type="link" className="form-control col-sm-8" onChange={this.handleInputChange} id="link" value={this.state.message.link} placeholder="Enter link"></input>
+                        <input type="link" className="form-control col-sm-8" onChange={this.handleInputChange} id="link" value={this.state.message ? this.state.message.link : {}} placeholder="Enter link"></input>
                     </div>
                     <div className="form-group row">
                         <label htmlFor="contect" className="col-sm-3 col-form-label">Content: </label>
-                        <textarea className="form-control col-sm-8" id="contect" onChange={this.handleInputChange} value={this.state.message.contect} placeholder="Enter text" rows="5"></textarea>
+                        <textarea className="form-control col-sm-8" id="contect" onChange={this.handleInputChange} value={this.state.message ? this.state.message.contect : {}} placeholder="Enter text" rows="5"></textarea>
                     </div>   
                     <div className="submit-button-div">                 
                         <button type="submit" className="submit-button btn btn-primary">Submit</button>
