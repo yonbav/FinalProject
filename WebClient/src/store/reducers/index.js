@@ -6,6 +6,7 @@ import Briefing from './DailyBriefing';
 import Info from './ImportantInfo';
 import Link from './LinkItem';
 import Minhal from './Minhal';
+import Job from './Job';
 
 
 const reducers = combineReducers ({
@@ -16,6 +17,7 @@ const reducers = combineReducers ({
     info: Info,
     links: Link,
     minhals: Minhal,
+    jobs: Job,
 });
 
 export default reducers;

@@ -58,6 +58,16 @@ export const DELETE_MINHAL_SUCCESS = 'delete_minhal_success';
 
 export const EDIT_MINHAL_SUCCESS = 'edit_minhal_success';
 
+// job
+
+export const ADD_JOB_SUCCESS = 'add_job_success';
+
+export const GET_ALL_JOBS_SUCCESS = 'get_all_jobs_success';
+
+export const DELETE_JOB_SUCCESS = 'delete_job_success';
+
+export const EDIT_JOB_SUCCESS = 'edit_job_success';
+
 // important info
 
 export const GET_ALL_IMPORTANT_INFO_SUCCESS = 'get_all_important_info_success';

@@ -70,5 +70,16 @@ export default {
     DELETE_MINHAL: `${Constants.SERVER_URL}/minhal/deleteMinhal`,
     // Get all minhals
     GET_ALL_MINHALS: `${Constants.SERVER_URL}/minhal/`,
+    
+    /// minhals ///
+    
+    // Add minhal
+    ADD_JOB: `${Constants.SERVER_URL}/jobs/addJob`,
+    // Edit minhal
+    EDIT_JOB: `${Constants.SERVER_URL}/jobs/editJob`,
+    // Delete minhal
+    DELETE_JOB: `${Constants.SERVER_URL}/jobs/deleteJob`,
+    // Get all minhals
+    GET_ALL_JOBS: `${Constants.SERVER_URL}/jobs/`,
 }
 

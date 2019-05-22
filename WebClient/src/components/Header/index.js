@@ -48,35 +48,43 @@ class Header extends Component {
         }
         else
         {
-            headerButtons = <div className="row justify-content-center align-self-cente">
-                <div><button className="btn btn-warning" onClick={this.logoutClick}>Logout</button></div>
-                <DropdownItem MainLabel="Users"
-                    Label_1="Add User" Link_1="/Users/AddUser"
-                    Label_2="Manage Users" Link_2="/Users/UsersList"
-                    Label_3="Load Excel" Link_3="/Users/LoadUsersExcel"/>
-                <DropdownItem MainLabel="Daily Briefing"
-                    Label_1="Add Daily Briefing" Link_1="/DailyBriefings/AddDailyBriefing"
-                    Label_2="Manage Daily Briefings" Link_2="/DailyBriefings/DailyBriefingsList" />
-                <DropdownItem MainLabel="Messages"
-                    Label_1="Add Message" Link_1="/ImportantMessages/AddImportantMessage"
-                    Label_2="Manage Messages" Link_2="/ImportantMessages/ImportantMessagesList" />
-                <DropdownItem MainLabel="Links"
-                    Label_1="Add Link" Link_1="/LinkItems/AddLinkItem"
-                    Label_2="Manage Links" Link_2="/LinkItems/LinkItemsList" />
-                <DropdownItem MainLabel="Administrations"
-                    Label_1="Add administration" Link_1="/Minhals/AddMinhal"
-                    Label_2="Manage administrations" Link_2="/Minhals/MinhalsList" />
-                <DropdownItem MainLabel="Important Info"
-                    Label_2="Manage Important Info" Link_2="/ImportantInfo/ImportantInfoList" />
-            </div>
+            headerButtons = 
+                <div>
+                    <div className="row justify-content-center">
+                        <DropdownItem MainLabel="Links"
+                            Label_1="Add Link" Link_1="/LinkItems/AddLinkItem"
+                            Label_2="Manage Links" Link_2="/LinkItems/LinkItemsList" />
+                        <DropdownItem MainLabel="Users"
+                            Label_1="Add User" Link_1="/Users/AddUser"
+                            Label_2="Manage Users" Link_2="/Users/UsersList"
+                            Label_3="Load Excel" Link_3="/Users/LoadUsersExcel" />
+                        <DropdownItem MainLabel="Daily Briefing"
+                            Label_1="Add Daily Briefing" Link_1="/DailyBriefings/AddDailyBriefing"
+                            Label_2="Manage Daily Briefings" Link_2="/DailyBriefings/DailyBriefingsList" />
+                        <DropdownItem MainLabel="Messages"
+                            Label_1="Add Message" Link_1="/ImportantMessages/AddImportantMessage"
+                            Label_2="Manage Messages" Link_2="/ImportantMessages/ImportantMessagesList" />
+                    </div>
+                    <div className="row justify-content-center">
+                        <div><button className="btn btn-warning" onClick={this.logoutClick}>Logout</button></div>
+                        <DropdownItem MainLabel="Administrations"
+                            Label_1="Add administration" Link_1="/Minhals/AddMinhal"
+                            Label_2="Manage administrations" Link_2="/Minhals/MinhalsList" />
+                        <DropdownItem MainLabel="Jobs"
+                            Label_1="Add job" Link_1="/jobs/AddJob"
+                            Label_2="Manage jobs" Link_2="/jobs/jobsList" />
+                        <DropdownItem MainLabel="Important Info"
+                            Label_2="Manage Important Info" Link_2="/ImportantInfo/ImportantInfoList" />
+                    </div>
+                </div>
         }
 
         return ( 
-            <div id="header" className="d-flex px-2 text-white">
+            <div id="header" className="d-flex px-2 text-white align-items-center">
                 <div className="mr-auto">
                     <h5 className="mb-0 mt-2">{!this.props.loggedUser ? 'Welcome To Kravitz Manager' : 'Hello, ' + this.props.loggedUser.firstname }</h5>
-                    <div>
-                        <small><Link to="/">Home</Link></small>
+                    <div style={{marginTop:'10px', marginLeft:'-1px'}}>
+                        <Link to="/">Home</Link>
                         <small style={{margin:'20px'}} className="font-italic">version {this.props.version ? this.props.version : "1.0.0"}</small>
                     </div>
                 </div>    

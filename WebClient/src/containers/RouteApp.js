@@ -37,6 +37,10 @@ import AddMinhal from './Minhals/AddMinhal';
 import EditMinhal from './Minhals/EditMinhal';
 import MinhalsList from './Minhals/MinhalsList';
 
+import AddJob from './Jobs/AddJob';
+import EditJob from './Jobs/EditJob';
+import JobsList from './Jobs/JobsList';
+
 import AddDailyBriefing from './DailyBriefings/AddDailyBriefing';
 import EditDailyBriefing from './DailyBriefings/EditDailyBriefing';
 import DailyBriefingsList from './DailyBriefings/DailyBriefingsList';
@@ -140,6 +144,12 @@ class RouterApp extends React.Component {
                             <Route exact path="/Minhals/AddMinhal" component={AddMinhal}/>
                             <Route exact path="/Minhals/EditMinhal/:id" component={EditMinhal}/>
                             <Route exact path="/Minhals/MinhalsList" component={MinhalsList}/>
+                        </Switch>
+                        <Switch>
+                            <Route exact path="/Jobs" component={JobsList}/>
+                            <Route exact path="/Jobs/AddJob" component={AddJob}/>
+                            <Route exact path="/Jobs/EditJob/:id" component={EditJob}/>
+                            <Route exact path="/Jobs/JobsList" component={JobsList}/>
                         </Switch>
                         <Switch>
                             <Route exact path="/readby/ImportantMessage/:id" component={MessageReadByList}/>
