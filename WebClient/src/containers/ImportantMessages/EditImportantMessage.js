@@ -59,6 +59,12 @@ class EditImportantMessage extends Component {
 
     render() {
         let messageToEdit = this.props.importantMessagesList ? this.props.importantMessagesList.find(message => message._id === this.props.match.params.id) : {};
+        
+        if (messageToEdit === undefined)
+        {
+            return <div>Error Occurred!</div>            
+        }
+
         return <ImprtantMessageView formTitle="Edit Message"
             message={messageToEdit}
             submitAction={this.editImportantMessage} />

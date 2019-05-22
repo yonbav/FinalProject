@@ -57,6 +57,12 @@ class EditImportantInfo extends Component {
 
     render() {
         let infoToEdit = this.props.importantInfoList ? this.props.importantInfoList.find(info => info._id === this.props.match.params.id) : {};
+
+        if (infoToEdit === undefined)
+        {
+            return <div>Error Occurred!</div>            
+        }
+
         return <ImportantInfoView Title="Edit Important Info"
             info={infoToEdit}
             submitAction={this.editInfo} />

@@ -62,6 +62,12 @@ class EditUser extends Component {
 
     render() {
         let userToEdit = this.props.allUsersList ? this.props.allUsersList.find(usr => usr._id === this.props.match.params.id) : {};
+
+        if (userToEdit === undefined)
+        {
+            return <div>Error Occurred!</div>            
+        }
+
         return <UserView formTitle="Edit User"
             user={userToEdit}
             submitAction={this.editUser}

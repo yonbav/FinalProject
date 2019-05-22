@@ -61,7 +61,7 @@ class EditLinkItem extends Component {
 
         if (linkItemToEdit === undefined)
         {
-            return <div>Sorry error!</div>
+            return <div>Error Occurred!</div>
         }
 
         return <LinkItemvView formTitle="Edit Link"
