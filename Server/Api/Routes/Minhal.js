@@ -125,10 +125,11 @@ router.post('/editMinhal/:id', upload.single('InfoImage'), async (req, res, next
         if (!isAuth) {
             return res.status(401).send({ 'success': false });
         }
+        
         const id = req.params.id;
 
         // Checking if the file was edited and we need to delete the old one
-        var minhalFileName = await minhalManager.findFileNameByIdAsync(req.body._id)  
+        var minhalFileName = await minhalManager.findFileNameByIdAsync(id)  
         if (req.file && req.file.filename && req.file.filename !== minhalFileName)
             unlinkAsync(MINHAL_PATH + minhalFileName).catch(err => log(`Minhal failed to delete file. error: ${err}`));
 

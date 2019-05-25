@@ -84,8 +84,9 @@ class UsersList extends Component {
       accessor: 'birthday',
     }, {
       Header: 'Authorization',
-      accessor: 'authorization',
-      Cell: props => <div>{EnumFunctions.AuthEnumToString(props.value)}</div>,
+      id: "authorization",
+      accessor: item => EnumFunctions.AuthEnumToString(item.authorization),
+      Cell: props => <div>{props.value}</div>,
     }, {
       Header: 'Gender',
       accessor: 'gender',

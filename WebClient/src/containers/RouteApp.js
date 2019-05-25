@@ -88,9 +88,11 @@ class RouterApp extends React.Component {
                 return;
 
             this.props.logoutSuccess();
+            this.props.history.push('/');
         }).catch(err => {
             this.props.showMessage({ type: "error", msg: "Failed to varify token, fatal error has happened." });
             this.props.logoutSuccess();
+            this.props.history.push('/');
         })
     }
 
