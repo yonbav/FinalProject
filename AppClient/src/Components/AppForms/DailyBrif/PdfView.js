@@ -29,7 +29,7 @@ export default class PdfView extends React.Component {
     async GetData(title, user) {
         if (user) {
             const value = await AsyncStorage.getItem('id_token');
-            axios.post('http://192.168.43.209:3000/daily/unread', {
+            axios.post('http://192.168.1.34:3000/daily/unread', {
                 title: title,
                 id: user.id
             },{ headers: { token: value} })
@@ -49,7 +49,7 @@ export default class PdfView extends React.Component {
     async Checkandpush(title, user) {
         if (this.state.checked === false) {
             const value = await AsyncStorage.getItem('id_token');
-            axios.post('http://192.168.43.209:3000/daily/pushread', {
+            axios.post('http://192.168.1.34:3000/daily/pushread', {
                 title: title,
                 id: user.id
             },{ headers: { token: value} })

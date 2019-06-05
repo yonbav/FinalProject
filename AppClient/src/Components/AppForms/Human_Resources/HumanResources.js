@@ -5,6 +5,7 @@ import MainHeader from "../../common/MainHeader";
 import HaressmentFormat from "./HaressmentFormat";
 import BirthdayFormat from "./BirthdayFormat";
 import JobsFormat from "./JobsFormat";
+import { Dimensions } from 'react-native';
 
 class HumanResources extends Component {
     constructor() {
@@ -16,6 +17,8 @@ class HumanResources extends Component {
         this.getResponse = this.getResponse.bind(this)
 
     }
+
+
     getResponse(result){
         this.setState({
             harassmentData: result
@@ -27,11 +30,12 @@ class HumanResources extends Component {
         return (
             <ScrollView style={styles.BackStyle}>
                 <MainHeader/>
+
                 <Harassment  callback={this.getResponse.bind(this)}/>
-                <BirthdayFormat   title="ימי הולדת" navigation={this.props.navigation}/>
-                <JobsFormat   title="חבר מביא חבר" navigation={this.props.navigation}/>
-                <HaressmentFormat  url={"http://192.168.43.209:3000/Information/"+this.state.harassmentData.image} title="תקנון מניעת הטרדה מינית"  user={this.props.user}
-                                    navigation={this.props.navigation}/>
+                    <BirthdayFormat   title="ימי הולדת" navigation={this.props.navigation}/>
+                    <JobsFormat   title="חבר מביא חבר" navigation={this.props.navigation}/>
+                <HaressmentFormat  url={"http://192.168.1.34:3000/Information/"+this.state.harassmentData.image} title="תקנון מניעת הטרדה מינית"  user={this.props.user}
+                                   navigation={this.props.navigation}/>
 
             </ScrollView>
 
@@ -49,6 +53,9 @@ const styles = {
         height: undefined,
         // figure out your image aspect ratio
         aspectRatio: 135 / 76,
+    },
+    prop:{
+        height: (Dimensions.get('window').height / 3)
     }
 }
 

@@ -37,7 +37,7 @@ class HomePage extends Component{
         let token = await Notifications.getExpoPushTokenAsync();
 
         // POST the token to your backend server from where you can retrieve it to send push notifications.
-        return fetch('http://192.168.43.209:3000/daily/registarnotification', {
+        return fetch('http://192.168.1.34:3000/daily/registarnotification', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -75,7 +75,7 @@ class HomePage extends Component{
         });
     }
     GetData=()=> {
-        axios.post("http://192.168.43.209:3000/Message/unreadCount",{
+        axios.post("http://192.168.1.34:3000/Message/unreadCount",{
             id: this.props.user.id
         }).then((res)=> {
             this.setState({num:res.data.docs})
@@ -131,9 +131,6 @@ class HomePage extends Component{
         </View>
 
 )
-    _handlePressButtonAsync = async () => {
-        let result = await WebBrowser.openBrowserAsync('http://192.168.43.209:3000/Information/חוברת הדרכה לעובד חדש.pdf');
-    };
 
 
 
@@ -161,9 +158,6 @@ render() {
             keyExtractor={(item) => item.toString()}
             renderItem={this._renderItem}
         />
-        <TouchableOpacity
-            onPress={this._handlePressButtonAsync}
-        ><Text>דוגמה לpdf</Text></TouchableOpacity>
     </View>
 
     );

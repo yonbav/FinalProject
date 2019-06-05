@@ -19,7 +19,7 @@ class UnreadMessages extends Component {
     }
     async GetData() {
         const value = await AsyncStorage.getItem('id_token');
-        axios.post('http://192.168.43.209:3000/Message/unread',{
+        axios.post('http://192.168.1.34:3000/Message/unread',{
             id: this.props.id
         },{ headers: { token: value} }).then(result => {
             if(result.data.success === false){

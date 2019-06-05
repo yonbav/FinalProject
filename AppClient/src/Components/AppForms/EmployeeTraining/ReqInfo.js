@@ -22,7 +22,7 @@ class ReqInfo extends Component{
     async GetData() {
         const value = await AsyncStorage.getItem('id_token');
 
-        axios.get("http://192.168.43.209:3000/"+this.props.type+"/"
+        axios.get("http://192.168.1.34:3000/"+this.props.type+"/"
             ,{ headers: { token: value} }).then((res) => {
             if(res.data.success !== false) {
                 this.setState({
@@ -43,7 +43,7 @@ class ReqInfo extends Component{
     renderButtons(){
         if(this.state.Data.length !== 0){
             return this.state.Data.map((element)=>(<View key={element._id}><TouchableOpacity onPress={async () => {
-                await WebBrowser.openBrowserAsync('http://192.168.43.209:3000/' + element.image);
+                await WebBrowser.openBrowserAsync('http://192.168.1.34:3000/Information/' + element.image);
             }}>
 
 

@@ -10,7 +10,7 @@ class Sales extends Component{
     }
     async GetData() {
         const value = await AsyncStorage.getItem('id_token');
-        axios.get("http://192.168.43.209:3000/info/Sales"
+        axios.get("http://192.168.1.34:3000/info/Sales"
             ,{ headers: { token: value} }).then((res)=> {
             if(res.data.success !== false){
                 this.handleClick(res.data);

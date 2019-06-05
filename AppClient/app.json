@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.0",
+    "version": "3.0",
     "orientation": "portrait",
     "icon": "./assets/Kra.png",
     "description": "employee-management-system",
@@ -30,10 +30,12 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.TheTeam.Kravitzapp",
+      "bundleIdentifier": "com.Kravitz.Kravitzapp"
     },
     "android": {
-      "package": "com.TheTeam.Kravitzapp"
+      "package": "com.Kravitz.Kravitzapp",
+      "versionCode": 2
+
     },
     "notification": {
       "icon": "./assets/Kra.png",

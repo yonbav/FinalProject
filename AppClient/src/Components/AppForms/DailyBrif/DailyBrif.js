@@ -1,25 +1,11 @@
 import React,{Component} from 'react'
-import {
-    ActivityIndicator,
-    Alert,
-    AsyncStorage,
-    FlatList,
-    Keyboard,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View
-} from 'react-native';
+import {ActivityIndicator,Alert, AsyncStorage, FlatList, Keyboard, ScrollView, View} from 'react-native';
 import axios from "axios";
 import {connect} from "react-redux";
 import MainHeader from "../../common/MainHeader";
 import MessageFormat2 from "../Messages/MessageFormat2";
 import MessageFormat3 from "../Messages/MessageFormat3";
-import SalesFormat from "../HomePage/SalesFormat";
-import DailyBirthdayFormat from "../HomePage/DailyBirthdayFormat";
-
 class DailyBrif extends Component {
-
     constructor() {
         super();
         this.state = {
@@ -30,18 +16,15 @@ class DailyBrif extends Component {
         };
         this.GetData = this.GetData.bind(this);
         this.renderButtons = this.renderButtons.bind(this);
-
     }
     onRefresh(){
         this.setState({isFetching:true})
         {this.GetData()}
         this.setState({isFetching:false})
-
     }
-
     async GetData() {
         const value = await AsyncStorage.getItem('id_token');
-        axios.get('http://192.168.43.209:3000/daily/',{ headers: { token: value} })
+        axios.get('http://192.168.1.34:3000/daily/',{ headers: { token: value} })
             .then(result => {
                 if(result.data.success === false){
                     this.setState({
@@ -58,7 +41,6 @@ class DailyBrif extends Component {
                     });
                 }
             })
-
     }
     componentDidMount() {
         this.GetData();
@@ -68,13 +50,13 @@ class DailyBrif extends Component {
         return this.state.data.map((item) => {
             if(item ===this.state.data[0]) {
                 return (
-                        <MessageFormat2 key={item._id} url={"http://192.168.43.209:3000/Information/"+item.image} title= {item.title}  user={this.props.user}
+                        <MessageFormat2 key={item._id} url={"http://192.168.1.34:3000/Information/"+item.image} title= {item.title}  user={this.props.user}
                                         navigation={this.props.navigation}/>
                 );
             }
             else{
                 return (
-                    <MessageFormat3 key={item._id} url={"http://192.168.43.209:3000/Information/"+item.image} title= {item.title}  user={this.props.user}
+                    <MessageFormat3 key={item._id} url={"http://192.168.1.34:3000/Information/"+item.image} title= {item.title}  user={this.props.user}
                                     navigation={this.props.navigation}/>
                 );
             }

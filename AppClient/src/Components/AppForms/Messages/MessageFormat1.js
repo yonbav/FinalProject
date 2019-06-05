@@ -25,7 +25,7 @@ export default class MessageFormat1 extends Component {
     }
     async Checkandpush() {
         const value = await AsyncStorage.getItem('id_token');
-        axios.post('http://192.168.43.209:3000/Message/pushread', {
+        axios.post('http://192.168.1.34:3000/Message/pushread', {
             id: this.props.id,
             _id: this.props.id1
         },{ headers: { token: value} })

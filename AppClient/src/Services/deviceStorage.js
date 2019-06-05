@@ -14,8 +14,16 @@ const deviceStorage = {
         try {
             const value = await AsyncStorage.getItem('id_token');
             if(value){
-                await  axios.post('http://192.168.43.209:3000/user/token', {
-                    token: value
+                await  axios({
+                    method: "post",
+                    url: 'http://192.168.1.34:3000/user/token',
+                    timeout: 1000 * 5, // Wait for 5 seconds
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: {
+                        token: value
+                    }
                 })
                     .then( result => {
                         if (result.data) {
