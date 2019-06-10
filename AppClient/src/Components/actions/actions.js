@@ -18,7 +18,7 @@ export const loginuser = (id,password,navigation ) => {
     return(dispatch)=>
     {
         dispatch({type:LOGIN_USER});
-        axios.post("http://192.168.43.209:3000/Auth/login",{
+        axios.post("http://185.56.74.46:3000/Auth/login",{
             id: id,
             password: password,
             authorization: '1'

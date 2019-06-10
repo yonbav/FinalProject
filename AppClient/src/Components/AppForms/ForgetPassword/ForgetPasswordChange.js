@@ -37,7 +37,7 @@ class ForgetPasswordChange extends Component{
         const { navigation } = this.props;
         const user = navigation.getParam('user');
         if (this.state.password1 === this.state.password2){
-            axios.patch('http://192.168.43.209:3000/user/forgetpassword/' + user._id, {
+            axios.patch('http://185.56.74.46:3000/user/forgetpassword/' + user._id, {
                 Newpassword: this.state.password1,
             }).then((res)=>  {
                 if(res.data.success === true)

@@ -21,7 +21,7 @@ class Jobs extends Component {
     async GetData() {
         const value = await AsyncStorage.getItem('id_token');
 
-        axios.get('http://192.168.43.209:3000/jobs/',{ headers: { token: value} })
+        axios.get('http://185.56.74.46:3000/jobs/',{ headers: { token: value} })
             .then(result => {
                 if(result.data.success === false){
                     Alert.alert(

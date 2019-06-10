@@ -7,7 +7,7 @@ export default class SalesFormat extends Component {
         return (
 
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('pdf',
-                {url: "http://192.168.43.209:3000/Information/"+this.props.url ,
+                {url: "http://185.56.74.46:3000/Information/"+this.props.url ,
                     title: this.props.title})}>
                 <Card>
                     <CardItem>

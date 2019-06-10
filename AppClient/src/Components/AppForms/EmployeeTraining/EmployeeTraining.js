@@ -7,6 +7,7 @@ import VideoFormat from "./VideoFormat";
 import TestFormat from "./TestFormat";
 
 import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
+import PdfGuidance from "./PdfGuidance";
 
 class EmployeeTraining extends Component {
 
@@ -29,7 +30,7 @@ class EmployeeTraining extends Component {
     }
     mixFunction=(text,id)=>{
         if(this.state.Data.length !==0){
-            this.props.navigation.navigate('pdf',{url: "http://192.168.43.209:3000/Information/"+this.state.Data[id].image,title: text});
+            this.props.navigation.navigate('pdf',{url: "http://185.56.74.46:3000/Information/"+this.state.Data[id].image,title: text});
         }
     }
 
@@ -40,33 +41,30 @@ class EmployeeTraining extends Component {
     render() {
         return (
             <ScrollView style={styles.BackStyle}>
+                <MainHeader/>
                 <RequestPdf title ="Instruction" callback={this.getResponse.bind(this)}/>
                 <RequestPdf title ="Trainingfornewemployees" callback={this.getResponse.bind(this)}/>
                 <RequestPdf title ="CheckListNewEmploee" callback={this.getResponse.bind(this)}/>
-                <MainHeader/>
+
                 <TouchableOpacity  onPress={()=> this.props.navigation.navigate('Guidance')}>
                 <Card ><CardItem  style={{backgroundColor: '#ff923d'}}><Left><Thumbnail source={require( "../../../Resources/FolerGuidance.jpg")} style={{height: 80, width: 80}}/>
                     <Body><Text style={{fontWeight: 'bold',fontSize:25,alignSelf: 'center'}}>תיקיית הדרכות</Text></Body>
                 </Left></CardItem></Card>
                 </TouchableOpacity>
                <VideoFormat name="סרטון עובד חדש"/>
-                    <TouchableOpacity   onPress={() => this.mixFunction("חוברת קליטה לעובד חדש",
-                        this.findWithAttr(this.state.Data,'title',"Trainingfornewemployees"))}>
-                        <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/Book.jpg")} style={{height: 50, width: 50}}/>
-                                    <Body><Text style={styles.title}>חוברת קליטה לעובד חדש</Text></Body>
-                        </Left></CardItem></Card></TouchableOpacity>
+
+                    <TouchableOpacity   onPress={() => this.mixFunction("חוברת קליטה לעובד חדש", this.findWithAttr(this.state.Data,'title',"Trainingfornewemployees"))}>
+                        <PdfGuidance title="חוברת קליטה לעובד חדש"/>
+                      </TouchableOpacity>
                 <TouchableOpacity  onPress={() => this.mixFunction("חוברת הדרכה על הקופה", this.findWithAttr(this.state.Data,'title',"Instruction"))}    >
-                    <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/Book.jpg")} style={{height: 50, width: 50}}/>
-                                <Body><Text style={styles.title}>חוברת הדרכה על הקופה</Text></Body>
-                            </Left></CardItem></Card></TouchableOpacity>
+                    <PdfGuidance title="חוברת הדרכה על הקופה"/></TouchableOpacity>
 
 
                 <TestFormat name="מבדק ידע עובד חדש"/>
 
                     <TouchableOpacity   onPress={() => this.mixFunction("צ'ק ליסט קליטה לעובד חדש", this.findWithAttr(this.state.Data,'title',"CheckListNewEmploee"))} >
-                        <Card><CardItem><Left><Thumbnail source={require( "../../../Resources/list.png")} style={{height: 50, width: 50}}/>
-                            <Body><Text style={styles.title}> צ'ק ליסט קליטה לעובד חדש</Text></Body>
-                        </Left></CardItem></Card></TouchableOpacity>
+                        <PdfGuidance title="צ'ק ליסט קליטה לעובד חדש"/>
+                      </TouchableOpacity>
 
             </ScrollView>
         );

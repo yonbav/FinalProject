@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Text, View, ScrollView, ActivityIndicator, AsyncStorage, Alert} from 'react-native';
+import {Text, View, ScrollView, ActivityIndicator, AsyncStorage, Alert, Dimensions} from 'react-native';
 import axios from "axios";
 import MessageFormat from "./MessageFormat";
 
@@ -18,7 +18,7 @@ class AllMessages extends Component {
 
     async GetData() {
         const value = await AsyncStorage.getItem('id_token');
-        axios.get('http://192.168.43.209:3000/Message/', {headers: {token: value}})
+        axios.get('http://185.56.74.46:3000/Message/', {headers: {token: value}})
             .then(result => {
                 if(result.data.success === false){
                     this.setState({
@@ -107,7 +107,7 @@ const styles = {
     loading:{
         alignItems: 'center',
         alignSelf: 'center',
-        paddingTop: 500
+        paddingTop:  ((Dimensions.get('window').height)/4)*3
     }
 
 }

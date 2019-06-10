@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import {Card, CardItem, Thumbnail, Text, Left, Body, Right } from 'native-base';
+import {WebBrowser} from "expo";
 
 export default class HaressmentFormat extends Component {
     render() {
 
         return (
 
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('pdf',
-                {url: this.props.url ,title: this.props.title})}>
+            <TouchableOpacity onPress={async () => await WebBrowser.openBrowserAsync(this.props.url)}>
                 <Card>
                     <CardItem>
                         <Left>

@@ -20,7 +20,7 @@ class GetDailyBirthdays extends Component{
 
     }
     GetData() {
-                axios.get('http://192.168.43.209:3000/getBD', { headers: { token: this.props.user.token } })
+                axios.get('http://185.56.74.46:3000/getBD', { headers: { token: this.props.user.token } })
                     .then(result => {
                         if (result.data.length === 0)
                             this.setState({

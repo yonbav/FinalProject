@@ -26,7 +26,7 @@ class ManagerTraining extends Component {
     mixFunction=(text,id)=>{
         if(this.state.Data.length !==0) {
             this.props.navigation.navigate('pdf', {
-                url: "http://192.168.43.209:3000/Information/" + this.state.Data[id].image,
+                url: "http://185.56.74.46:3000/Information/" + this.state.Data[id].image,
                 title: text
             });
         }

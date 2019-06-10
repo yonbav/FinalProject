@@ -48,7 +48,7 @@ class ChangePassword extends Component{
         const value = await AsyncStorage.getItem('id_token');
 
         if (this.state.password1 === this.state.password2) {
-            axios.patch('http://192.168.43.209:3000/user/changepassword/' + this.props.user._id, {
+            axios.patch('http://185.56.74.46:3000/user/changepassword/' + this.props.user._id, {
                 Oldpassword: this.state.password,
                 Newpassword: this.state.password1,
             },{ headers: { token: value} }).then((res) => {

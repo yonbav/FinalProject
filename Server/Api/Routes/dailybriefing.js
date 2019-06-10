@@ -29,12 +29,6 @@ var somePushTokens = [];
 
 /*Service Add Client to notification list*/
 router.post('/registarnotification', async (req, res, next) => {
-    try {
-        // Checking if the token recieved is valid. 
-        let isAuth = await authManager.isTokenValidAsync(req.headers.token, 5)
-        if (!isAuth) {
-            return res.status(401).send({ 'success': false });
-        }
 
         const notification = new Notifications({
             _id: new mongoose.Types.ObjectId(),
@@ -56,10 +50,7 @@ router.post('/registarnotification', async (req, res, next) => {
             console.log(err);
             res.status(500).json({ error: err });
         });
-    }
-    catch (err) {
-        res.status(500).json({ error: err })
-    }
+
 });
 /*Service Add Daily Brifing*/
 router.post('/adddailybrief', upload.single('DailyBriefImage'), async (req, res, next) => {

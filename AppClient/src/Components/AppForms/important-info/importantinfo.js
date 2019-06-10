@@ -28,7 +28,7 @@ class importantinfo extends Component {
     }
     mixFunction=(text,id)=>{
         this.props.navigation.navigate('pdf',
-            {url: "http://192.168.43.209:3000/Information/"+this.state.Data[id].image,title: text});
+            {url: "http://185.56.74.46:3000/Information/"+this.state.Data[id].image,title: text});
     }
     renderimage(title){
         if(title === "Branches")
