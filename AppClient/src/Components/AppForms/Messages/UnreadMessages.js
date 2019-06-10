@@ -1,9 +1,8 @@
 
 import React,{Component} from 'react'
-import {Text, View, ScrollView, ActivityIndicator, AsyncStorage,Alert} from 'react-native';
+import {Text, View, ScrollView, ActivityIndicator, AsyncStorage, Alert, Dimensions} from 'react-native';
 import axios from "axios";
 import MessageFormat1 from "./MessageFormat1";
-import deviceStorage from'../../../Services/deviceStorage'
 class UnreadMessages extends Component {
 
     constructor() {
@@ -19,7 +18,7 @@ class UnreadMessages extends Component {
     }
     async GetData() {
         const value = await AsyncStorage.getItem('id_token');
-        axios.post('http://192.168.1.34:3000/Message/unread',{
+        axios.post('http://185.56.74.46:3000/Message/unread',{
             id: this.props.id
         },{ headers: { token: value} }).then(result => {
             if(result.data.success === false){
@@ -110,7 +109,7 @@ const styles = {
     loading:{
         alignItems: 'center',
         alignSelf: 'center',
-        paddingTop: 500
+        paddingTop:  ((Dimensions.get('window').height)/4)*3
     }
 }
 

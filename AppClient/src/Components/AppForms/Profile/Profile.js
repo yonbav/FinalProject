@@ -22,7 +22,7 @@ class Profile extends Component {
     }
     changePassword(navigation)
     {
-        axios.post("http://192.168.1.34:3000/Auth/CheckToken",{
+        axios.post("http://185.56.74.46:3000/Auth/CheckToken",{
             id: this.props.user.id,
             token: this.props.user.token,
         })

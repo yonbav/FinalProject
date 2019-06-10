@@ -1,6 +1,6 @@
 import React ,{Component} from 'react';
 import axios from "axios";
-import {ActivityIndicator, Alert, AsyncStorage, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Alert, AsyncStorage, Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
 import MainHeader from "../../common/MainHeader";
 import {WebBrowser} from "expo";
@@ -22,7 +22,7 @@ class ReqInfo extends Component{
     async GetData() {
         const value = await AsyncStorage.getItem('id_token');
 
-        axios.get("http://192.168.1.34:3000/"+this.props.type+"/"
+        axios.get("http://185.56.74.46:3000/"+this.props.type+"/"
             ,{ headers: { token: value} }).then((res) => {
             if(res.data.success !== false) {
                 this.setState({
@@ -43,7 +43,7 @@ class ReqInfo extends Component{
     renderButtons(){
         if(this.state.Data.length !== 0){
             return this.state.Data.map((element)=>(<View key={element._id}><TouchableOpacity onPress={async () => {
-                await WebBrowser.openBrowserAsync('http://192.168.1.34:3000/Information/' + element.image);
+                await WebBrowser.openBrowserAsync('http://185.56.74.46:3000/Information/' + element.image);
             }}>
 
 
@@ -78,7 +78,7 @@ const styles = {
     loading:{
         alignItems: 'center',
         alignSelf: 'center',
-        paddingTop: 500
+        paddingTop:  ((Dimensions.get('window').height)/4)*3
     }
 }
 export default ReqInfo;

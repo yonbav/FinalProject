@@ -16,7 +16,7 @@ const deviceStorage = {
             if(value){
                 await  axios({
                     method: "post",
-                    url: 'http://192.168.1.34:3000/user/token',
+                    url: 'http://185.56.74.46:3000/user/token',
                     timeout: 1000 * 5, // Wait for 5 seconds
                     headers: {
                         "Content-Type": "application/json"

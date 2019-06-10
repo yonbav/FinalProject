@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View,Dimensions} from 'react-native';
 import {Provider} from 'react-redux';
 import {createStore,applyMiddleware} from 'redux';
 import reducers from './src/reducers/reducers'
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   loading:{
     alignItems: 'center',
     alignSelf: 'center',
-    paddingTop: 650
+    paddingTop: ((Dimensions.get('window').height)/4)*3
   }
 });
 

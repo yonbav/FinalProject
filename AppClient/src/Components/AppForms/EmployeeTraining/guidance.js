@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View,} from 'react-native';
+import {ActivityIndicator, Dimensions, ScrollView, Text, TouchableOpacity, View,} from 'react-native';
 import ReqInfo from "./ReqInfo";
 
 class guidance extends Component {
@@ -31,7 +31,7 @@ const styles = {
     loading:{
         alignItems: 'center',
         alignSelf: 'center',
-        paddingTop: 500
+        paddingTop:  ((Dimensions.get('window').height)/4)*3
     }
 }
 

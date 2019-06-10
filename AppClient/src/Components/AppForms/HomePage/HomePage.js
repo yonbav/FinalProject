@@ -37,7 +37,7 @@ class HomePage extends Component{
         let token = await Notifications.getExpoPushTokenAsync();
 
         // POST the token to your backend server from where you can retrieve it to send push notifications.
-        return fetch('http://192.168.1.34:3000/daily/registarnotification', {
+        return fetch('http://185.56.74.46:3000/daily/registarnotification', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -75,7 +75,7 @@ class HomePage extends Component{
         });
     }
     GetData=()=> {
-        axios.post("http://192.168.1.34:3000/Message/unreadCount",{
+        axios.post("http://185.56.74.46:3000/Message/unreadCount",{
             id: this.props.user.id
         }).then((res)=> {
             this.setState({num:res.data.docs})

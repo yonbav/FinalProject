@@ -34,7 +34,7 @@ class HumanResources extends Component {
                 <Harassment  callback={this.getResponse.bind(this)}/>
                     <BirthdayFormat   title="ימי הולדת" navigation={this.props.navigation}/>
                     <JobsFormat   title="חבר מביא חבר" navigation={this.props.navigation}/>
-                <HaressmentFormat  url={"http://192.168.1.34:3000/Information/"+this.state.harassmentData.image} title="תקנון מניעת הטרדה מינית"  user={this.props.user}
+                <HaressmentFormat  url={"http://185.56.74.46:3000/Information/"+this.state.harassmentData.image} title="תקנון מניעת הטרדה מינית"  user={this.props.user}
                                    navigation={this.props.navigation}/>
 
             </ScrollView>

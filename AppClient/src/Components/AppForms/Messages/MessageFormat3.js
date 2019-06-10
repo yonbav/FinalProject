@@ -33,7 +33,7 @@ export default class MessageFormat3 extends Component {
 
     async GetData() {
             const value = await AsyncStorage.getItem('id_token');
-            axios.post('http://192.168.1.34:3000/daily/unread', {
+            axios.post('http://185.56.74.46:3000/daily/unread', {
                 title: this.props.title,
                 id: this.props.user.id
             },{ headers: { token: value} })
