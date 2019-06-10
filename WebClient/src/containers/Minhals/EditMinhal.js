@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import MinhalView from './MinhalView';
+import { Constants } from '../../Common';
 import { connect } from 'react-redux';
 import {convertJsonToFormData} from '../../Utils/JsonUtils';
-import { editMinhal, getAllMinhals } from '../../store/api';
+import { editMinhal, getAllMinhals, getAllGuidances, editGuidance} from '../../store/api';
 import { getAllMinhalsSuccess, editMinhalSuccess, showFullLoader, showMessage, hideFullLoader } from '../../store/actions'
 
 class EditMinhal extends Component {
@@ -10,23 +11,103 @@ class EditMinhal extends Component {
         super(props);
         this.state = {};
         this.editMinhal = this.editMinhal.bind(this);
+        this.editGuidance = this.editGuidance.bind(this);
+        this.editAdministration = this.editAdministration.bind(this);
     }
 
     componentWillMount() {
         this.props.showFullLoader();
         getAllMinhals(this.props.loggedUser.token).then(res => {
-            // If failed to get all messages
+            // If failed to get all minhals
             if (res.status < 200 || res.status >= 300) {
-                return;
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to get all minhals.'
+                })
             }
-            this.props.getAllMinhalsSuccess(res.data);
+
+            let allAdministrations = [];
+
+            res.data.forEach(minhal => {
+                minhal.type = Constants.ADMINISTRATIONS.MINHAL;                
+                allAdministrations.push(minhal)
+            });
+
+            getAllGuidances(this.props.loggedUser.token).then(res => {
+                
+                // If failed to get all minhals
+                if (res.status < 200 || res.status >= 300) {
+                    this.props.showMessage({
+                        type: 'error',
+                        msg: 'Failed to get all minhals.'
+                    })
+                }
+
+                res.data.forEach(guidance => {
+                    guidance.type = Constants.ADMINISTRATIONS.GUIDANCE;                    
+                    allAdministrations.push(guidance)
+                });
+
+                this.props.getAllMinhalsSuccess(allAdministrations);
+            })
         }).catch(error => {
-            console.log(error);
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to get all minhals.'
+            })
         }).finally(() => {
             this.props.hideFullLoader();
         });
     }
 
+    editAdministration(editedAdministration)
+    {
+        if (editedAdministration.type === Constants.ADMINISTRATIONS.MINHAL)
+        {
+            this.editMinhal(editedAdministration)
+        }
+        else if (editedAdministration.type === Constants.ADMINISTRATIONS.GUIDANCE)
+        {
+            this.editGuidance(editedAdministration)
+        }
+        else {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to edit administration. uknown type'
+            })
+            return;
+        }
+    }
+
+    editGuidance (editedGuidance)
+    {
+        this.props.showFullLoader();
+        var formDataGuidance = convertJsonToFormData(editedGuidance);
+        editGuidance(editedGuidance._id, formDataGuidance, this.props.loggedUser.token).then(res => {
+            // If failed to edit the guidance
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to edit administration.'
+                })
+                return;
+            }
+
+            this.props.editMinhalSuccess(editedGuidance);
+            this.props.showMessage({
+                type: 'success',
+                msg: 'administration was edited.'
+            })
+        }).catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to edit administration.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        });
+    }
+    
     editMinhal(editedMinhal) {
         this.props.showFullLoader();
         var formDataMinhal = convertJsonToFormData(editedMinhal);
@@ -35,7 +116,7 @@ class EditMinhal extends Component {
             if (res.status < 200 || res.status >= 300) {
                 this.props.showMessage({
                     type: 'error',
-                    msg: 'Failed to edit minhal.'
+                    msg: 'Failed to edit administration.'
                 })
                 return;
             }
@@ -43,12 +124,12 @@ class EditMinhal extends Component {
             this.props.editMinhalSuccess(editedMinhal);
             this.props.showMessage({
                 type: 'success',
-                msg: 'minhal was edited.'
+                msg: 'Administration was edited.'
             })
         }).catch(error => {
             this.props.showMessage({
                 type: 'error',
-                msg: 'Failed to edit minhal.'
+                msg: 'Failed to edit administration.'
             })
         }).finally(() => {
             this.props.hideFullLoader();
@@ -63,9 +144,10 @@ class EditMinhal extends Component {
             return <div>Error Occurred!</div>            
         }
 
-        return <MinhalView Title="Edit Daily Minhal"
+        return <MinhalView Title="Edit Administration"
             minhal={minhal}
-            submitAction={this.editMinhal} />
+            submitAction={this.editAdministration} 
+            allowTypeChoose={false}/>
     }
 }
 

@@ -8,6 +8,10 @@ export const Constants = {
         MANAGER    : "3",
         SUPERVIZER : "5",
     },
+    ADMINISTRATIONS: {
+        MINHAL   : "1",
+        GUIDANCE : "2",
+    },
     PDF_FOLDER_NAME: "/information/"
 }
 
@@ -28,6 +32,16 @@ export const EnumFunctions = {
             return "Manager";
             case(Constants.AUTHORIZATION.EMPLOYEE):
             return "Employee";
+            default:
+            return "Unknown";
+        }
+    },
+    AdministrationEnumToString: (value) => {
+        switch (value) {
+            case(Constants.ADMINISTRATIONS.MINHAL):
+            return "Minhal";
+            case(Constants.ADMINISTRATIONS.GUIDANCE):
+            return "Guidance";
             default:
             return "Unknown";
         }

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { defaultFilterMethod, Constants } from '../../Common';
-import { deleteMinhal, getAllMinhals } from '../../store/api';
+import { defaultFilterMethod, EnumFunctions, Constants } from '../../Common';
+import { deleteMinhal, getAllMinhals, deleteGuidance, getAllGuidances } from '../../store/api';
 import { getAllMinhalsSuccess, deleteMinhalSuccess, showFullLoader, showMessage, hideFullLoader } from '../../store/actions'
 
 class MinhalsList extends Component {
@@ -11,6 +11,8 @@ class MinhalsList extends Component {
         super(props);
         this.state = {};
         this.deleteMinhal = this.deleteMinhal.bind(this);
+        this.deleteGuidance = this.deleteGuidance.bind(this);
+        this.deleteAdministration = this.deleteAdministration.bind(this);
     }
 
     componentWillMount() {
@@ -20,14 +22,38 @@ class MinhalsList extends Component {
             if (res.status < 200 || res.status >= 300) {
                 this.props.showMessage({
                     type: 'error',
-                    msg: 'Failed to get all minhals.'
+                    msg: 'Failed to get all administrations.'
                 })
             }
-            this.props.getAllMinhalsSuccess(res.data);
+
+            let allAdministrations = [];
+
+            res.data.forEach(minhal => {
+                minhal.type = Constants.ADMINISTRATIONS.MINHAL;                
+                allAdministrations.push(minhal)
+            });
+
+            getAllGuidances(this.props.loggedUser.token).then(res => {
+                
+                // If failed to get all guidances
+                if (res.status < 200 || res.status >= 300) {
+                    this.props.showMessage({
+                        type: 'error',
+                        msg: 'Failed to get all administrations.'
+                    })
+                }
+
+                res.data.forEach(guidance => {
+                    guidance.type = Constants.ADMINISTRATIONS.GUIDANCE;                    
+                    allAdministrations.push(guidance)
+                });
+
+                this.props.getAllMinhalsSuccess(allAdministrations);
+            })
         }).catch(error => {
             this.props.showMessage({
                 type: 'error',
-                msg: 'Failed to get all minhals.'
+                msg: 'Failed to get all Administrations.'
             })
         }).finally(() => {
             this.props.hideFullLoader();
@@ -38,14 +64,60 @@ class MinhalsList extends Component {
         document.getElementById("minhalTable").scrollIntoView();
     }
 
-    deleteMinhal(minhalid) {
+    deleteAdministration(id, type) {
+        if(type === Constants.ADMINISTRATIONS.MINHAL)
+        {
+            this.deleteMinhal(id);
+        }
+        else if (type === Constants.ADMINISTRATIONS.GUIDANCE)
+        {
+            this.deleteGuidance(id);
+        }
+        else 
+        {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Unknown administration type!'
+            })
+        }
+    }
+
+    deleteGuidance(guidanceId) {
         this.props.showFullLoader();
-        deleteMinhal({ _id: minhalid }, this.props.loggedUser.token).then(res => {
-            // If failed to edit the user
+        deleteGuidance({ _id: guidanceId }, this.props.loggedUser.token).then(res => {
+            // If failed to delete the guidance
             if (res.status < 200 || res.status >= 300) {
                 this.props.showMessage({
                     type: 'error',
-                    msg: 'Failed to delete minhal.'
+                    msg: 'Failed to delete administration.'
+                })
+                return;
+            }
+
+            this.props.deleteMinhalSuccess(guidanceId);
+            this.props.showMessage({
+                type: 'success',
+                msg: 'Administration was deleted.'
+            });
+        }).catch(error => {
+            this.props.showMessage({
+                type: 'error',
+                msg: 'Failed to delete administration.'
+            })
+        }).finally(() => {
+            this.props.hideFullLoader();
+        })
+
+    }
+
+    deleteMinhal(minhalid) {
+        this.props.showFullLoader();
+        deleteMinhal({ _id: minhalid }, this.props.loggedUser.token).then(res => {
+            // If failed to delete the minhal
+            if (res.status < 200 || res.status >= 300) {
+                this.props.showMessage({
+                    type: 'error',
+                    msg: 'Failed to delete administration.'
                 })
                 return;
             }
@@ -53,12 +125,12 @@ class MinhalsList extends Component {
             this.props.deleteMinhalSuccess(minhalid);
             this.props.showMessage({
                 type: 'success',
-                msg: 'minhal was deleted.'
+                msg: 'Administration was deleted.'
             });
         }).catch(error => {
             this.props.showMessage({
                 type: 'error',
-                msg: 'Failed to delete minhal.'
+                msg: 'Failed to delete administration.'
             })
         }).finally(() => {
             this.props.hideFullLoader();
@@ -71,6 +143,11 @@ class MinhalsList extends Component {
             accessor: 'title',
             Cell: props => <div>{props.value}</div>
         }, {
+            Header: 'Type',
+            id: "type",
+            accessor: item => EnumFunctions.AdministrationEnumToString(item.type),
+            Cell: props => <div>{props.value}</div>,
+        },{
             Header: 'File Name',
             accessor: 'image',
             Cell: props => <a href={`${Constants.SERVER_URL}${Constants.PDF_FOLDER_NAME}${props.value}`}>{props.value}</a>
@@ -85,7 +162,7 @@ class MinhalsList extends Component {
             accessor: '_id',
             maxWidth: '100',
             filterable: false,
-            Cell: props => <button onClick={() => this.deleteMinhal(props.value)} className="btn btn-link">Delete</button>
+            Cell: props => <button onClick={() => this.deleteAdministration(props.value, props.original.type)} className="btn btn-link">Delete</button>
         }];
 
         return <div id="minhalTable"><ReactTable filterable defaultFilterMethod={(filter, row) => defaultFilterMethod(filter, row)} defaultPageSize={10} className="react-table-default" data={this.props.minhalsList} columns={columns} /></div>

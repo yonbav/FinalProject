@@ -71,15 +71,26 @@ export default {
     // Get all minhals
     GET_ALL_MINHALS: `${Constants.SERVER_URL}/minhal/`,
     
-    /// minhals ///
+    /// guidances ///
+
+    // Add guidance
+    ADD_GUIDANCE: `${Constants.SERVER_URL}/guidance/addGuidance`,
+    // Edit guidance
+    EDIT_GUIDANCE: `${Constants.SERVER_URL}/guidance/editGuidance`,
+    // Delete guidance
+    DELETE_GUIDANCE: `${Constants.SERVER_URL}/guidance/deleteGuidance`,
+    // Get all guidances
+    GET_ALL_GUIDANCES: `${Constants.SERVER_URL}/guidance/`,
     
-    // Add minhal
+    /// jobs ///
+    
+    // Add job
     ADD_JOB: `${Constants.SERVER_URL}/jobs/addJob`,
-    // Edit minhal
+    // Edit job
     EDIT_JOB: `${Constants.SERVER_URL}/jobs/editJob`,
-    // Delete minhal
+    // Delete job
     DELETE_JOB: `${Constants.SERVER_URL}/jobs/deleteJob`,
-    // Get all minhals
+    // Get all jobs
     GET_ALL_JOBS: `${Constants.SERVER_URL}/jobs/`,
 }
 
