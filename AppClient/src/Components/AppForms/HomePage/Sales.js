@@ -1,6 +1,7 @@
 import React ,{Component} from 'react';
-import axios from "axios";
 import {AsyncStorage, Text} from 'react-native';
+import api from '../../../api.js';
+import API_URL from "../../../apiUrl";
 
 
 
@@ -9,9 +10,7 @@ class Sales extends Component{
         this.GetData();
     }
     async GetData() {
-        const value = await AsyncStorage.getItem('id_token');
-        axios.get("http://185.56.74.46:3000/info/Sales"
-            ,{ headers: { token: value} }).then((res)=> {
+        api.get(`${API_URL.GET_ALL_IMPORTANT_INFO}Sales`).then((res)=> {
             if(res.data.success !== false){
                 this.handleClick(res.data);
             }

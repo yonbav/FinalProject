@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {ActivityIndicator, Alert, AsyncStorage, Dimensions, FlatList, Keyboard, ScrollView, View} from 'react-native';
-import axios from "axios";
+import api from '../../../api.js';
+import API_URL from "../../../apiUrl";
 import {connect} from "react-redux";
 import MainHeader from "../../common/MainHeader";
 import MessageFormat2 from "../Messages/MessageFormat2";
@@ -23,24 +24,20 @@ class DailyBrif extends Component {
         this.setState({isFetching:false})
     }
     async GetData() {
-        const value = await AsyncStorage.getItem('id_token');
-        axios.get('http://185.56.74.46:3000/daily/',{ headers: { token: value} })
-            .then(result => {
-                if(result.data.success === false){
-                    this.setState({
-                        loading: true
-                    });
-                    Alert.alert(
-                        'הודעת אבטחה',
-                        'אין הרשאות נא פנה לנציג',
-                    )
-                }else{
+
+        api.get(`${API_URL.GET_ALL_DAILY_BRIEFINGS}`).then(result => {
+                if(result.data){
                     this.setState({
                         data: result.data,
                         loading: true
                     });
                 }
-            })
+            }).catch(()=>{
+            this.setState({
+                loading: true
+            });
+
+        })
     }
     componentDidMount() {
         this.GetData();
@@ -50,13 +47,15 @@ class DailyBrif extends Component {
         return this.state.data.map((item) => {
             if(item ===this.state.data[0]) {
                 return (
-                        <MessageFormat2 key={item._id} url={"http://185.56.74.46:3000/Information/"+item.image} title= {item.title}  user={this.props.user}
+                        <MessageFormat2 key={item._id} url={`${API_URL.SERVER_URL}${API_URL.PDF_FOLDER_NAME}${item.image}`}
+                                        title= {item.title}  user={this.props.user}
                                         navigation={this.props.navigation}/>
                 );
             }
             else{
                 return (
-                    <MessageFormat3 key={item._id} url={"http://185.56.74.46:3000/Information/"+item.image} title= {item.title}  user={this.props.user}
+                    <MessageFormat3 key={item._id} url={`${API_URL.SERVER_URL}${API_URL.PDF_FOLDER_NAME}${item.image}`}
+                                    title= {item.title}  user={this.props.user}
                                     navigation={this.props.navigation}/>
                 );
             }
@@ -70,11 +69,10 @@ class DailyBrif extends Component {
         </ScrollView>
 
     )
-
-    render() {
+    renderbody =()=>{
         if(this.state.loading === true) {
             return (
-                <View style={styles.BackStyle}>
+                <View>
                     <MainHeader/>
                     <FlatList
                         onRefresh={() => this.onRefresh()}
@@ -88,13 +86,17 @@ class DailyBrif extends Component {
             );
         }
         else{
-            return (
-            <View style={styles.BackStyle}>
-                <MainHeader/>
-                <View style={styles.loading}>
-                    <ActivityIndicator size="large" color="#000"/></View>
-            </View>);
-        }
+            return (<View>
+                <View style={styles.loading}><ActivityIndicator size="large" color="#000"/></View>
+            </View>);}
+    }
+
+    render() {
+        return (
+       <View style={styles.BackStyle}>
+           {this.renderbody()}
+       </View>
+        )
     }
 }
 const styles = {

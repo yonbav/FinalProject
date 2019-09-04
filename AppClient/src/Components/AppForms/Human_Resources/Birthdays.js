@@ -6,10 +6,7 @@ import { SearchBar } from 'react-native-elements';
 import CardBirthdayFormat from "../../common/CardBirthdayFormat";
 
 const {width, height} = Dimensions.get('window');
-const metrics = {
-    screenWidth: width < height ? width : height,
-    screenHeight: width < height ? height : width,
-};
+
 export default class Birthdays extends Component{
     constructor() {
         super();

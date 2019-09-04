@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import {Image, Linking, ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import Button from 'react-native-button';
-import RequestPdf from "../RequestPdf";
+import API_URL from "../../../apiUrl";import RequestPdf from "../RequestPdf";
 import MainHeader from "../../common/MainHeader";
 import VideoFormat from "./VideoFormat";
 import TestFormat from "./TestFormat";
@@ -30,7 +29,8 @@ class EmployeeTraining extends Component {
     }
     mixFunction=(text,id)=>{
         if(this.state.Data.length !==0){
-            this.props.navigation.navigate('pdf',{url: "http://185.56.74.46:3000/Information/"+this.state.Data[id].image,title: text});
+            this.props.navigation.navigate('pdf',{url: `${API_URL.SERVER_URL}${API_URL.PDF_FOLDER_NAME}${this.state.Data[id].image}`
+                ,title: text});
         }
     }
 

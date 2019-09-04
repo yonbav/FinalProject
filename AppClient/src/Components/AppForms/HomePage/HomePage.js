@@ -10,7 +10,6 @@ import {Header} from "react-native-elements"
 import SalesFormat from "./SalesFormat";
 import DailyBirthdayFormat from "./DailyBirthdayFormat";
 import ManagerFormat from "./ManagerFormat";
-import { WebBrowser } from 'expo';
 
 class HomePage extends Component{
     async registerForPushNotificationsAsync() {

@@ -4,6 +4,8 @@ import {ActivityIndicator, Alert, AsyncStorage, Dimensions, Text, TouchableOpaci
 import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
 import MainHeader from "../../common/MainHeader";
 import {WebBrowser} from "expo";
+import API_URL from "../../../apiUrl";
+import api from '../../../api.js';
 
 
 
@@ -20,10 +22,8 @@ class ReqInfo extends Component{
         this.GetData();
     }
     async GetData() {
-        const value = await AsyncStorage.getItem('id_token');
 
-        axios.get("http://185.56.74.46:3000/"+this.props.type+"/"
-            ,{ headers: { token: value} }).then((res) => {
+        api.get(this.props.type).then((res) => {
             if(res.data.success !== false) {
                 this.setState({
                     Data: res.data,
@@ -43,7 +43,7 @@ class ReqInfo extends Component{
     renderButtons(){
         if(this.state.Data.length !== 0){
             return this.state.Data.map((element)=>(<View key={element._id}><TouchableOpacity onPress={async () => {
-                await WebBrowser.openBrowserAsync('http://185.56.74.46:3000/Information/' + element.image);
+                await WebBrowser.openBrowserAsync(`${API_URL.SERVER_URL}${API_URL.PDF_FOLDER_NAME}${element.image}`);
             }}>
 
 

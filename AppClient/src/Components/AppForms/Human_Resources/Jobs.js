@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {Alert, AsyncStorage, Linking, Text, TouchableOpacity, View} from 'react-native';
-import Header from "../../common/Header";
-import axios from "axios";
+import api from '../../../api.js';
+import API_URL from "../../../apiUrl";
 import CardJobFormat from "../../common/CardJobFormat";
 
 class Jobs extends Component {
@@ -19,10 +19,8 @@ class Jobs extends Component {
         });
     }
     async GetData() {
-        const value = await AsyncStorage.getItem('id_token');
 
-        axios.get('http://185.56.74.46:3000/jobs/',{ headers: { token: value} })
-            .then(result => {
+        api.get(`${API_URL.GET_ALL_JOBS}`).then(result => {
                 if(result.data.success === false){
                     Alert.alert(
                         'הודעת אבטחה',
@@ -44,7 +42,6 @@ class Jobs extends Component {
         return this.state.data.map((item) => {
                 return (
                     <CardJobFormat key={item._id} title={item.title} num={item.number}/>
-
                 );
             });
 
@@ -62,7 +59,7 @@ class Jobs extends Component {
                     <Text style={{fontSize:12,color:'#000',alignSelf: 'flex-start',paddingRight:10}}>- המשרות מיועדות לנשים וגברים כאחד</Text>
                     <Text style={{fontSize:12,color:'#000',alignSelf: 'flex-start',paddingRight:10}}>- קו"ח למשרות אלו ניתן להעביר ישירות למייל  </Text>
                     <TouchableOpacity onPress={() => Linking.openURL('mailto:' + "rozf@kravitz.co.il")}>
-                        <Text style={{fontSize:12,color:'#2a2dff',alignSelf: 'flex-start',paddingRight:10}}>rozf@kravitz.co.il  </Text>
+                        <Text style={{fontSize:12,color:'#2a2dff',alignSelf: 'flex-start',paddingRight:10}}>jobs@kravitz.co.il  </Text>
                     </TouchableOpacity>
                     <Text style={{fontSize:12,color:'#000',alignSelf: 'flex-start',paddingRight:10}}>  או להעביר ישירות לרוז, הבונוסים ישולמו דרך תלוש השכר לאחר 3 חודשי עבודה</Text>
                     <Text style={{fontSize:12,color:'#000',alignSelf: 'flex-start',paddingRight:10}}>- למידע נוסף בנוגע לנוהל חבר מביא חבר ניתן לפנות לנטלי ואסיף.</Text>

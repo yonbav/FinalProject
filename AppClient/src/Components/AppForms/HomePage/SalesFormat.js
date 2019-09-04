@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Left, Body, Right } from 'native-base';
+import API_URL from "../../../apiUrl";
 
 export default class SalesFormat extends Component {
     render() {
         return (
 
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('pdf',
-                {url: "http://185.56.74.46:3000/Information/"+this.props.url ,
+                {url: `${API_URL.SERVER_URL}${API_URL.PDF_FOLDER_NAME}${this.props.url}` ,
                     title: this.props.title})}>
                 <Card>
                     <CardItem>

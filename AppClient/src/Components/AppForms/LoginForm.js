@@ -101,7 +101,8 @@ class LoginForm extends Component{
                             {this.renderButton()}
                             {this.renderErrorConnection()}
                         </View>
-                        <TouchableOpacity style={{alignItems: 'center',alignSelf:'center'}} onPress={() => {this.props.navigation.navigate('ForgetPassword')}}>
+
+                        <TouchableOpacity style={{alignItems: 'center',alignSelf:'center'}} disabled={true} onPress={() => {this.props.navigation.navigate('ForgetPassword')}} >
                             <Text style={{color: '#4941ff'}}> שכחתי סיסמה </Text>
                         </TouchableOpacity>
 
