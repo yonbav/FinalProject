@@ -67,8 +67,6 @@ class importantinfo extends Component {
         return (
             <View style={styles.BackStyle}>
                 <MainHeader/>
-                <RequestPdf title ="Branches" callback={this.getResponse.bind(this)}/>
-                <RequestPdf title ="Mate" callback={this.getResponse.bind(this)}/>
                 <RequestPdf title ="Kav" callback={this.getResponse.bind(this)}/>
                 <TouchableOpacity onPress={()=> this.props.navigation.navigate('Minhal')}>
                 <Card>
@@ -91,16 +89,6 @@ class importantinfo extends Component {
 const initialArr =[
     {
         id:0,
-        text: "טלפונים ומנהלי סניפים",
-        title: "Branches"
-    },
-    {
-        id:1,
-        text: "טלפונים מטה",
-        title: "Mate"
-    },
-    {
-        id:2,
         text: "קו קופה",
         title: "Kav"
     },

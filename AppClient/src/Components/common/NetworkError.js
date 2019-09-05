@@ -1,13 +1,13 @@
 
 
-import {ActivityIndicator, Dimensions , View} from 'react-native';
+import {ActivityIndicator, Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import MainHeader from "./MainHeader";
 
-const Spinner = () => {
+const NetworkError = () => {
     return (
-        <View>
-        <View style={styles.loading}><ActivityIndicator size="large" color="#000"/></View>
+        <View style={styles.loading}>
+                <Text>{props.error}</Text>
         </View>
     );
 };
@@ -20,4 +20,4 @@ const styles = {
     }
 };
 
-export default Spinner;
+export default NetworkError;
