@@ -3,7 +3,7 @@ import axios from "axios";
 import {ActivityIndicator, Alert, AsyncStorage, Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
 import MainHeader from "../../common/MainHeader";
-import {WebBrowser} from "expo";
+import * as WebBrowser from "expo-web-browser";
 import API_URL from "../../../apiUrl";
 import api from '../../../api.js';
 

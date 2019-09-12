@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import {Card, CardItem, Thumbnail, Text, Left, Body, Right } from 'native-base';
-import {WebBrowser} from "expo";
+import * as WebBrowser from "expo-web-browser";
 
 export default class HaressmentFormat extends Component {
     render() {

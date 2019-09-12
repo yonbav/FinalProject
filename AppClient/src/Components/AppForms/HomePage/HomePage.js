@@ -4,12 +4,13 @@ import Messeges from "../Messages/Messeges";
 import Sales from "./Sales";
 import Mail from "./Mail";
 import axios from "axios";
-import {Permissions, Notifications} from 'expo';
+import {Notifications} from 'expo';
 import {connect} from "react-redux";
 import {Header} from "react-native-elements"
 import SalesFormat from "./SalesFormat";
 import DailyBirthdayFormat from "./DailyBirthdayFormat";
 import ManagerFormat from "./ManagerFormat";
+import * as Permissions from "expo-permissions"
 
 class HomePage extends Component{
     async registerForPushNotificationsAsync() {

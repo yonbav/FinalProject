@@ -3,69 +3,71 @@ import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View,Dimensions} 
 import {Provider} from 'react-redux';
 import {createStore,applyMiddleware} from 'redux';
 import reducers from './src/reducers/reducers'
+import {YellowBox} from 'react-native';
 import  ReduxThunk from 'redux-thunk';
-import { Font,AppLoading,Updates } from "expo";
+import * as  Font  from "expo-font";
 import deviceStorage from './src/Services/deviceStorage'
 import { createRootNavigator } from "./router";
 import {LOGIN_SUCCESS} from "./src/Components/actions/types";
-import Spinner from "./src/Components/common/Spinner";
-import NetworkError from "./src/Components/common/NetworkError";
 
+YellowBox.ignoreWarnings([
+  'Remote debugger',
+  console.disableYellowBox = true
+])
 export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      appready: false,
       data: null,
+      loading: false,
       user: null,
       error: null,
       signedIn: false
     };
     this.loadJWT = deviceStorage.loadJWT.bind(this);
+    this.loadJWT();
+
   }
-  loadfonts = async ()=>{
+  async componentWillMount() {
     await Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
-    await this.loadJWT();
-  }
 
+  }
   mixFunction=()=>{
     this.setState({error: null});
     this.loadJWT();
   };
   render() {
-    if (!this.state.appready) {
-      return (
-          <AppLoading startAsync={this.loadfonts} onFinish={() => {
-            this.setState({appready: true}
-            )}}/>
-      )
-    } else {
-      const Layout = createRootNavigator(this.state.signedIn);
-        const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
-        if (this.state.user) {
-          store.dispatch({
-            type: LOGIN_SUCCESS,
-            payload: this.state.user
-          });
-        }
+    const Layout = createRootNavigator(this.state.signedIn);
+    if (this.state.loading) {
+      const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+      if(this.state.user){
+        store.dispatch({
+          type:LOGIN_SUCCESS,
+          payload: this.state.user
+        })
+      }
       return (
           <Provider store={store}>
-            {this.state.error && <NetworkError error={this.state.error}/>}
-            {!this.state.error && <Layout data={this.state.data} user={this.state.user}/>}
+            <Layout data={this.state.data} user ={this.state.user}/>
           </Provider>
       );
-        if (this.state.error) {
-          return <View style={styles.loading}>
-            <TouchableOpacity onPress={() => {
-              this.mixFunction()
-            }}>
-              <Text>{this.state.error}</Text>
-            </TouchableOpacity>
-          </View>
+    }
+    else{
+      if(this.state.error){
+        return <View style={styles.loading}>
+          <TouchableOpacity onPress={() => {this.mixFunction()}}>
+            <Text>{this.state.error}</Text>
+          </TouchableOpacity>
+        </View>
+      }
 
+      else {
+        return <View style={styles.loading}>
+          <ActivityIndicator size="large" color="#000"/>
+        </View>
       }
     }
   }
@@ -78,6 +80,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  loading:{
+    alignItems: 'center',
+    alignSelf: 'center',
+    paddingTop: ((Dimensions.get('window').height)/4)*3
+  }
 });
-
-

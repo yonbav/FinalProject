@@ -3,12 +3,12 @@
     "name": "קרביץ",
     "slug": "Kravitz",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "34.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/Kra.png",
     "description": "employee-management-system",
@@ -34,8 +34,7 @@
     },
     "android": {
       "package": "com.TheTeam.Kravitzapp",
-      "versionCode": 5
-
+      "versionCode": 9
     },
     "notification": {
       "icon": "./assets/Kra.png",
