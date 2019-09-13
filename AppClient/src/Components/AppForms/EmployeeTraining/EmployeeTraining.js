@@ -7,6 +7,7 @@ import TestFormat from "./TestFormat";
 
 import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
 import PdfGuidance from "./PdfGuidance";
+import * as WebBrowser from "expo-web-browser";
 
 class EmployeeTraining extends Component {
 
@@ -27,10 +28,10 @@ class EmployeeTraining extends Component {
         }
         return -1;
     }
-    mixFunction=(text,id)=>{
-        if(this.state.Data.length !==0){
-            this.props.navigation.navigate('pdf',{url: `${API_URL.SERVER_URL}${API_URL.PDF_FOLDER_NAME}${this.state.Data[id].image}`
-                ,title: text});
+    mixFunction= async (text, id) => {
+        if (this.state.Data.length !== 0) {
+            await WebBrowser.openBrowserAsync(`${API_URL.SERVER_URL}${API_URL.PDF_FOLDER_NAME}${this.state.Data[id].image}`);
+
         }
     }
 

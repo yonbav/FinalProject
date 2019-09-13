@@ -8,14 +8,12 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.1",
-    "axios": "^0.18.1",
-    "expo": "^34.0.1",
-    "expo-file-system": "^6.0.2",
+    "axios": "^0.18.0",
     "expo-font": "^6.0.1",
     "expo-permissions": "^6.0.0",
     "expo-web-browser": "^6.0.0",
     "link": "^0.1.5",
-    "native-base": "^2.13.8",
+    "native-base": "^2.12.1",
     "react": "16.8.3",
     "react-addons-pure-render-mixin": "^15.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
@@ -40,13 +38,13 @@
     "react-redux": "^6.0.0",
     "react-static-container": "^1.0.1",
     "redux": "^4.0.1",
-    "redux-devtools": "^3.5.0",
     "redux-thunk": "^2.3.0",
-    "rn-fetch-blob": "^0.10.15",
-    "rn-pdf-reader-js": "^0.2.3"
+    "rn-fetch-blob": "^0.10.15"
   },
   "devDependencies": {
-    "babel-preset-expo": "^6.0.0"
+    "babel-preset-expo": "^5.0.0",
+    "expo": "^34.0.1",
+    "redux-devtools": "^3.5.0"
   },
   "private": true
 }

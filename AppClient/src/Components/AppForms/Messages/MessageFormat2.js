@@ -3,6 +3,7 @@ import {Alert, AsyncStorage, Image, TouchableOpacity} from 'react-native';
 import {Card, CardItem, Thumbnail, Text, Left, Body, Right } from 'native-base';
 import axios from "axios";
 import {CheckBox} from "react-native-elements";
+import * as WebBrowser from "expo-web-browser";
 
 export default class MessageFormat2 extends Component {
     constructor() {
@@ -51,11 +52,8 @@ export default class MessageFormat2 extends Component {
 
     }
     render() {
-
         return (
-
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('pdf',
-            {url: this.props.url ,title: this.props.title , user: this.props.user})}>
+            <TouchableOpacity onPress={async () => await WebBrowser.openBrowserAsync(this.props.url)}>
                 <Card>
                     <CardItem>
                         <Left>

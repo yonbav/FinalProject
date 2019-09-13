@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.6",
+    "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./assets/Kra.png",
     "description": "employee-management-system",
@@ -34,7 +34,8 @@
     },
     "android": {
       "package": "com.TheTeam.Kravitzapp",
-      "versionCode": 9
+      "versionCode": 10
+
     },
     "notification": {
       "icon": "./assets/Kra.png",

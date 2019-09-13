@@ -29,14 +29,12 @@ const deviceStorage = {
                         if (result.data) {
                             this.setState({
                                 data: value,
-                                loading: true,
                                 user: result.data,
                                 signedIn: true
                             });
                         } else {
                             this.setState({
                                 data: null,
-                                loading: true,
                                 user: null
                             });
                         }
@@ -45,7 +43,6 @@ const deviceStorage = {
             else {
                 this.setState({
                     data: null,
-                    loading: true,
                     user:null
                 });
             }

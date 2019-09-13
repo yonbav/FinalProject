@@ -3,6 +3,7 @@ import {Text, TouchableOpacity, View,} from 'react-native';
 import Button from 'react-native-button';
 import RequestPdf from "../RequestPdf";
 import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
+import * as WebBrowser from "expo-web-browser";
 
 class ManagerTraining extends Component {
 
@@ -23,12 +24,14 @@ class ManagerTraining extends Component {
         }
         return -1;
     }
-    mixFunction=(text,id)=>{
-        if(this.state.Data.length !==0) {
-            this.props.navigation.navigate('pdf', {
+    mixFunction= async (text, id) => {
+        if (this.state.Data.length !== 0) {
+            console.log("http://185.56.74.46:3000/Information/" + this.state.Data[id].image);
+            await WebBrowser.openBrowserAsync("http://185.56.74.46:3000/Information/" + this.state.Data[id].image);
+            /*this.props.navigation.navigate('pdf', {
                 url: "http://185.56.74.46:3000/Information/" + this.state.Data[id].image,
                 title: text
-            });
+            });*/
         }
     }
 

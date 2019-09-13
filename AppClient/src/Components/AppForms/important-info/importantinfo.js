@@ -3,6 +3,7 @@ import {Image, Keyboard, Text, TouchableOpacity, View,Dimensions} from 'react-na
 import RequestPdf from "../RequestPdf";
 import MainHeader from "../../common/MainHeader";
 import {Body, Card, CardItem, Left, Thumbnail} from "native-base";
+import * as WebBrowser from "expo-web-browser";
 
 class importantinfo extends Component {
     constructor() {
@@ -26,9 +27,8 @@ class importantinfo extends Component {
     getResponse(result){
         this.state.Data.push(result);
     }
-    mixFunction=(text,id)=>{
-        this.props.navigation.navigate('pdf',
-            {url: "http://185.56.74.46:3000/Information/"+this.state.Data[id].image,title: text});
+    mixFunction= async (text, id) => {
+        await WebBrowser.openBrowserAsync("http://185.56.74.46:3000/Information/" + this.state.Data[id].image);
     }
     renderimage(title){
         if(title === "Branches")

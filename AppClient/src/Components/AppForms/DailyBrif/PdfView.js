@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, Keyboard, AsyncStorage, Alert} from 'react-native';
-import PDFReader from 'rn-pdf-reader-js';
 import { CheckBox } from 'react-native-elements'
 import axios from "axios";
+import * as WebBrowser from "expo-web-browser";
 
 export default class PdfView extends React.Component {
     static navigationOptions = ({ navigation }) => ({
@@ -85,7 +85,10 @@ export default class PdfView extends React.Component {
         const user = navigation.getParam('user');
         this.GetData(title,user);
     }
+    async pdfreader(url) {
+        await WebBrowser.openBrowserAsync(url);
 
+    }
     render() {
         const { navigation } = this.props;
         const title = navigation.getParam('title');
@@ -94,9 +97,7 @@ export default class PdfView extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.Pdf}>
-                <PDFReader
-                    source={{ uri: url }}
-                />
+                    {this.pdfreader(url)}
                 </View>
                 <View style={styles.Cheack}>
                     {this.renderCheckBox(title,user)}

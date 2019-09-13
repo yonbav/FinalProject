@@ -11,7 +11,7 @@ export default {
     // logout
     LOGOUT: `/Auth/logout`,
     // check token
-    CHECK_TOKEN: `/user/token`,
+    CHECK_TOKEN: `/Auth/checkToken`,
 
     /// user ///
     // Get all users
