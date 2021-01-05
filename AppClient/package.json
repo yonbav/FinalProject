@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.1",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "expo-font": "^6.0.1",
     "expo-permissions": "^6.0.0",
     "expo-web-browser": "^6.0.0",
