@@ -69,7 +69,7 @@
     "react-table": "^6.9.2",
     "react-youtube": "^7.9.0",
     "reactstrap": "^6.5.0",
-    "recharts": "^1.4.2",
+    "recharts": "^2.1.14",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-saga": "^0.16.2",
